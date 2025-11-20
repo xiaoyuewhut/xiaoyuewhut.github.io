@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
+title: xiaoyue的博客
+subtitle: '平平无奇的副标题'
+description: '有点累了'
 keywords:
-author: John Doe
-language: en
+author: Xiao yue
+language: zh-CN
 timezone: ''
 
 # URL
@@ -40,7 +40,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 syntax_highlighter: highlight.js
@@ -104,3 +104,16 @@ deploy:
   type: git
   repo: git@github.com:xiaoyuewhut/xiaoyuewhut.github.io.git
   branch: main
+
+
+# Markdown-it 渲染引擎配置
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: '“”‘’'
+  plugins:
+    - '@iktakahiro/markdown-it-katex'

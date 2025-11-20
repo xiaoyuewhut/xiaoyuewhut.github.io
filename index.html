@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>xiaoyue的博客</title>
+  <title>xiaoyue的博客 - 平平无奇的副标题</title>
   
 
 
@@ -116,9 +116,19 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-自动驾驶">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/" rel="section"><i class="fa:car fa-fw"></i>自动驾驶</a>
+
+  </li>
+        <li class="menu-item menu-item-控制">
+
+    <a href="/categories/%E6%8E%A7%E5%88%B6/" rel="section"><i class="fa:car fa-fw"></i>控制</a>
+
+  </li>
+        <li class="menu-item menu-item-其他">
+
+    <a href="/categories/%E5%85%B6%E4%BB%96/" rel="section"><i class="fa:ellipsis-h fa-fw"></i>其他</a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -153,6 +163,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/11/20/UDS%E8%AF%8A%E6%96%AD%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiao yue">
+      <meta itemprop="description" content="有点累了">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyue的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/11/20/UDS%E8%AF%8A%E6%96%AD%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">UDS诊断服务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-11-20 15:13:23 / 修改时间：15:24:12" itemprop="dateCreated datePublished" datetime="2025-11-20T15:13:23+08:00">2025-11-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" itemprop="url" rel="index"><span itemprop="name">自动驾驶</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1>6 大类，26种服务</h1>
+<p>每个服务都有自己的Service Identifier。</p>
+<p>比较常见的，我记得比较清楚的：<br>
+10、27、3E、14、31、34、35<br>
+我记得不清楚的，但是必须加强记忆的：<br>
+11、28、22、2E、19、2F、36、37、38</p>
+<p><img src="UDS%E8%AF%8A%E6%96%AD%E6%9C%8D%E5%8A%A1/uds.PNG" alt=""></p>
+<h1>不同会话支持的服务</h1>
+<p><img src="UDS%E8%AF%8A%E6%96%AD%E6%9C%8D%E5%8A%A1/%E6%9C%8D%E5%8A%A1.PNG" alt=""><br>
+Deafult：默认会话<br>
+Programming：编程会话<br>
+Extended：扩展会话<br>
+Boot Code：引导加载程序代码<br>
+App Code：应用程序代码</p>
+<h1>功能寻址和物理寻址</h1>
+<p>作为诊断设备既可以与所有的ECU一起沟通，也可以指定某一个ECU单独沟通。所以寻址方式就有功能寻址（Functionally Addressed）和物理寻址（Physically Addressed）两种。</p>
+<ol>
+<li>功能寻址：即广播诊断请求Request，同时等待总线上的ECU给与响应。</li>
+<li>物理寻址：指定发送特定诊断请求Request，等待指定ECU给与响应。</li>
+</ol>
+<h1>27 安全访问逻辑</h1>
+<p>安全访问服务，主要功能是为了通过诊断安全地访问服务端，也就是ECU，而设置的一层保护机制。安全访问服务用于修改存储在内存中的 ECU 数据，在此之前，用户首先必须通过该服务授予访问权限。此服务的目的是提供一种访问信息和/或诊断服务的方法，这些服务因安全、排放或安全原因而受到限制。比如一些用于将例程或信息下载/上传到服务器中，并从服务器中读取特定的内存位置的诊断服务可能需要安全访问。因为下载到服务器中的不当程序或信息无疑可能会损害ECU，或危及车辆遵守排放、违反安全或安保标准。安全访问的机制通过使用种子和密钥来实现。</p>
+<ol>
+<li>客户端首先发送请求种子的诊断请求</li>
+<li>服务端收到请求后，计算一个随机种子通过诊断响应发送给客户端</li>
+<li>客户端收到种子后，使用定义好的算法计算出密钥，然后通过诊断请求发送给服务端</li>
+<li>服务端收到密钥后，与自己计算的密钥作对比，如果一致，验证通过，如果不一致，验证失败</li>
+</ol>
+<p><img src="UDS%E8%AF%8A%E6%96%AD%E6%9C%8D%E5%8A%A1/27.PNG" alt=""></p>
+<h1>ECU 软件刷写流程</h1>
+<p><img src="UDS%E8%AF%8A%E6%96%AD%E6%9C%8D%E5%8A%A1/ecu.PNG" alt=""></p>
+<ol>
+<li><code>10 02</code> 进入编程会话</li>
+<li><code>27</code> 服务请求seed，返回key，安全访问</li>
+<li><code>31</code> 例程控制</li>
+</ol>
+<ul>
+<li>例程控制的请求格式为：<code>SID+SF+RID+非必须选项</code>；</li>
+<li>例程控制的正响应格式为：<code>（SID+40）+SF+RID+非必须选项</code>。</li>
+</ul>
+<ol start="4">
+<li><code>34</code> 请求下载</li>
+<li><code>36</code> 数据传输</li>
+<li><code>37</code> 退出传输</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/11/20/%E7%A8%B3%E6%80%81%E6%A8%AA%E6%91%86%E8%A7%92%E9%80%9F%E5%BA%A6%E6%8E%A8%E5%AF%BC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -178,7 +300,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-11-20 12:24:32 / 修改时间：14:22:26" itemprop="dateCreated datePublished" datetime="2025-11-20T12:24:32+08:00">2025-11-20</time>
+              <time title="创建时间：2025-11-20 12:24:32 / 修改时间：14:57:31" itemprop="dateCreated datePublished" datetime="2025-11-20T12:24:32+08:00">2025-11-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -186,11 +308,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" itemprop="url" rel="index"><span itemprop="name">自动驾驶</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">车辆动力学</span></a>
+                  <a href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">车辆动力学</span></a>
                 </span>
             </span>
 
@@ -388,7 +506,7 @@ D_r &amp;= (C_{\alpha,f} + C_{\alpha,r}) (a C_{\alpha,f}\delta_f - b C_{\alpha,r
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-11-20 11:46:58 / 修改时间：14:30:44" itemprop="dateCreated datePublished" datetime="2025-11-20T11:46:58+08:00">2025-11-20</time>
+              <time title="创建时间：2025-11-20 11:46:58 / 修改时间：14:57:39" itemprop="dateCreated datePublished" datetime="2025-11-20T11:46:58+08:00">2025-11-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -397,10 +515,6 @@ D_r &amp;= (C_{\alpha,f} + C_{\alpha,r}) (a C_{\alpha,f}\delta_f - b C_{\alpha,r
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%B6%E4%BB%96/%E5%AE%9E%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">实用</span></a>
                 </span>
             </span>
 
@@ -498,83 +612,12 @@ D_r &amp;= (C_{\alpha,f} + C_{\alpha,r}) (a C_{\alpha,f}\delta_f - b C_{\alpha,r
 <p>每次写完博客，需要提交两次推送：</p>
 <ol>
 <li>
-<p>发布博客： <code>hexo d</code> (推送到 main 分支，供 Pages 展示)</p>
+<p>发布博客： <code>hexo g -d</code> (推送到 main 分支，供 Pages 展示)</p>
 </li>
 <li>
 <p>备份源码： 三板斧 (推送到 <code>source</code> 分支，保存源文件)</p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/11/20/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xiao yue">
-      <meta itemprop="description" content="有点累了">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xiaoyue的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/11/20/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-11-20 11:17:28" itemprop="dateCreated datePublished" datetime="2025-11-20T11:17:28+08:00">2025-11-20</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
       
     </div>
@@ -625,7 +668,7 @@ D_r &amp;= (C_{\alpha,f} + C_{\alpha,r}) (a C_{\alpha,f}\delta_f - b C_{\alpha,r
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-11-20 11:48:38" itemprop="dateModified" datetime="2025-11-20T11:48:38+08:00">2025-11-20</time>
+                <time title="修改时间：2025-11-20 14:57:54" itemprop="dateModified" datetime="2025-11-20T14:57:54+08:00">2025-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -634,10 +677,6 @@ D_r &amp;= (C_{\alpha,f} + C_{\alpha,r}) (a C_{\alpha,f}\delta_f - b C_{\alpha,r
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%B6%E4%BB%96/%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">测试</span></a>
                 </span>
             </span>
 
@@ -747,8 +786,7 @@ E = m c^2<br>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-          
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -789,6 +827,26 @@ E = m c^2<br>
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 

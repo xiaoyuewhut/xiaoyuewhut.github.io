@@ -2,7 +2,7 @@
 title: UDS诊断服务
 date: 2025-11-20 15:13:23
 tags:
-categories: 自动驾驶
+categories: 新能源技术
 ---
 # 6 大类，26种服务
 每个服务都有自己的Service Identifier。
@@ -12,8 +12,7 @@ categories: 自动驾驶
 我记得不清楚的，但是必须加强记忆的：
 11、28、22、2E、19、2F、36、37、38
 
-{% asset_img uds.PNG "UDS服务概览" %}
-
+![](https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/uds.PNG)
 # 不同会话支持的服务
 {% asset_img 服务.PNG "会话" %}
 Deafult：默认会话

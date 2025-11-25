@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>时间敏感网络TSN | xiaoyue的博客</title><meta name="author" content="Xiao yue"><meta name="copyright" content="Xiao yue"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="TSN时间敏感网络 TSN（Time-Sensitive Networking） 是由IEEE 802.1工作组制定的一系列标准协议集合，专注于解决二层网络确定性传输问题。与传统以太网的&quot;尽力而为&quot;不同，TSN通过VLAN标签中的PCP（Priority Code Point）和VID（VLAN ID）字段定义流量优先级，实现零拥塞丢包、有界延迟和低抖动的数据传输。 四大技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时间敏感网络TSN">
+<meta property="og:url" content="http://example.com/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/index.html">
+<meta property="og:site_name" content="xiaoyue的博客">
+<meta property="og:description" content="TSN时间敏感网络 TSN（Time-Sensitive Networking） 是由IEEE 802.1工作组制定的一系列标准协议集合，专注于解决二层网络确定性传输问题。与传统以太网的&quot;尽力而为&quot;不同，TSN通过VLAN标签中的PCP（Priority Code Point）和VID（VLAN ID）字段定义流量优先级，实现零拥塞丢包、有界延迟和低抖动的数据传输。 四大技术">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png">
+<meta property="article:published_time" content="2025-11-25T05:12:26.000Z">
+<meta property="article:modified_time" content="2025-11-25T05:33:15.149Z">
+<meta property="article:author" content="Xiao yue">
+<meta property="article:tag" content="人机交互">
+<meta property="article:tag" content="传感器标定">
+<meta property="article:tag" content="时间同步">
+<meta property="article:tag" content="自动驾驶">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "时间敏感网络TSN",
+  "url": "http://example.com/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/",
+  "image": "https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png",
+  "datePublished": "2025-11-25T05:12:26.000Z",
+  "dateModified": "2025-11-25T05:33:15.149Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Xiao yue",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '时间敏感网络TSN',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="web_bg" style="background-image: url(https://api.dujin.org/bing/1920.php);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">xiaoyue的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">时间敏感网络TSN</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">时间敏感网络TSN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-25T05:12:26.000Z" title="发表于 2025-11-25 13:12:26">2025-11-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-25T05:33:15.149Z" title="更新于 2025-11-25 13:33:15">2025-11-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/">新能源技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>TSN时间敏感网络</h1>
+<p>TSN（Time-Sensitive Networking） 是由IEEE 802.1工作组制定的一系列标准协议集合，<strong>专注于解决二层网络确定性传输问题</strong>。与传统以太网的&quot;<strong>尽力而为</strong>&quot;不同，TSN通过VLAN标签中的PCP（Priority Code Point）和VID（VLAN ID）字段定义流量优先级，实现零拥塞丢包、有界延迟和低抖动的数据传输。</p>
+<h2 id="四大技术">四大技术</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131749778.png" alt="" loading='lazy'><br>
+分别是：</p>
+<ul>
+<li>时钟同步：IEEE 802.1AS (gPTP)</li>
+<li>流量调度：802.1Qbv、802.1Qav、802.1Qbu</li>
+<li>可靠性保障：IEEE 802.1CB (FRER)</li>
+<li>资源管理：802.1Qcc、802.1Qci</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    subgraph 发送端</span><br><span class="line">        A[发送端应用]</span><br><span class="line">        B[802.1Qcc&lt;br/&gt;流注册与路径计算]</span><br><span class="line">        C[802.1Qci&lt;br/&gt;流量监管（入口检查）]</span><br><span class="line">        D[802.1AS&lt;br/&gt;获取全局同步时间戳]</span><br><span class="line">        E[802.1Qbv/Qav&lt;br/&gt;队列调度与整形]</span><br><span class="line">        F[802.1Qbu&lt;br/&gt;帧抢占（如需要）]</span><br><span class="line">        G[802.1CB&lt;br/&gt;帧复制与多路径发送]</span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    H[物理链路]</span><br><span class="line">    </span><br><span class="line">    subgraph 接收端</span><br><span class="line">        I[接收端]</span><br><span class="line">        J[802.1CB&lt;br/&gt;重复帧消除]</span><br><span class="line">        K[802.1AS&lt;br/&gt;记录接收时间戳]</span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    A --&gt; B</span><br><span class="line">    B --&gt; C</span><br><span class="line">    C --&gt; D</span><br><span class="line">    D --&gt; E</span><br><span class="line">    E --&gt; F</span><br><span class="line">    F --&gt; G</span><br><span class="line">    G --&gt; H</span><br><span class="line">    H --&gt; I</span><br><span class="line">    I --&gt; J</span><br><span class="line">    J --&gt; K</span><br><span class="line">    </span><br><span class="line">    style A fill:#e1f5ff</span><br><span class="line">    style I fill:#e1f5ff</span><br><span class="line">    style D fill:#fff2e1</span><br><span class="line">    style K fill:#fff2e1</span><br></pre></td></tr></table></figure>
+<h1>时间同步</h1>
+<blockquote>
+<p>在TSN之外，其他办法是如何实现时间同步的？</p>
+</blockquote>
+<ol>
+<li>最常用的是<strong>NTP，网络时间协议</strong>。手机上的时钟就是这个协议，也就是网络服务器中有一个标准时间源，client向server发送同步时间请求，server回复，client收到，然后估算通信延迟，然后再同步时间。所以说NTP的误差通常比较大，适合日常需求，对时间精度要求很低的场景。</li>
+<li><strong>卫星授时</strong>，字面意思，受限于信号，因为在室内可能收不到，所以常用于基站、电力系统。（信号速度是光速级）</li>
+<li><strong>硬件同步</strong>，把两个设备用线连起来。硬件同步方法有很多，比如PTP（IEEE1588，精确时间协议），同步脉冲就像设备上有个“时钟输出口”，定期发出一个电信号（比如每秒一次），其他设备收到信号就“对一下表”，适合简单场景。</li>
+<li><strong>无线电授时</strong>，容易受天气和地形影响。</li>
+</ol>
+<p>TSN主要是通过IEEE802.1AS协议来实现时间同步的，这个协议也叫<strong>广义精确时间协议（gPTP）</strong>。它是在PTP（IEEE1588协议）基础上扩展而来的，就好像是在原来协议的基础上进行了升级优化，让时间同步更精准、更适合TSN网络。</p>
+<h2 id="gPTP的实现流程">gPTP的实现流程</h2>
+<ol>
+<li><strong>选择主时钟节点</strong></li>
+</ol>
+<p>网络中的每个设备在系统上电时，都会先接收来自其他设备的时钟信息。然后，通过一种叫做 <strong>最佳主时钟算法 (BMCA, Best Master Clock Algorithm)</strong> 的规则，天家来比一比谁的时钟更准、更适合作为主时钟。就像一群人比谁的表更准，最准的那个人就成为&quot;时间老大&quot;，这个老大叫做<strong>grandmaster</strong>，其他人都是它的奴隶，<strong>slave</strong>。比完之后，时钟最优的那个设备就会被选为主时钟节点，slavenode则作为从时钟节点。主时钟节点会周期性地发送一种announce消息，告诉其他从时钟节点自己是&quot;时间老大&quot;，以及自己的时间信息。</p>
+<ol start="2">
+<li>计算时间偏差和传输延时</li>
+</ol>
+<p>主时钟节点确定后，就开始准备让大家的时间都和它一样。<br>
+a. 主端口发送Sync报文，报文离开主端口MAC层时，触发主端口记录此时的时间戳<strong>T1</strong>。<br>
+b. 从端口接收Sync报文，报文到达从端口MAC层时，触发从端口记录此时的时间戳<strong>T2</strong>。<br>
+c．之后主端口再发送 <strong>FolloW_UP</strong> 报文 ，把T1的值告诉从端口。<br>
+d．通过这几个时间戳，从端口就能算出自己和主时钟之间的时间偏差。同时，从端口还会发送<strong>Pdelay_Req</strong>报文，主端口接收后记录时间戳并回复，通过这一系列操作，从端口可以计算出数据在网络传输中的延时。</p>
+<ol start="3">
+<li>校正从时钟节点时间</li>
+</ol>
+<p>从时钟节点知道了自己和主时钟的时间偏差以及传输延时后，就可以根据这些信息来调整自己的时钟了。它会按照计算出来的结果，把自己的时钟往前调或者往后调，让自己的时间和主时钟尽量保持一致。通过这样不断地测量、计算和调整，整个网络中的设备时钟就能够逐步同步起来，最终达到纳秒级的时钟同步精度。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant Master</span><br><span class="line">    participant Slave</span><br><span class="line">    </span><br><span class="line">    Master-&gt;&gt;Slave: Sync (t1)</span><br><span class="line">    Note right of Slave: 记录接收时间 t2</span><br><span class="line">    Master--&gt;&gt;Slave: Follow_Up(t1)</span><br><span class="line">    </span><br><span class="line">    Slave-&gt;&gt;Master: Delay_Req</span><br><span class="line">    Note right of Slave: 记录发送时间 t3</span><br><span class="line">    Master--&gt;&gt;Slave: Delay_Resp(t4)</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Xiao yue</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/">http://example.com/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">xiaoyue的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a><a class="post-meta__tags" href="/tags/%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">时间同步</a><a class="post-meta__tags" href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%A0%87%E5%AE%9A/">传感器标定</a><a class="post-meta__tags" href="/tags/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92/">人机交互</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/11/25/%E6%99%BA%E9%A9%BE%E6%96%B9%E6%A1%88%E5%A4%A7%E6%A6%82/" title="智驾方案大概"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125113221668.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">智驾方案大概</div></div><div class="info-2"><div class="info-item-1">感知类辅助功能 Perception Aids 这些主要是“告诉驾驶员情况”，不主动控制车辆。其实更侧重于对前向的感知，全向也有。  FCW — Forward Collision Warning 前向碰撞预警 PCW — Pedestrian Collision Warning 行人碰撞预警 AEB-Warning — 自动紧急制动警告 LDW — Lane Departure Warning 车道偏离预警 BSD — Blind Spot Detection 盲区监测 BSW — Blind Spot Warning 盲区预警 LCA-W — Lane Change Assist Warning 换道辅助预警 RCW — Rear Collision Warning 后碰撞预警 CTA — Cross Traffic Alert 横向来车预警（R-CTA / F-CTA） IHC / AHB — Intelligent High Beam / Auto High Beam 自动远光切换 TSR — Traffic Sign Recognition 交通标志识别 DAW — D...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/11/21/%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6ACC%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自适应巡航控制ACC功能规范"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251121134725596.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-21</div><div class="info-item-2">自适应巡航控制ACC功能规范</div></div><div class="info-2"><div class="info-item-1">从工程实现看L2级纵向控制 将从系统架构、状态机设计、人机交互策略等维度，剖析ACC的工程实现精髓。 系统架构：多传感器协同 ACC系统的感知层采用&quot;视觉+雷达&quot;的异构冗余方案： 传感器配置矩阵  前视摄像头：通过LVDS接口接入，分辨率1280×960，综合视距150m+，主要负责车道线识别和目标分类 前向毫米波雷达：77GHz频段，160m探测距离，±45°水平视场角，提供高鲁棒性的距离与速度测量 超声波雷达：12探头方案，私有CAN通信，主要用于低速Stop&amp;Go场景的近距离补盲  执行路径设计 系统采用 “ADAS控制器→ESP→VCU” 的纵向控制链路。ADAS通过私有CAN发送目标加速度请求（ADAS_VLCAxTarAim），ESP的VLC（Vehicle Longitudinal Control）模块负责扭矩仲裁，最终通过ESP_MotorTorqReq信号驱动VCU实现加减速。这种分层架构将控制算法与车辆动力学解耦，提升了跨平台移植性。 核心信号带宽  感知刷新率：30Hz（摄像头与雷达融合周期） CAN总线负载：500kbps，采用...</div></div></div></a><a class="pagination-related" href="/2025/11/25/%E6%99%BA%E9%A9%BE%E6%96%B9%E6%A1%88%E5%A4%A7%E6%A6%82/" title="智驾方案大概"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125113221668.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-25</div><div class="info-item-2">智驾方案大概</div></div><div class="info-2"><div class="info-item-1">感知类辅助功能 Perception Aids 这些主要是“告诉驾驶员情况”，不主动控制车辆。其实更侧重于对前向的感知，全向也有。  FCW — Forward Collision Warning 前向碰撞预警 PCW — Pedestrian Collision Warning 行人碰撞预警 AEB-Warning — 自动紧急制动警告 LDW — Lane Departure Warning 车道偏离预警 BSD — Blind Spot Detection 盲区监测 BSW — Blind Spot Warning 盲区预警 LCA-W — Lane Change Assist Warning 换道辅助预警 RCW — Rear Collision Warning 后碰撞预警 CTA — Cross Traffic Alert 横向来车预警（R-CTA / F-CTA） IHC / AHB — Intelligent High Beam / Auto High Beam 自动远光切换 TSR — Traffic Sign Recognition 交通标志识别 DAW — D...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">Xiao yue</div><div class="author-info-description">🚗 智能驾驶系统工程师</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiaoyuewhut"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:xiaoyuewhut@whut.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">回首向来萧瑟处</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">TSN时间敏感网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E5%A4%A7%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.</span> <span class="toc-text">四大技术</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">时间同步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#gPTP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">gPTP的实现流程</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/" title="时间敏感网络TSN"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="时间敏感网络TSN"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/" title="时间敏感网络TSN">时间敏感网络TSN</a><time datetime="2025-11-25T05:12:26.000Z" title="发表于 2025-11-25 13:12:26">2025-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/25/%E6%99%BA%E9%A9%BE%E6%96%B9%E6%A1%88%E5%A4%A7%E6%A6%82/" title="智驾方案大概"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125113221668.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="智驾方案大概"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/11/25/%E6%99%BA%E9%A9%BE%E6%96%B9%E6%A1%88%E5%A4%A7%E6%A6%82/" title="智驾方案大概">智驾方案大概</a><time datetime="2025-11-25T03:28:37.000Z" title="发表于 2025-11-25 11:28:37">2025-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/22/%E4%BE%A7%E5%81%8F%E5%88%9A%E5%BA%A6%E7%9A%84%E8%AE%A1%E7%AE%97/" title="侧偏刚度的计算"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251122124428639.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侧偏刚度的计算"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/11/22/%E4%BE%A7%E5%81%8F%E5%88%9A%E5%BA%A6%E7%9A%84%E8%AE%A1%E7%AE%97/" title="侧偏刚度的计算">侧偏刚度的计算</a><time datetime="2025-11-22T03:14:35.000Z" title="发表于 2025-11-22 11:14:35">2025-11-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/21/%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6ACC%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自适应巡航控制ACC功能规范"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251121134725596.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自适应巡航控制ACC功能规范"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/11/21/%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6ACC%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自适应巡航控制ACC功能规范">自适应巡航控制ACC功能规范</a><time datetime="2025-11-21T03:25:52.000Z" title="发表于 2025-11-21 11:25:52">2025-11-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/21/UDS-0x19-%E6%9C%8D%E5%8A%A1/" title="UDS 0x19 服务"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251122142219135.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="UDS 0x19 服务"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/11/21/UDS-0x19-%E6%9C%8D%E5%8A%A1/" title="UDS 0x19 服务">UDS 0x19 服务</a><time datetime="2025-11-21T03:18:35.000Z" title="发表于 2025-11-21 11:18:35">2025-11-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Xiao yue</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="/"></script></div></body></html>

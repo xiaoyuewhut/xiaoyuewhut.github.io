@@ -1,6 +1,7 @@
 ---
 title: UDS 0x19 服务
 date: 2025-11-21 11:18:35
+cover: https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251122142219135.png
 tags: 
 - uds
 - 诊断

@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>自动驶出 APO 功能规范 | xiaoyue的博客</title><meta name="author" content="Xiao yue"><meta name="copyright" content="Xiao yue"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="引言 Autonomous Pull Out，自动从车位驶出功能，属于智能泊车（APA&#x2F;AVP）体系中的一个子功能。 它的目标是：  在低速、驾驶员不接管的前提下，让车辆自动从车位中驶出到可直行的车道上。  在功能分类上，它对应泊车控制中的“出库”功能，但比传统 RPO（Remote Pull Out）&#x2F; PPO（Phone Pull Out）更智能。 大部分 OEM 的 APO 流程类似如下：">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>自动驶出 APO 功能规范 | xiaoyue的博客</title><meta name="author" content="Xiao yue"><meta name="copyright" content="Xiao yue"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="引言 Autonomous Pull Out，自动从车位驶出功能，属于智能泊车（APA&#x2F;AVP）体系中的一个子功能。  若车辆是使用 APA（自动泊车） 功能泊入平行车位的，且泊入后车辆与周边车辆、围栏的距离满足一定条件，则可以使用自动驶出功能。  APO 根据上次自动泊车时的行驶轨迹，结合传感器实时探测的周边环境信息规划路径，控制车辆的横向和纵向运动，直至驶出车位。  前提条件：车辆必须是使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自动驶出 APO 功能规范">
 <meta property="og:url" content="http://example.com/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/index.html">
 <meta property="og:site_name" content="xiaoyue的博客">
-<meta property="og:description" content="引言 Autonomous Pull Out，自动从车位驶出功能，属于智能泊车（APA&#x2F;AVP）体系中的一个子功能。 它的目标是：  在低速、驾驶员不接管的前提下，让车辆自动从车位中驶出到可直行的车道上。  在功能分类上，它对应泊车控制中的“出库”功能，但比传统 RPO（Remote Pull Out）&#x2F; PPO（Phone Pull Out）更智能。 大部分 OEM 的 APO 流程类似如下：">
+<meta property="og:description" content="引言 Autonomous Pull Out，自动从车位驶出功能，属于智能泊车（APA&#x2F;AVP）体系中的一个子功能。  若车辆是使用 APA（自动泊车） 功能泊入平行车位的，且泊入后车辆与周边车辆、围栏的距离满足一定条件，则可以使用自动驶出功能。  APO 根据上次自动泊车时的行驶轨迹，结合传感器实时探测的周边环境信息规划路径，控制车辆的横向和纵向运动，直至驶出车位。  前提条件：车辆必须是使用">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png">
 <meta property="article:published_time" content="2025-12-11T02:56:41.000Z">
-<meta property="article:modified_time" content="2025-12-11T06:45:28.443Z">
+<meta property="article:modified_time" content="2025-12-11T08:55:24.702Z">
 <meta property="article:author" content="Xiao yue">
 <meta property="article:tag" content="控制">
 <meta property="article:tag" content="智能驾驶">
@@ -20,7 +20,7 @@
   "url": "http://example.com/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/",
   "image": "https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png",
   "datePublished": "2025-12-11T02:56:41.000Z",
-  "dateModified": "2025-12-11T06:45:28.443Z",
+  "dateModified": "2025-12-11T08:55:24.702Z",
   "author": [
     {
       "@type": "Person",
@@ -179,131 +179,83 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="web_bg" style="background-image: url(https://api.dujin.org/bing/1920.php);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">xiaoyue的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">自动驶出 APO 功能规范</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">自动驶出 APO 功能规范</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-11T02:56:41.000Z" title="发表于 2025-12-11 10:56:41">2025-12-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-11T06:45:28.443Z" title="更新于 2025-12-11 14:45:28">2025-12-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>引言</h1>
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="web_bg" style="background-image: url(https://api.dujin.org/bing/1920.php);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">xiaoyue的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">自动驶出 APO 功能规范</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">自动驶出 APO 功能规范</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-11T02:56:41.000Z" title="发表于 2025-12-11 10:56:41">2025-12-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-11T08:55:24.702Z" title="更新于 2025-12-11 16:55:24">2025-12-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>引言</h1>
 <p>Autonomous Pull Out，自动从车位驶出功能，属于智能泊车（APA/AVP）体系中的一个子功能。</p>
-<p>它的目标是：</p>
 <blockquote>
-<p><strong>在低速、驾驶员不接管的前提下，让车辆自动从车位中驶出到可直行的车道上。</strong></p>
+<p><strong>若车辆是使用 APA（自动泊车） 功能泊入平行车位的，且泊入后车辆与周边车辆、围栏的距离满足一定条件，则可以使用自动驶出功能。</strong></p>
 </blockquote>
-<p>在功能分类上，它对应<strong>泊车控制中的“出库”功能</strong>，但比传统 RPO（Remote Pull Out）/ PPO（Phone Pull Out）更智能。</p>
-<p>大部分 OEM 的 APO 流程类似如下：</p>
-<ol>
-<li>
-<p><strong>车位识别</strong><br>
-系统识别车辆当前处于车位中，确定车位类型（侧方/垂直/斜列）。</p>
-</li>
-<li>
-<p><strong>环境建图</strong><br>
-感知模块获取左右车辆边界、墙面、行人等场景要素。</p>
-</li>
-<li>
-<p><strong>规划可行驶出路径（Pull-Out Path）</strong><br>
-根据空间情况选择合适的驶出策略，例如：</p>
-</li>
-</ol>
+<p>APO 根据上次自动泊车时的行驶轨迹，结合传感器实时探测的周边环境信息规划路径，控制车辆的横向和纵向运动，直至驶出车位。</p>
 <ul>
-<li>前进—倒车—前进（多段）</li>
-<li>单方向倒车出库</li>
-<li>前进“切”出</li>
+<li><strong>前提条件</strong>：车辆必须是使用 APA 功能自动泊入当前车位的。系统会记录泊入时的轨迹状态。</li>
+<li><strong>路径规划</strong>：根据上次自动泊车的路径以及当前车身周边的环境信息（超声波+毫米波雷达），计算出驶出路径。驶出方向与上次泊入的方向一致。</li>
+<li><strong>控制范围</strong>：系统接管车辆的横向（转向）和纵向（速度、换挡）控制，直到车辆驶出车位 。</li>
 </ul>
-<ol start="4">
-<li><strong>安全监测（Safety Monitoring）</strong></li>
-</ol>
-<ul>
-<li>摄像头检测障碍物</li>
-<li>超声波测距</li>
-<li>环视盲区检查</li>
-<li>行人/小孩检测</li>
-</ul>
-<ol start="5">
-<li>
-<p><strong>执行控制（Lateral + Longitudinal）</strong><br>
-自动打方向、控制油门和刹车完成出库。</p>
-</li>
-<li>
-<p><strong>达成驶离成功点</strong><br>
-车头进入车道中心 ± 允许偏差，车辆恢复给驾驶员接管。</p>
-</li>
-<li>
-<p><strong>功能结束</strong><br>
-APO 状态转入 Finished。</p>
-</li>
-</ol>
 <h1>系统架构</h1>
-<p><strong>超声波雷达为主，毫米波雷达为辅</strong>，与 APA 共享传感器套件，但是在算法逻辑层面会专注于<strong>狭窄空间的路径逆向复现</strong>。</p>
-<h2 id="感知层配置矩阵">感知层配置矩阵</h2>
+<p><strong>超声波雷达为主，毫米波雷达为辅</strong>，APO 复用 ADAS 系统的硬件架构，采用 ADAS控制器 → 执行器（EPS/ESP/VCU） 的控制链路。</p>
+<h2 id="感知层配置">感知层配置</h2>
 <blockquote>
 <p>对 ADAS 传感器布置不清楚的可以先看 <a target="_blank" rel="noopener" href="https://xiaoyuewhut.github.io/2025/12/05/ADAS-%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%83%E7%BD%AE/">https://xiaoyuewhut.github.io/2025/12/05/ADAS-传感器布置/</a></p>
 </blockquote>
 <ul>
-<li><strong>超声波雷达</strong>：12探头方案，48±2kHz工作频率，通过私有CAN接入。前4/后4 短距模式(2.5m)用于车位边界检测，侧4 长距模式(4.5m)用于驶出路径预扫描。水平120°/垂直60°的开角确保对低矮路沿和柱子的探测能力<br>
+<li><strong>超声波雷达 (Ultrasonic Sensor)</strong>
+<ul>
+<li>数量：12个</li>
+<li>通信：通过私有 CAN 将距离数据传输给 ADAS 控制器</li>
+<li>参数： 频率 48±2 kHz，水平开角 120°，垂直开角 60°</li>
+<li>探测范围：短距模式 2.5m，长距模式 4.5m，分辨率 10cm<br>
 <img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251205170010998.png" alt="" loading='lazy'></li>
-<li><strong>前向毫米波雷达</strong>：77GHz频段，160m探测距离，在APO中主要用于检测垂直于车身方向的横穿车辆/行人，弥补超声波雷达在动态目标识别上的不足</li>
-<li><strong>前视摄像头</strong>：1280×960分辨率，虽在APO中不直接参与路径规划，但用于记录泊入时的车位标线信息，为驶出方向提供先验约束</li>
+</ul>
+</li>
+<li><strong>前向毫米波雷达 (Millimeter Wave Radar)</strong>
+<ul>
+<li>数量：1 个</li>
+<li>功能：探测前方 150m 范围内的障碍信息</li>
+<li>参数：频率 77GHz，探测距离 160m，水平开角 ±45°</li>
+</ul>
+</li>
+<li><strong>前视摄像头 Camera</strong>
+<ul>
+<li>参数：分辨率 1280*960，综合视距 150m 以上</li>
+<li>通信：通过 LVDS 接口连接</li>
+</ul>
+</li>
 </ul>
 <h2 id="执行路径">执行路径</h2>
 <p>APO采用 <strong>ADAS控制器→EPS/ESP→VCU</strong> 的分层控制架构：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ADAS_HOST → (Private CAN) → EPS_APStatus/ESP_APLCStatus </span><br><span class="line">         → (Vehicle CAN) → VCU_CH_GearControlFeedback</span><br></pre></td></tr></table></figure>
 <ul>
 <li>
-<p><strong>横向控制</strong><br>
-ADAS通过<code>ADAS_EPS_APCtrlReq</code>信号请求EPS进入<code>Active</code>状态，发送<code>ADAS_APTarSteeringAngle</code>目标转角，EPS以50ms周期响应。转向速率被限制在450°/s以内，防止轮胎刮蹭路沿</p>
+<p><strong>横向控制 EPS</strong><br>
+接收 ADAS 发送的转角目标值 <code>ADAS_APTarSteeringAngle</code></p>
 </li>
 <li>
-<p><strong>纵向控制</strong><br>
-ADAS向ESP发送<code>ADAS_AP_BrakeModeStatus = active</code>，ESP的CDD(Creep Drive-away Damp)模块接管车速控制。<strong>不同于ACC的舒适制动，APO的纵向控制强调厘米级定位精度</strong>，ESP根据<code>ADAS_RemainDistToStopPoint</code>实时计算减速度曲线，确保在换挡点前0.15m精确刹停</p>
+<p><strong>纵向控制 ESP</strong><br>
+接收 ADAS 发送的距离停车点距离 <code>ADAS_RemainDistToStopPoint</code> 及最大速度限制 <code>ADAS_MaxVelocityLimit</code></p>
 </li>
 <li>
-<p><strong>档位控制</strong><br>
-ADAS通过<code>ADAS_GearsTarget</code>请求VCU执行R→D档切换，VCU反馈<code>VCU_CH_GearControlFeedback</code>确认档位到达。每次换档耗时约0.8s，期间ESP触发保压防止溜车</p>
+<p><strong>档位控制 VCU</strong><br>
+接收换挡请求，执行 R/D/P 档切换</p>
+</li>
+<li>
+<p><strong>人机交互 HMI</strong><br>
+人机交互 (HMI)：通过 HU（主机）与驾驶员交互，显示状态并接收控制指令 。</p>
 </li>
 </ul>
-<h2 id="核心信号带宽与时序">核心信号带宽与时序</h2>
-<ul>
-<li>
-<p><strong>超声波数据刷新率</strong>：<br>
-20Hz，12个探头的距离数据通过<code>ADAS_DISTANCE_XXX_Distance</code>16个信号分时发送，每个信号带Rolling Counter和Checksum</p>
-</li>
-<li>
-<p><strong>控制指令周期</strong>：<br>
-ADAS→EPS的<code>ADAS_APTarSteeringAngle</code>每10ms发送一次，EPS反馈<code>EPS_SteeringAngle</code>延迟不超过20ms</p>
-</li>
-<li>
-<p><strong>状态机同步</strong>：<br>
-座舱域控制器与<code>ADAS的ADAS_APOFuncStatus</code>状态信号采用 “发送-确认” 机制，座舱域控制器在收到状态变更后100ms内必须更新HMI显示，避免状态不一致导致用户误操作</p>
-</li>
-</ul>
+<blockquote>
+<p><strong>注意</strong>：HMI 显示的车速与实际车速存在换算关系： * 实际车速 &lt; 25km/h 时：仪表车速 = 实际车速 * 1.15</p>
+</blockquote>
 <h1>状态机设计</h1>
 <p>APO状态机的核心挑战在于<strong>如何安全地复用APA的泊入轨迹</strong>。定义了7大状态，覆盖从初始化到故障的全生命周期。</p>
-<h2 id="Initialization">Initialization</h2>
-<p>KL15上电后，ADAS从EEPROM读取<code>LastAPAStatus</code>标志位，确认车辆是否通过APA泊入。同时检测12个超声波探头的自诊断信号<code>UCM_XXX_SensorFault</code></p>
-<p>此状态下ADAS会持续计算车身与周边障碍物的<strong>可驶出裕度</strong></p>
-<ul>
-<li>
-<p>如果是<strong>平行泊车</strong>场景，车头/车尾距前车/后车的最小距离需≥0.5m（<code>MinClearance_Front ≥ 50cm</code> &amp;&amp; <code>MinClearance_Rear ≥ 50cm</code>）</p>
-</li>
-<li>
-<p>如果检测到泊入后障碍物位置变动超过30cm，置位<code>APO_Available = Unavailable</code>，也就是 APO 会被禁止使用，以防止碰撞风险</p>
-</li>
-</ul>
-<p><strong>若连续3个周期收不到任何超声波数据，直接跳转到Failure状态</strong></p>
-<h2 id="Standby">Standby</h2>
-<p>需同时满足9项硬条件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">if (APA_EntryFlag == TRUE          // 由APA泊入</span><br><span class="line">    &amp;&amp; MinClearance &gt;= 50cm        // 前后空间足够</span><br><span class="line">    &amp;&amp; EPS_APStatus == Available   // EPS可用</span><br><span class="line">    &amp;&amp; ESP_ESPFault == Normal      // ESP无故障</span><br><span class="line">    &amp;&amp; VCU_CH_FaultLevel == Normal // VCU正常</span><br><span class="line">    &amp;&amp; AllDoorsClosed == TRUE      // 四门+盖关闭</span><br><span class="line">    &amp;&amp; DriverInCar == TRUE         // 驾驶员在位</span><br><span class="line">    &amp;&amp; SeatBeltBuckled == TRUE     // 安全带系紧</span><br><span class="line">    &amp;&amp; VehicleStandstill == TRUE)  // 车辆静止</span><br><span class="line">&#123;</span><br><span class="line">    ADAS_APOFuncStatus = Standby;</span><br><span class="line">    HU_ShowAPOPrompt(); // 弹出&quot;开始/取消&quot;按钮</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>
-<p><strong>人机交互</strong>：中控屏显示灰色APO图标，并弹出模态对话框 “<strong>检测到可驶出车位，是否开始？</strong>”，此对话框必须在驾驶员操作后5s内自动消失，防止分心驾驶</p>
-</li>
-<li>
-<p><strong>动态监控</strong>：在Standby状态下，ADAS仍以10Hz频率监控周边障碍物。若检测到侧方车辆以&gt;5km/h速度靠近且TTC&lt;3s，主动取消Standby状态，避免驾驶员启动APO时发生碰撞</p>
-</li>
-</ul>
-<h2 id="Prerunning">Prerunning</h2>
-<p>这个状态是为了解决<strong>驾驶员松开制动踏板</strong>与<strong>APO开始控制</strong>之间的时序竞争问题。</p>
-<p>进入Prerunning后，ADAS发送<code>ADAS_AP_BrakeModeStatus = Standby</code>，EPS保持<code>EPS_APStatus = Reply for Control</code>（转角预加载状态）。此时HMI显示 “请松开制动踏板” 浮窗，并倒计时10s。若超时未松开，退回Standby。</p>
-<ul>
-<li><strong>坡道处理</strong>：当<code>ESP_RoadGradient &gt; 3%</code>时，ESP主动介入CDD保压，防止溜车。此时即使驾驶员松开制动，车辆仍保持静止，直到APO发送<code>ADAS_RemainDistToStopPoint &gt; 0</code>。</li>
-</ul>
+<h2 id="状态定义">状态定义</h2>
+<ol>
+<li><strong>Initialization (初始化)</strong>：功能默认关闭，车辆启动后进入此状态。判断是否满足由 APA 泊入及周边距离条件 。</li>
+<li><strong>Standby (待命)</strong>：满足所有准入条件，等待驾驶员点击“开始” 。</li>
+<li><strong>Prerunning (预运行)</strong>：（关键中间态） 驾驶员点击了开始，但尚未松开制动踏板。系统等待踏板松开 。</li>
+<li><strong>Running (运行)</strong>：系统接管控制，按规划路径自动行驶 。</li>
+<li><strong>Pause (暂停)</strong>：驾驶员踩下制动踏板（短时），系统暂停，等待“继续”或“取消” 。</li>
+<li><strong>Finish (完成)</strong>：车辆已驶出车位 。</li>
+<li><strong>Quit (退出) / Failure (故障)</strong>：功能取消或因系统故障退出 。</li>
+</ol>
 <blockquote>
 <p><strong>什么是驾驶员松开制动踏板与APO开始控制之间的时序竞争问题？</strong></p>
 </blockquote>
@@ -335,39 +287,12 @@ ADAS→EPS的<code>ADAS_APTarSteeringAngle</code>每10ms发送一次，EPS反馈
 <li>驱动电机准备好</li>
 <li>周围没有新障碍物</li>
 </ol>
-<h2 id="Running">Running</h2>
-<p>这是APO的核心工作状态，分为<strong>轨迹跟踪</strong>和<strong>动态重规划</strong>的双线程：</p>
+<h2 id="关键信号交互">关键信号交互</h2>
+<p>在 Running 状态下，核心控制信号流如下：</p>
 <ul>
-<li>
-<p><strong>轨迹复现</strong>：ADAS从EEPROM读取APA泊入时记录的<code>Path_X[200]</code>、<code>Path_Y[200]</code>航点序列，以20ms周期进行<strong>逆向 spline 插值</strong>，生成驶出轨迹。</p>
-</li>
-<li>
-<p><strong>动态避障</strong>：超声波雷达以20Hz扫描车身周边，若检测到新障碍物进入SafetyZone（距车身0.5m），触发<code>ADAS_APWarning = Obstacle Detected</code>，HMI发出高频警示音(800Hz, 200ms间隔)。若障碍物距离&lt;25cm（Range1），立即触发退出条件，ESP执行Emergency制动。</p>
-</li>
-</ul>
-<h2 id="Pause">Pause</h2>
-<p>Running状态下，驾驶员踩下制动踏板且持续时间&lt;6s（<code>IB_BrakePedalStatus = Pressed</code> &amp;&amp; <code>PressedDuration &lt; 6000ms</code>），就会触发 Pause。</p>
-<p>ADAS发送<code>ADAS_APTarSteeringAngle = EPS_SteeringAngle</code>(保持当前转角)，ESP收到<code>ADAS_RemainDistToStopPoint = 0cm</code>后进入保压。HMI弹出 “继续/取消” 按钮，并显示暂停原因图标。</p>
-<p>驾驶员点击继续且松开制动踏板后，<strong>APO不立即恢复Running，而是先进入Prerunning确认驾驶员已完全松开制动</strong>，防止&quot;制动-油门&quot;竞争，这是一种 Resume 机制。</p>
-<h2 id="Quit">Quit</h2>
-<p>退出分两种：</p>
-<ul>
-<li>
-<p><strong>驾驶员主动退出</strong>：<br>
-HU发送<code>HU_APOControl = Disable</code>或<code>HU_SuspendFollowupAction = Quit</code>，ADAS发送<code>ADAS_AP_FailureBrakeMode = Comfortable</code>，ESP以-2m/s²减速度平滑停车</p>
-</li>
-<li>
-<p><strong>安全被动退出</strong>：<br>
-检测到转向干预(<code>EPS_EPSTouqbar &gt; 3Nm &gt; 200ms</code>)、油门超限(<code>VCU_CH_AccelPedalPosition &gt; 5%</code>)、车门打开等，ADAS发送<code>ADAS_AP_FailureBrakeMode = Emergency</code>，ESP以-5m/s²紧急制动</p>
-</li>
-</ul>
-<p>车辆静止后，ESP反馈<code>ESP_APLCStatus = standby</code>，ADAS发送<code>ADAS_GearsTarget = P</code>，VCU执行挂P档并拉起EPB。</p>
-<h2 id="Failure">Failure</h2>
-<p>采用三级故障管理：</p>
-<ul>
-<li><strong>Level 1 (Reversible)</strong>：单个超声波探头故障，APO功能仍可用，但HMI显示&quot;泊车辅助精度降低&quot;</li>
-<li><strong>Level 2 (Irreversible)</strong>：毫米波雷达故障或<code>EPS_ErrorFlag = LightFailure</code>，APO功能禁能，但APA、BSD等未受影响</li>
-<li><strong>Level 3 (System Level)</strong>：<code>ADAS_ECUFaultStatus = Failure</code>或<code>ESP_ESPFault = Failure</code>，所有ADAS功能熔断，IPC显示红色&quot;高级自动驾驶功能故障&quot;</li>
+<li>ADAS → EPS：发送 <code>ADAS_EPS_APCtrlReq = EPS Control</code> 请求控制，并持续发送 <code>ADAS_APTarSteeringAngle</code>。</li>
+<li>ADAS → ESP：发送 <code>ADAS_AP_BrakeModeStatus = active</code>，并实时更新 <code>ADAS_RemainDistToStopPoint</code>（距离停车点的曲线距离）</li>
+<li>ESP 响应：根据剩余距离和转向角计算加速度，保证稳定性</li>
 </ul>
 <h1>状态机的进入退出条件</h1>
 <h2 id="T1-Initialization-→-Standby-ALL">T1: Initialization → Standby, ALL</h2>
@@ -575,7 +500,7 @@ HU发送<code>HU_APOControl = Disable</code>或<code>HU_SuspendFollowupAction = 
 <tr>
 <td>a</td>
 <td><code>HU_SuspendFollowupAction = Resume</code></td>
-<td>驾驶员点击&quot;继续&quot;按钮</td>
+<td>“驾驶员点击”“继续”“按钮”</td>
 </tr>
 <tr>
 <td>b</td>
@@ -607,7 +532,7 @@ HU发送<code>HU_APOControl = Disable</code>或<code>HU_SuspendFollowupAction = 
 <tr>
 <td>c</td>
 <td><code>VCU_CH_AccelPedalPosition &gt; 5%</code></td>
-<td>驾驶员油门介入，V1.6版本由3%调整为5%以减少误触发</td>
+<td>驾驶员油门介入</td>
 </tr>
 <tr>
 <td>d</td>
@@ -631,7 +556,7 @@ HU发送<code>HU_APOControl = Disable</code>或<code>HU_SuspendFollowupAction = 
 </tr>
 <tr>
 <td>h</td>
-<td><code>ESP_RoadGradient &gt; 10°</code> <strong>或</strong> <code>ObstacleHeight &gt; 8cm</code></td>
+<td><code>ESP_RoadGradient &gt; 10° 或 ObstacleHeight &gt; 8cm</code></td>
 <td>坡度过大或障碍物不可跨越</td>
 </tr>
 <tr>
@@ -719,180 +644,91 @@ HU发送<code>HU_APOControl = Disable</code>或<code>HU_SuspendFollowupAction = 
 </table>
 <h1>性能指标</h1>
 <p>APO的性能指标需在厘米级定位精度与乘坐舒适性之间取得平衡，远低于ACC的公里级车速控制精度要求。</p>
-<h2 id="自动驶出能力">自动驶出能力</h2>
 <table>
 <thead>
 <tr>
 <th>指标项</th>
-<th>指标值</th>
-<th>工程实现解析</th>
+<th>性能要求</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>支持车位</td>
+<td>仅支持平行（行式）车位</td>
+</tr>
+<tr>
+<td>车位最小长度</td>
+<td>6.25m</td>
+</tr>
+<tr>
 <td>换挡次数</td>
-<td>≤5次</td>
-<td>从点击开始按钮起算，包含R→D、D→R等。每次换档增加0.8s延迟，5次为上限</td>
+<td>≤ 5次</td>
 </tr>
 <tr>
 <td>驶出用时</td>
-<td>≤120s（无障碍）</td>
-<td>路径规划最大长度约15m，平均速度1.5km/h，含换档和暂停等待时间</td>
+<td>&lt; 120s (无障碍情况下)</td>
 </tr>
 <tr>
-<td>支持车位</td>
-<td>仅平行车位，最小长度6.25m</td>
-<td>基于M01车型5.2m车长+0.5m前后安全距离+0.55m操纵余量计算得出</td>
+<td>车速控制</td>
+<td>≤ 10km/h，控制精度 1km/h 内</td>
+</tr>
+<tr>
+<td>平顺性</td>
+<td>最大加速度变化率 ≤ 4m/s³，正常制动减速度 ≤ 2m/s²</td>
 </tr>
 <tr>
 <td>场地坡度</td>
-<td>≤10°</td>
-<td>超过此坡度，EPS转向阻力矩增大导致轨迹跟踪误差&gt;15cm</td>
+<td>&lt; 10°</td>
 </tr>
 <tr>
-<td>可跨越障碍物高度</td>
-<td>5~8cm</td>
-<td>低于5cm的障碍物超声波可能漏检，高于8cm可能托底。ESP需调整减速度曲线</td>
+<td>可跨越障碍</td>
+<td>高度 5cm ~ 8cm</td>
 </tr>
 <tr>
-<td>车速范围</td>
-<td>≤10km/h</td>
-<td>APA/APO专用车速，ESP的CDD模块在此车速下可实现±1km/h的控制精度</td>
-</tr>
-<tr>
-<td>驶出完成距离</td>
-<td>≥0.5m</td>
-<td>车身任何部位与前后障碍物距离，确保驾驶员可安全接管</td>
-</tr>
-<tr>
-<td>成功率</td>
-<td>&gt;90%</td>
-<td>基于1000次蒙特卡洛仿真（含障碍物位置扰动±10cm）的统计结果</td>
-</tr>
-</tbody>
-</table>
-<h2 id="障碍识别能力">障碍识别能力</h2>
-<table>
-<thead>
-<tr>
-<th>指标项</th>
-<th>指标值</th>
-<th>工程实现解析</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>可识别障碍物尺寸</td>
-<td>墙体: 200cm×80cm<br>圆柱: ⌀50cm×80cm<br>方柱: 100cm×100cm×80cm</td>
-<td>超声波雷达的检测阈值，与RCS(雷达散射截面)和回波强度相关</td>
-</tr>
-<tr>
-<td>识别范围</td>
-<td>0.5m~3.0m</td>
-<td>&lt;0.5m进入盲区，&gt;3.0m超声波信号衰减严重</td>
-</tr>
-<tr>
-<td>识别时间</td>
-<td>≤0.1s</td>
-<td>从障碍物进入检测区域到ADAS发出警告的时间，受限于超声波回波处理周期(50ms×2)</td>
+<td>完成时距障碍物距离</td>
+<td>≥ 0.5m</td>
 </tr>
 </tbody>
 </table>
 <h1>人机交互策略</h1>
 <p>APO的人机交互核心是 “步步确认，防止误操作” ，因为<strong>低速场景下驾驶员更容易分心</strong>。</p>
-<h2 id="状态可视化：分阶段图标提示">状态可视化：分阶段图标提示</h2>
-<table>
-<thead>
-<tr>
-<th>状态</th>
-<th>IPC图标</th>
-<th>HU弹窗</th>
-<th>声音提示</th>
-<th>工程实现</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Standby</td>
-<td>灰色APO图标+方向箭头</td>
-<td>模态对话框&quot;开始/取消&quot;</td>
-<td>无</td>
-<td>图标显示需等待HU确认信号返回，防止状态不一致</td>
-</tr>
-<tr>
-<td>Prerunning</td>
-<td>蓝色闪烁APO图标</td>
-<td>浮窗&quot;请松开制动踏板&quot;</td>
-<td>短蜂鸣(500Hz, 100ms)</td>
-<td>图标闪烁频率2Hz，与ESP的保压状态同步</td>
-</tr>
-<tr>
-<td>Running</td>
-<td>蓝色高亮APO图标+方向盘转动动画</td>
-<td>下滑提示&quot;自动驶出进行中&quot;</td>
-<td>每5秒一次提示音</td>
-<td>方向盘图标转动角度与<code>EPS_SteeringAngle</code>实时映射，延迟&lt;100ms</td>
-</tr>
-<tr>
-<td>Pause</td>
-<td>黄色APO图标</td>
-<td>模态对话框&quot;继续/取消&quot;</td>
-<td>长蜂鸣(400Hz, 300ms)</td>
-<td>图标黄色表示系统被驾驶员干预，需显式确认恢复</td>
-</tr>
-<tr>
-<td>Finish</td>
-<td>图标消失</td>
-<td>下滑提示&quot;自动驶出已完成&quot;</td>
-<td>三声短促提示(800Hz×3)</td>
-<td>图标消失前执行3次快速闪烁(5Hz)，作为状态结束确认</td>
-</tr>
-<tr>
-<td>Quit</td>
-<td>图标消失</td>
-<td>警告框&quot;自动驶出已取消: [原因]&quot;</td>
-<td>连续警示音(1kHz, 500ms间隔)</td>
-<td>警告框显示具体原因代码(油门/门开/换挡等)，便于问题追溯</td>
-</tr>
-<tr>
-<td>Failure</td>
-<td>红色故障图标</td>
-<td>警告框&quot;高级自动驾驶功能故障&quot;</td>
-<td>持续长鸣</td>
-<td>仅Level 3故障显示红色，Level 1/2显示黄色降级提示</td>
-</tr>
-</tbody>
-</table>
-<h2 id="操作反馈：物理按键与触屏的冲突处理">操作反馈：物理按键与触屏的冲突处理</h2>
-<p>APO仅通过HU触屏操作，为防止误触：</p>
-<ul>
-<li><strong>开始按钮</strong>：必须 “长按1秒” 或 “双击确认” ，HU在检测到<code>HU_APOControl = Right/Left</code>后，并不立即发送，而是等待500ms防抖窗口</li>
-<li><strong>取消按钮</strong>：在任何状态下 “单击立即生效” ，优先级高于所有其他操作。HU直接发送<code>HU_APOControl = Disable</code>，ADAS在50ms内响应并进入Quit</li>
-<li><strong>Resume按钮</strong>：仅在Pause状态显示，防止与初始启动混淆</li>
-</ul>
-<h2 id="声音分层策略">声音分层策略</h2>
-<ul>
-<li><strong>信息提示音</strong>：400-600Hz，柔和，用于状态转换（如开始、完成）</li>
-<li><strong>警告音</strong>：800-1000Hz，尖锐，用于障碍物检测和退出提示</li>
-<li><strong>故障音</strong>：1.5kHz连续音，用于Failure状态</li>
-</ul>
-<p>音量随车速动态调节：车速&lt;5km/h时音量降至50%，避免地下车库内声音过大造成不适。</p>
-<h2 id="防止驾驶员依赖的设计">防止驾驶员依赖的设计</h2>
-<p>APO每次启动时，HU必须强制显示 “<strong>免责提示</strong>” 浮窗3秒：</p>
-<blockquote>
-<p>“自动驶出为辅助功能，请时刻关注周围环境，准备随时接管”</p>
-</blockquote>
-<p>该提示在同一驾驶循环内仅显示一次，但每次KL15循环后重新出现，符合ISO-16787的法规要求。</p>
 <h1>功能局限性</h1>
-<p>基于当前传感器配置与算法能力，APO在以下场景存在固有局限：</p>
-<ol>
-<li><strong>车位类型限制</strong>：仅支持平行泊车车位，垂直/倾斜车位因轨迹复现误差&gt;30cm被明确禁用</li>
-<li><strong>障碍物高度盲区</strong>：5cm以下的减速带或冰块可能无法被超声波可靠检测，有托底风险</li>
-<li><strong>动态环境适应性</strong>：路侧临时停靠车辆、行人穿行等场景，因取消了暂停机制，功能会频繁退出，体验下降</li>
-<li><strong>轮胎磨损影响</strong>：轮胎磨损导致转向半径变化约3%，在极限车位（6.25m）下可能导致最终姿态偏差&gt;20cm</li>
-<li><strong>温度漂移</strong>：超声波雷达在-10摄氏度以下时，声速降低导致测距误差增大至±5cm，影响轨迹精度</li>
-</ol>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Xiao yue</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/">http://example.com/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">xiaoyue的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a><a class="post-meta__tags" href="/tags/%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6/">智能驾驶</a><a class="post-meta__tags" href="/tags/%E6%8E%A7%E5%88%B6/">控制</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/10/%E2%80%9C%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B%E6%B1%82%E8%A7%A3%E5%8F%82%E8%80%83%E7%82%B9%E2%80%9C/" title="使用非线性模型求解参考点"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">使用非线性模型求解参考点</div></div><div class="info-2"><div class="info-item-1">四轮转向车模型 假设车辆是一个“自行车”结构（左右轮合并），只考虑侧向运动 VyV_yVy​ 和 横摆运动 rrr。  侧向力平衡  may=∑Fym a_y = \sum F_y may​=∑Fy​ 其中车辆的侧向绝对加速度 aya_yay​ 由侧向加速度 V˙y\dot{V}_yV˙y​ 和向心加速度 rVxr V_xrVx​ 组成： m(V˙y+rVx)=Fyfcos⁡δf+Fyrcos⁡δrm (\dot{V}_y + r V_x) = F_{yf} \cos\delta_f + F_{yr} \cos\delta_r m(V˙y​+rVx​)=Fyf​cosδf​+Fyr​cosδr​  横摆力矩平衡  Izr˙=∑MzI_z \dot{r} = \sum M_z  Iz​r˙=∑Mz​ Izr˙=lfFyfcos⁡δf−lrFyrcos⁡δrI_z \dot{r} = l_f F_{yf} \cos \delta_f - l_r F_{yr} \cos \delta_r Iz​r˙=lf​Fyf​cosδf​−lr​Fyr​cosδr​ 稳态 (Steady Stat...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/11/21/%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6ACC%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自适应巡航控制ACC功能规范"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251121134725596.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-21</div><div class="info-item-2">自适应巡航控制ACC功能规范</div></div><div class="info-2"><div class="info-item-1">从工程实现看L2级纵向控制 将从系统架构、状态机设计、人机交互策略等维度，剖析ACC的工程实现精髓。 系统架构：多传感器协同 ACC系统的感知层采用&quot;视觉+雷达&quot;的异构冗余方案： 传感器配置矩阵  前视摄像头：通过LVDS接口接入，分辨率1280×960，综合视距150m+，主要负责车道线识别和目标分类 前向毫米波雷达：77GHz频段，160m探测距离，±45°水平视场角，提供高鲁棒性的距离与速度测量 超声波雷达：12探头方案，私有CAN通信，主要用于低速Stop&amp;Go场景的近距离补盲  执行路径设计 系统采用 “ADAS控制器→ESP→VCU” 的纵向控制链路。ADAS通过私有CAN发送目标加速度请求（ADAS_VLCAxTarAim），ESP的VLC（Vehicle Longitudinal Control）模块负责扭矩仲裁，最终通过ESP_MotorTorqReq信号驱动VCU实现加减速。这种分层架构将控制算法与车辆动力学解耦，提升了跨平台移植性。 核心信号带宽  感知刷新率：30Hz（摄像头与雷达融合周期） CAN总线负载：500kbps，采用...</div></div></div></a><a class="pagination-related" href="/2025/12/01/LCC%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="车道居中控制 LCC"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251121134725596.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-01</div><div class="info-item-2">车道居中控制 LCC</div></div><div class="info-2"><div class="info-item-1">引言 LCC，Lane Cruise Control，车道巡航辅助，也有叫车道车道居中控制的，是一种横向辅助功能。在车辆行驶过程中，系统利用摄像头探测车道线，计算车辆在车道内的位置，并通过控制 EPS 施加转向力矩，使车辆持续保持在当前车道的中心位置行驶。  有些LCC会跟随驾驶员打转向灯自动变道，但是这里不讨论，单纯的车道居中并不具备ALC功能。  参考资料  岚图ADS LCC使用手册 理想汽车全场景辅助驾驶（LCC） 小鹏汽车车道居中辅助（LCC）快速上手指南 享界 S9 增程版使用说明书   注意：与 ACC 不同，ACC 控制油门/刹车，LCC 控制方向盘。LCC 必须在 ACC 激活的前提下才能工作（除部分低速排队辅助场景外）。  相比于ACC更加高级，却低于NOA。    功能 全称 核心作用 控制维度 技术复杂度     ACC 自适应巡航 自动跟车，保持安全车距 仅纵向（速度/距离） 基础   LCC 车道居中控制 保持车辆在车道中央行驶 纵向+横向（方向盘微调） 中等   NOA 导航辅助驾驶 按导航路径自动变道、进出匝道 纵向+横向+路径决策 高阶     ...</div></div></div></a><a class="pagination-related" href="/2025/11/25/%E6%99%BA%E9%A9%BE%E6%96%B9%E6%A1%88%E5%A4%A7%E6%A6%82/" title="智驾方案大概"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125113221668.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-25</div><div class="info-item-2">智驾方案大概</div></div><div class="info-2"><div class="info-item-1">感知类辅助功能 Perception Aids 这些主要是“告诉驾驶员情况”，不主动控制车辆。其实更侧重于对前向的感知，全向也有。  FCW — Forward Collision Warning 前向碰撞预警 PCW — Pedestrian Collision Warning 行人碰撞预警 AEB-Warning — 自动紧急制动警告 LDW — Lane Departure Warning 车道偏离预警 BSD — Blind Spot Detection 盲区监测 BSW — Blind Spot Warning 盲区预警 LCA-W — Lane Change Assist Warning 换道辅助预警 RCW — Rear Collision Warning 后碰撞预警 CTA — Cross Traffic Alert 横向来车预警（R-CTA / F-CTA） IHC / AHB — Intelligent High Beam / Auto High Beam 自动远光切换 TSR — Traffic Sign Recognition 交通标志识别 DAW — D...</div></div></div></a><a class="pagination-related" href="/2025/11/27/AVM%E4%B8%8B%E7%BA%BF%E6%A0%87%E5%AE%9A%E6%B5%81%E7%A8%8B/" title="AVM下线标定流程"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251127140956769.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-27</div><div class="info-item-2">AVM下线标定流程</div></div><div class="info-2"><div class="info-item-1">简单介绍 AVM （Around View Monitor，环视系统）环视系统通过安装在车身前、后、左、右的四个鱼眼摄像头，通过图像处理算法拼接成一幅 360° 的鸟瞰图（Bird’s Eye View, BEV）。然而，摄像头在总装过程中必然存在 6 自由度的安装误差。从数学原理、标定场搭建、算法流程及工程实践四个维度，详细剖析 AVM 的下线标定（EOL）技术。  为什么需要 EOL 标定？ 在理想的 CAD 模型中，我们知道每个摄像头相对于车身坐标系的精确位置。但在实际生产线上，安装公差会导致以下问题：   平移误差：摄像头位置偏移。   旋转误差：摄像头拍摄角度倾斜（如 Pitch/Roll/Yaw 偏差）。   如果不进行标定，直接使用理论参数进行投影拼接，会导致地面标线断裂、重影，甚至障碍物位置判断错误。EOL 标定的核心目标，就是求解摄像头坐标系到车身坐标系的真实变换矩阵。 想象一下手机拍照，四个角装了四个超广角镜头，要把它们拼成一张完美的俯视图。但工人安装时，摄像头可能歪了1毫米、斜了0.5度。标定就是解决&quot;歪了怎么办&quot;的问题。 数学模型基础 ...</div></div></div></a><a class="pagination-related" href="/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/" title="时间敏感网络TSN"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-25</div><div class="info-item-2">时间敏感网络TSN</div></div><div class="info-2"><div class="info-item-1">TSN时间敏感网络 TSN（Time-Sensitive Networking） 是由IEEE 802.1工作组制定的一系列标准协议集合，专注于解决二层网络确定性传输问题。与传统以太网的&quot;尽力而为&quot;不同，TSN通过VLAN标签中的PCP（Priority Code Point）和VID（VLAN ID）字段定义流量优先级，实现零拥塞丢包、有界延迟和低抖动的数据传输。 四大技术  分别是：  时钟同步：IEEE 802.1AS (gPTP) 流量调度：802.1Qbv、802.1Qav、802.1Qbu 可靠性保障：IEEE 802.1CB (FRER) 资源管理：802.1Qcc、802.1Qci  graph TD     subgraph 发送端         A[发送端应用]         B[802.1Qcc&lt;br/&gt;流注册与路径计算]         C[802.1Qci&lt;br/&gt;流量监管（入口检查）]         D[802.1AS&lt;br/&gt;获取全局同步时间戳]         E[802.1Qbv/Qa...</div></div></div></a><a class="pagination-related" href="/2025/12/03/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%EF%BC%9ASurvey-of-Technology-in-Autonomous-Valet-Parking-System/" title="文献阅读：Survey of Technology in Autonomous Valet Parking System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-03</div><div class="info-item-2">文献阅读：Survey of Technology in Autonomous Valet Parking System</div></div><div class="info-2"><div class="info-item-1">引言  Jo Y, Ha J, Hwang S. Survey of technology in autonomous valet parking system[J]. International Journal of Automotive Technology, 2023, 24(6): 1577-1587.  代客泊车（Valet parking）是法语“valet”（意为代泊）和英语“parking”组成的复合词，指的是由管理人员代替车主泊车的服务。自动代客泊车（AVP）系统将代客泊车与自动驾驶车辆相结合，这项技术能让车辆自动行驶到停车位完成泊车，并且在泊车后用户召唤时将车辆移动到指定位置。通常情况下，该系统无需人工操作就能在行驶和泊车场景中对车辆进行控制。 一般AVP的流程如下：  其中搜索路径需要考虑很多约束：车辆的转弯半径、转向速度、障碍物、停车位类型。 Return Driving Process 就是将车辆移动到用户可以再次上车的地方。通过追踪先前流程中的路径来实现。 搜索过程 搜索路径的基础是车辆自身以及周围物体的定位，比如：  使用GPS+IMU来确定车辆的速...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">Xiao yue</div><div class="author-info-description">🚗 智能驾驶系统工程师</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiaoyuewhut"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:xiaoyuewhut@whut.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">图片加载不出来需要挂vpn</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">系统架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E7%9F%A5%E5%B1%82%E9%85%8D%E7%BD%AE%E7%9F%A9%E9%98%B5"><span class="toc-number">2.1.</span> <span class="toc-text">感知层配置矩阵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%B7%AF%E5%BE%84"><span class="toc-number">2.2.</span> <span class="toc-text">执行路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BF%A1%E5%8F%B7%E5%B8%A6%E5%AE%BD%E4%B8%8E%E6%97%B6%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">核心信号带宽与时序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">状态机设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Initialization"><span class="toc-number">3.1.</span> <span class="toc-text">Initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Standby"><span class="toc-number">3.2.</span> <span class="toc-text">Standby</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prerunning"><span class="toc-number">3.3.</span> <span class="toc-text">Prerunning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running"><span class="toc-number">3.4.</span> <span class="toc-text">Running</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pause"><span class="toc-number">3.5.</span> <span class="toc-text">Pause</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quit"><span class="toc-number">3.6.</span> <span class="toc-text">Quit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Failure"><span class="toc-number">3.7.</span> <span class="toc-text">Failure</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">状态机的进入退出条件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#T1-Initialization-%E2%86%92-Standby-ALL"><span class="toc-number">4.1.</span> <span class="toc-text">T1: Initialization → Standby, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Standby-%E2%86%92-Initialization-ANY"><span class="toc-number">4.2.</span> <span class="toc-text">Standby → Initialization, ANY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T3-Standby-%E2%86%92-Running-ALL"><span class="toc-number">4.3.</span> <span class="toc-text">T3: Standby → Running, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T4-Standby-%E2%86%92-Prerunning-ALL"><span class="toc-number">4.4.</span> <span class="toc-text">T4: Standby → Prerunning, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T5-Prerunning-%E2%86%92-Running-ALL"><span class="toc-number">4.5.</span> <span class="toc-text">T5: Prerunning → Running, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T6-Running-%E2%86%92-Pause-ANY"><span class="toc-number">4.6.</span> <span class="toc-text">T6: Running → Pause, ANY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T7-Pause-%E2%86%92-Running-ALL"><span class="toc-number">4.7.</span> <span class="toc-text">T7: Pause → Running, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T8-Running-Pause-Prerunning-%E2%86%92-Quit-ANY"><span class="toc-number">4.8.</span> <span class="toc-text">T8: Running&#x2F;Pause&#x2F;Prerunning → Quit, ANY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T9-Pause-%E2%86%92-Prerunning-ALL"><span class="toc-number">4.9.</span> <span class="toc-text">T9: Pause → Prerunning, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T10-Running-%E2%86%92-Finish-ALL"><span class="toc-number">4.10.</span> <span class="toc-text">T10: Running → Finish, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T11-AnyState-%E2%86%92-Failure-ANY"><span class="toc-number">4.11.</span> <span class="toc-text">T11: AnyState → Failure, ANY</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA%E8%83%BD%E5%8A%9B"><span class="toc-number">5.1.</span> <span class="toc-text">自动驶出能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%9C%E7%A2%8D%E8%AF%86%E5%88%AB%E8%83%BD%E5%8A%9B"><span class="toc-number">5.2.</span> <span class="toc-text">障碍识别能力</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">人机交互策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9A%E5%88%86%E9%98%B6%E6%AE%B5%E5%9B%BE%E6%A0%87%E6%8F%90%E7%A4%BA"><span class="toc-number">6.1.</span> <span class="toc-text">状态可视化：分阶段图标提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%8F%8D%E9%A6%88%EF%BC%9A%E7%89%A9%E7%90%86%E6%8C%89%E9%94%AE%E4%B8%8E%E8%A7%A6%E5%B1%8F%E7%9A%84%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86"><span class="toc-number">6.2.</span> <span class="toc-text">操作反馈：物理按键与触屏的冲突处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E9%9F%B3%E5%88%86%E5%B1%82%E7%AD%96%E7%95%A5"><span class="toc-number">6.3.</span> <span class="toc-text">声音分层策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%AD%A2%E9%A9%BE%E9%A9%B6%E5%91%98%E4%BE%9D%E8%B5%96%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">6.4.</span> <span class="toc-text">防止驾驶员依赖的设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">功能局限性</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自动驶出 APO 功能规范"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自动驶出 APO 功能规范"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自动驶出 APO 功能规范">自动驶出 APO 功能规范</a><time datetime="2025-12-11T02:56:41.000Z" title="发表于 2025-12-11 10:56:41">2025-12-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/10/%E2%80%9C%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B%E6%B1%82%E8%A7%A3%E5%8F%82%E8%80%83%E7%82%B9%E2%80%9C/" title="使用非线性模型求解参考点">使用非线性模型求解参考点</a><time datetime="2025-12-10T03:26:13.000Z" title="发表于 2025-12-10 11:26:13">2025-12-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/%E8%BD%AE%E6%AF%82%E7%94%B5%E6%9C%BA%E7%9A%84%E5%8F%8D%E5%8A%9B%E7%9F%A9/" title="轮毂电机的反力矩">轮毂电机的反力矩</a><time datetime="2025-12-08T05:49:35.000Z" title="发表于 2025-12-08 13:49:35">2025-12-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/12/05/ADAS-%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%83%E7%BD%AE/" title="ADAS 传感器布置"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251205114331669.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADAS 传感器布置"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/12/05/ADAS-%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%83%E7%BD%AE/" title="ADAS 传感器布置">ADAS 传感器布置</a><time datetime="2025-12-05T03:39:58.000Z" title="发表于 2025-12-05 11:39:58">2025-12-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/03/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%EF%BC%9AST-P3-End-to-End-Vision-Based-Autonomous-Driving-via-Spatial-Temporal-Feature-Learning/" title="文献阅读：ST-P3: End-to-End Vision-Based Autonomous Driving via Spatial-Temporal Feature Learning">文献阅读：ST-P3: End-to-End Vision-Based Autonomous Driving via Spatial-Temporal Feature Learning</a><time datetime="2025-12-03T07:42:21.000Z" title="发表于 2025-12-03 15:42:21">2025-12-03</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Xiao yue</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(async () => {
+<p>基于当前的传感器配置、算法能力以及系统运行设计域（ODD），APO 功能在以下场景中存在固有限制，驾驶员需保持警惕并准备随时接管：</p>
+<ul>
+<li>
+<p><strong>泊车历史记录限制</strong></p>
+<ul>
+<li><strong>非 APA 泊入</strong>：车辆并非通过 ADAS 的 APA 功能泊入当前车位，APO 功能将不可用。</li>
+<li><strong>记忆丢失</strong>：如果车辆在泊入后发生断电或系统重启，导致上次 APA 泊入的历史轨迹数据丢失，APO 功能将被禁止使用。</li>
+<li><strong>障碍物变动</strong>：泊入完成后，若车位周边障碍物（如前后车辆）的位置发生大幅变动，超过系统设定的安全阈值（例如 30cm），APO 将被禁止使用，以防止碰撞风险。</li>
+</ul>
+</li>
+<li>
+<p><strong>环境与场地限制</strong></p>
+<ul>
+<li><strong>车位类型</strong>：仅支持平行（行式）车位的驶出。垂直或斜列车位因轨迹规划误差较大，被明确禁用。</li>
+<li><strong>场地坡度</strong>：当场地坡度大于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">10^{\circ}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.674115em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.674115em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∘</span></span></span></span></span></span></span></span></span></span></span></span> 时，由于轮胎附着力变化和转向阻力矩增大，轨迹跟踪误差可能超过 15cm，功能将触发退出 (<code>ESP_RoadGradient &gt; 10°</code>)。</li>
+<li><strong>障碍物高度</strong>：对于高度低于 5cm 或高于 8cm 的障碍物，超声波雷达的探测可靠性下降。低于 5cm 的障碍物可能漏检；高于 8cm 的障碍物可能导致车辆底盘剐蹭。</li>
+</ul>
+</li>
+<li>
+<p><strong>传感器与环境干扰</strong></p>
+<ul>
+<li><strong>恶劣天气</strong>：雨、雪、雾等天气导致能见度下降时，前视摄像头和毫米波雷达的性能都会受到影响。</li>
+<li><strong>传感器遮挡</strong>：超声波探头被泥土、冰块、积雪等遮盖，导致回波信号衰减或错误。</li>
+<li><strong>超声波干扰</strong>：附近存在其他同频工作的超声波设备（如其他车辆的泊车辅助系统），可能导致 APO 的测距数据不稳定。</li>
+<li><strong>动态环境</strong>：在行人穿梭频繁或有横穿车辆的复杂动态场景中，为了安全避障，功能可能会频繁触发暂停或被动退出（T8），导致用户体验下降。</li>
+</ul>
+</li>
+<li>
+<p><strong>系统限制与精度</strong></p>
+<ul>
+<li><strong>车速限制</strong>：功能仅在低速（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>10</mn><mtext>km/h</mtext></mrow><annotation encoding="application/x-tex">\le 10 \text{km/h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord text"><span class="mord">km/h</span></span></span></span></span>）下运行。</li>
+<li><strong>定位精度</strong>：APO 的纵向控制强调厘米级定位精度，一旦系统误差超过预设的跟踪阈值，将触发退出，要求驾驶员接管。</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Xiao yue</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/">http://example.com/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">xiaoyue的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a><a class="post-meta__tags" href="/tags/%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6/">智能驾驶</a><a class="post-meta__tags" href="/tags/%E6%8E%A7%E5%88%B6/">控制</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/10/%E2%80%9C%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B%E6%B1%82%E8%A7%A3%E5%8F%82%E8%80%83%E7%82%B9%E2%80%9C/" title="使用非线性模型求解参考点"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">使用非线性模型求解参考点</div></div><div class="info-2"><div class="info-item-1">四轮转向车模型 假设车辆是一个“自行车”结构（左右轮合并），只考虑侧向运动 VyV_yVy​ 和 横摆运动 rrr。  侧向力平衡  may=∑Fym a_y = \sum F_y may​=∑Fy​ 其中车辆的侧向绝对加速度 aya_yay​ 由侧向加速度 V˙y\dot{V}_yV˙y​ 和向心加速度 rVxr V_xrVx​ 组成： m(V˙y+rVx)=Fyfcos⁡δf+Fyrcos⁡δrm (\dot{V}_y + r V_x) = F_{yf} \cos\delta_f + F_{yr} \cos\delta_r m(V˙y​+rVx​)=Fyf​cosδf​+Fyr​cosδr​  横摆力矩平衡  Izr˙=∑MzI_z \dot{r} = \sum M_z  Iz​r˙=∑Mz​ Izr˙=lfFyfcos⁡δf−lrFyrcos⁡δrI_z \dot{r} = l_f F_{yf} \cos \delta_f - l_r F_{yr} \cos \delta_r Iz​r˙=lf​Fyf​cosδf​−lr​Fyr​cosδr​ 稳态 (Steady Stat...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/11/21/%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6ACC%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自适应巡航控制ACC功能规范"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251121134725596.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-21</div><div class="info-item-2">自适应巡航控制ACC功能规范</div></div><div class="info-2"><div class="info-item-1">从工程实现看L2级纵向控制 将从系统架构、状态机设计、人机交互策略等维度，剖析ACC的工程实现精髓。 系统架构：多传感器协同 ACC系统的感知层采用&quot;视觉+雷达&quot;的异构冗余方案： 传感器配置矩阵  前视摄像头：通过LVDS接口接入，分辨率1280×960，综合视距150m+，主要负责车道线识别和目标分类 前向毫米波雷达：77GHz频段，160m探测距离，±45°水平视场角，提供高鲁棒性的距离与速度测量 超声波雷达：12探头方案，私有CAN通信，主要用于低速Stop&amp;Go场景的近距离补盲  执行路径设计 系统采用 “ADAS控制器→ESP→VCU” 的纵向控制链路。ADAS通过私有CAN发送目标加速度请求（ADAS_VLCAxTarAim），ESP的VLC（Vehicle Longitudinal Control）模块负责扭矩仲裁，最终通过ESP_MotorTorqReq信号驱动VCU实现加减速。这种分层架构将控制算法与车辆动力学解耦，提升了跨平台移植性。 核心信号带宽  感知刷新率：30Hz（摄像头与雷达融合周期） CAN总线负载：500kbps，采用...</div></div></div></a><a class="pagination-related" href="/2025/12/01/LCC%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="车道居中控制 LCC"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251121134725596.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-01</div><div class="info-item-2">车道居中控制 LCC</div></div><div class="info-2"><div class="info-item-1">引言 LCC，Lane Cruise Control，车道巡航辅助，也有叫车道车道居中控制的，是一种横向辅助功能。在车辆行驶过程中，系统利用摄像头探测车道线，计算车辆在车道内的位置，并通过控制 EPS 施加转向力矩，使车辆持续保持在当前车道的中心位置行驶。  有些LCC会跟随驾驶员打转向灯自动变道，但是这里不讨论，单纯的车道居中并不具备ALC功能。  参考资料  岚图ADS LCC使用手册 理想汽车全场景辅助驾驶（LCC） 小鹏汽车车道居中辅助（LCC）快速上手指南 享界 S9 增程版使用说明书   注意：与 ACC 不同，ACC 控制油门/刹车，LCC 控制方向盘。LCC 必须在 ACC 激活的前提下才能工作（除部分低速排队辅助场景外）。  相比于ACC更加高级，却低于NOA。    功能 全称 核心作用 控制维度 技术复杂度     ACC 自适应巡航 自动跟车，保持安全车距 仅纵向（速度/距离） 基础   LCC 车道居中控制 保持车辆在车道中央行驶 纵向+横向（方向盘微调） 中等   NOA 导航辅助驾驶 按导航路径自动变道、进出匝道 纵向+横向+路径决策 高阶     ...</div></div></div></a><a class="pagination-related" href="/2025/11/25/%E6%99%BA%E9%A9%BE%E6%96%B9%E6%A1%88%E5%A4%A7%E6%A6%82/" title="智驾方案大概"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125113221668.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-25</div><div class="info-item-2">智驾方案大概</div></div><div class="info-2"><div class="info-item-1">感知类辅助功能 Perception Aids 这些主要是“告诉驾驶员情况”，不主动控制车辆。其实更侧重于对前向的感知，全向也有。  FCW — Forward Collision Warning 前向碰撞预警 PCW — Pedestrian Collision Warning 行人碰撞预警 AEB-Warning — 自动紧急制动警告 LDW — Lane Departure Warning 车道偏离预警 BSD — Blind Spot Detection 盲区监测 BSW — Blind Spot Warning 盲区预警 LCA-W — Lane Change Assist Warning 换道辅助预警 RCW — Rear Collision Warning 后碰撞预警 CTA — Cross Traffic Alert 横向来车预警（R-CTA / F-CTA） IHC / AHB — Intelligent High Beam / Auto High Beam 自动远光切换 TSR — Traffic Sign Recognition 交通标志识别 DAW — D...</div></div></div></a><a class="pagination-related" href="/2025/11/27/AVM%E4%B8%8B%E7%BA%BF%E6%A0%87%E5%AE%9A%E6%B5%81%E7%A8%8B/" title="AVM下线标定流程"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251127140956769.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-27</div><div class="info-item-2">AVM下线标定流程</div></div><div class="info-2"><div class="info-item-1">简单介绍 AVM （Around View Monitor，环视系统）环视系统通过安装在车身前、后、左、右的四个鱼眼摄像头，通过图像处理算法拼接成一幅 360° 的鸟瞰图（Bird’s Eye View, BEV）。然而，摄像头在总装过程中必然存在 6 自由度的安装误差。从数学原理、标定场搭建、算法流程及工程实践四个维度，详细剖析 AVM 的下线标定（EOL）技术。  为什么需要 EOL 标定？ 在理想的 CAD 模型中，我们知道每个摄像头相对于车身坐标系的精确位置。但在实际生产线上，安装公差会导致以下问题：   平移误差：摄像头位置偏移。   旋转误差：摄像头拍摄角度倾斜（如 Pitch/Roll/Yaw 偏差）。   如果不进行标定，直接使用理论参数进行投影拼接，会导致地面标线断裂、重影，甚至障碍物位置判断错误。EOL 标定的核心目标，就是求解摄像头坐标系到车身坐标系的真实变换矩阵。 想象一下手机拍照，四个角装了四个超广角镜头，要把它们拼成一张完美的俯视图。但工人安装时，摄像头可能歪了1毫米、斜了0.5度。标定就是解决&quot;歪了怎么办&quot;的问题。 数学模型基础 ...</div></div></div></a><a class="pagination-related" href="/2025/11/25/%E6%97%B6%E9%97%B4%E6%95%8F%E6%84%9F%E7%BD%91%E7%BB%9CTSN/" title="时间敏感网络TSN"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251125131410483.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-25</div><div class="info-item-2">时间敏感网络TSN</div></div><div class="info-2"><div class="info-item-1">TSN时间敏感网络 TSN（Time-Sensitive Networking） 是由IEEE 802.1工作组制定的一系列标准协议集合，专注于解决二层网络确定性传输问题。与传统以太网的&quot;尽力而为&quot;不同，TSN通过VLAN标签中的PCP（Priority Code Point）和VID（VLAN ID）字段定义流量优先级，实现零拥塞丢包、有界延迟和低抖动的数据传输。 四大技术  分别是：  时钟同步：IEEE 802.1AS (gPTP) 流量调度：802.1Qbv、802.1Qav、802.1Qbu 可靠性保障：IEEE 802.1CB (FRER) 资源管理：802.1Qcc、802.1Qci  graph TD     subgraph 发送端         A[发送端应用]         B[802.1Qcc&lt;br/&gt;流注册与路径计算]         C[802.1Qci&lt;br/&gt;流量监管（入口检查）]         D[802.1AS&lt;br/&gt;获取全局同步时间戳]         E[802.1Qbv/Qa...</div></div></div></a><a class="pagination-related" href="/2025/12/03/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%EF%BC%9ASurvey-of-Technology-in-Autonomous-Valet-Parking-System/" title="文献阅读：Survey of Technology in Autonomous Valet Parking System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-03</div><div class="info-item-2">文献阅读：Survey of Technology in Autonomous Valet Parking System</div></div><div class="info-2"><div class="info-item-1">引言  Jo Y, Ha J, Hwang S. Survey of technology in autonomous valet parking system[J]. International Journal of Automotive Technology, 2023, 24(6): 1577-1587.  代客泊车（Valet parking）是法语“valet”（意为代泊）和英语“parking”组成的复合词，指的是由管理人员代替车主泊车的服务。自动代客泊车（AVP）系统将代客泊车与自动驾驶车辆相结合，这项技术能让车辆自动行驶到停车位完成泊车，并且在泊车后用户召唤时将车辆移动到指定位置。通常情况下，该系统无需人工操作就能在行驶和泊车场景中对车辆进行控制。 一般AVP的流程如下：  其中搜索路径需要考虑很多约束：车辆的转弯半径、转向速度、障碍物、停车位类型。 Return Driving Process 就是将车辆移动到用户可以再次上车的地方。通过追踪先前流程中的路径来实现。 搜索过程 搜索路径的基础是车辆自身以及周围物体的定位，比如：  使用GPS+IMU来确定车辆的速...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">Xiao yue</div><div class="author-info-description">🚗 智能驾驶系统工程师</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiaoyuewhut"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:xiaoyuewhut@whut.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">图片加载不出来需要挂vpn</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">系统架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E7%9F%A5%E5%B1%82%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">感知层配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%B7%AF%E5%BE%84"><span class="toc-number">2.2.</span> <span class="toc-text">执行路径</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">状态机设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">状态定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E4%BF%A1%E5%8F%B7%E4%BA%A4%E4%BA%92"><span class="toc-number">3.2.</span> <span class="toc-text">关键信号交互</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">状态机的进入退出条件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#T1-Initialization-%E2%86%92-Standby-ALL"><span class="toc-number">4.1.</span> <span class="toc-text">T1: Initialization → Standby, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Standby-%E2%86%92-Initialization-ANY"><span class="toc-number">4.2.</span> <span class="toc-text">Standby → Initialization, ANY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T3-Standby-%E2%86%92-Running-ALL"><span class="toc-number">4.3.</span> <span class="toc-text">T3: Standby → Running, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T4-Standby-%E2%86%92-Prerunning-ALL"><span class="toc-number">4.4.</span> <span class="toc-text">T4: Standby → Prerunning, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T5-Prerunning-%E2%86%92-Running-ALL"><span class="toc-number">4.5.</span> <span class="toc-text">T5: Prerunning → Running, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T6-Running-%E2%86%92-Pause-ANY"><span class="toc-number">4.6.</span> <span class="toc-text">T6: Running → Pause, ANY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T7-Pause-%E2%86%92-Running-ALL"><span class="toc-number">4.7.</span> <span class="toc-text">T7: Pause → Running, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T8-Running-Pause-Prerunning-%E2%86%92-Quit-ANY"><span class="toc-number">4.8.</span> <span class="toc-text">T8: Running&#x2F;Pause&#x2F;Prerunning → Quit, ANY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T9-Pause-%E2%86%92-Prerunning-ALL"><span class="toc-number">4.9.</span> <span class="toc-text">T9: Pause → Prerunning, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T10-Running-%E2%86%92-Finish-ALL"><span class="toc-number">4.10.</span> <span class="toc-text">T10: Running → Finish, ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T11-AnyState-%E2%86%92-Failure-ANY"><span class="toc-number">4.11.</span> <span class="toc-text">T11: AnyState → Failure, ANY</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">人机交互策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">功能局限性</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自动驶出 APO 功能规范"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自动驶出 APO 功能规范"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自动驶出 APO 功能规范">自动驶出 APO 功能规范</a><time datetime="2025-12-11T02:56:41.000Z" title="发表于 2025-12-11 10:56:41">2025-12-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/10/%E2%80%9C%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B%E6%B1%82%E8%A7%A3%E5%8F%82%E8%80%83%E7%82%B9%E2%80%9C/" title="使用非线性模型求解参考点">使用非线性模型求解参考点</a><time datetime="2025-12-10T03:26:13.000Z" title="发表于 2025-12-10 11:26:13">2025-12-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/%E8%BD%AE%E6%AF%82%E7%94%B5%E6%9C%BA%E7%9A%84%E5%8F%8D%E5%8A%9B%E7%9F%A9/" title="轮毂电机的反力矩">轮毂电机的反力矩</a><time datetime="2025-12-08T05:49:35.000Z" title="发表于 2025-12-08 13:49:35">2025-12-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/12/05/ADAS-%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%83%E7%BD%AE/" title="ADAS 传感器布置"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251205114331669.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADAS 传感器布置"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/12/05/ADAS-%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%83%E7%BD%AE/" title="ADAS 传感器布置">ADAS 传感器布置</a><time datetime="2025-12-05T03:39:58.000Z" title="发表于 2025-12-05 11:39:58">2025-12-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/03/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%EF%BC%9AST-P3-End-to-End-Vision-Based-Autonomous-Driving-via-Spatial-Temporal-Feature-Learning/" title="文献阅读：ST-P3: End-to-End Vision-Based Autonomous Driving via Spatial-Temporal Feature Learning">文献阅读：ST-P3: End-to-End Vision-Based Autonomous Driving via Spatial-Temporal Feature Learning</a><time datetime="2025-12-03T07:42:21.000Z" title="发表于 2025-12-03 15:42:21">2025-12-03</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Xiao yue</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(async () => {
   const showKatex = () => {
     document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
   }

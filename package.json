@@ -1,29 +1,15 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "xiaoyue-blog",
   "private": true,
+  "version": "0.1.0",
+  "type": "module",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "hexo": {
-    "version": "8.1.1"
-  },
-  "dependencies": {
-    "@iktakahiro/markdown-it-katex": "^4.0.1",
-    "hexo": "^8.1.1",
-    "hexo-deployer-git": "^4.0.0",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-index": "^4.0.0",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-markdown-it": "^7.1.1",
-    "hexo-renderer-pug": "^3.0.0",
-    "hexo-renderer-stylus": "^3.0.1",
-    "hexo-server": "^3.0.0",
-    "hexo-theme-landscape": "^1.0.0"
+  "devDependencies": {
+    "vite": "^7.1.0"
   }
 }
+

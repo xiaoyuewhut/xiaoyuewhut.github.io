@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>XiaoYue Journal</title>
+    <meta
+      name="description"
+      content="A hand-built journal on control, vehicles, software, and precise thinking."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-one"></div>
+      <div class="ambient ambient-two"></div>
+      <header class="site-header">
+        <a class="brand" href="/">
+          <span class="brand-mark">XY</span>
+          <span class="brand-copy">
+            <strong>XiaoYue Journal</strong>
+            <small>Systems / Motion / Writing</small>
+          </span>
+        </a>
+        <nav class="site-nav">
+          <a href="/posts/index.html">Writing</a>
+          <a href="/studio/index.html">Studio</a>
+          <a href="/about/index.html">About</a>
+        </nav>
+      </header>
+
+      <main class="home-page">
+        <section class="hero reveal">
+          <p class="eyebrow">Hand-built personal site</p>
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <h1>先有主页，再有栏目。</h1>
+              <p class="hero-text">
+                首页负责气质、入口和第一印象。具体内容分流到独立栏目页，而不是把所有东西堆成一张长卷。
+              </p>
+              <div class="hero-actions">
+                <a class="button button-primary" href="/posts/index.html">进入写作</a>
+                <a class="button button-secondary" href="/studio/index.html">查看构建逻辑</a>
+              </div>
+            </div>
+            <aside class="hero-panel">
+              <p>Current Focus</p>
+              <ul>
+                <li>车辆动力学与控制</li>
+                <li>自动驾驶系统理解</li>
+                <li>软件工程与表达</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <section class="portal reveal">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Sections</p>
+              <h2>栏目是入口，不是锚点。</h2>
+            </div>
+          </div>
+          <div class="portal-grid">
+            <a class="portal-card portal-card-wide" href="/posts/index.html">
+              <span class="portal-index">01</span>
+              <h3>Writing</h3>
+              <p>文章目录、精选写作与后续完整归档。这里应该像一个独立的阅读区，而不是首页附属模块。</p>
+              <span class="portal-link">进入写作栏目</span>
+            </a>
+            <a class="portal-card" href="/studio/index.html">
+              <span class="portal-index">02</span>
+              <h3>Studio</h3>
+              <p>网站审美、结构原则、后续迭代路线，放在单独界面表达，而不是穿插在首页里。</p>
+              <span class="portal-link">进入构建栏目</span>
+            </a>
+            <a class="portal-card" href="/about/index.html">
+              <span class="portal-index">03</span>
+              <h3>About</h3>
+              <p>作者背景、研究兴趣、写作范围和联系方式，集中到一个清楚的个人介绍页。</p>
+              <span class="portal-link">进入关于页面</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="signal reveal">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Latest Signal</p>
+              <h2>首页只保留一点内容预告。</h2>
+            </div>
+            <a class="section-link" href="/posts/index.html">查看全部</a>
+          </div>
+          <div class="signal-list" id="home-post-preview"></div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p>Built from scratch for xiaoyuewhut.github.io</p>
+        <p>Version 0.2</p>
+      </footer>
+    </div>
+
+    <script type="module" src="/scripts/main.js"></script>
+  </body>
+</html>

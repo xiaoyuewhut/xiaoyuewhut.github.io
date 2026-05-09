@@ -6,9 +6,46 @@ export function pluginCustomCopyButton() {
 		name: "Custom Copy Button",
 		hooks: {
 			postprocessRenderedBlock: (context) => {
+				function getClassNames(node: Element) {
+					const className = node.properties?.className;
+					return Array.isArray(className) ? className : [];
+				}
+
+				function nodeChildren(node: Element) {
+					if (!node.children) {
+						node.children = [];
+					}
+					return node.children;
+				}
+
+				function getOrCreateHeaderActions(header: Element) {
+					const existing = nodeChildren(header).find(
+						(child): child is Element =>
+							child.type === "element" &&
+							child.tagName === "div" &&
+							getClassNames(child).includes("header-actions")
+					);
+
+					if (existing) {
+						return existing;
+					}
+
+					const actions = {
+						type: "element" as const,
+						tagName: "div",
+						properties: {
+							className: ["header-actions"],
+						},
+						children: [],
+					} as Element;
+
+					nodeChildren(header).push(actions);
+					return actions;
+				}
+
 				function traverse(node: Element) {
-					if (node.type === "element" && node.tagName === "pre") {
-						processCodeBlock(node);
+					if (node.type === "element" && node.tagName === "figure") {
+						processFrame(node);
 						return;
 					}
 					if (node.children) {
@@ -18,12 +55,21 @@ export function pluginCustomCopyButton() {
 					}
 				}
 
-				function processCodeBlock(node: Element) {
+				function processFrame(node: Element) {
+					const header = nodeChildren(node).find(
+						(child): child is Element => child.type === "element" && child.tagName === "figcaption"
+					);
+					if (!header) {
+						return;
+					}
+
+					const actions = getOrCreateHeaderActions(header);
 					const copyButton = {
 						type: "element" as const,
 						tagName: "button",
 						properties: {
 							className: ["copy-btn"],
+							type: "button",
 							"aria-label": "Copy code",
 						},
 						children: [
@@ -77,10 +123,7 @@ export function pluginCustomCopyButton() {
 						],
 					} as Element;
 
-					if (!node.children) {
-						node.children = [];
-					}
-					node.children.push(copyButton);
+					nodeChildren(actions).push(copyButton);
 				}
 
 				traverse(context.renderData.blockAst);

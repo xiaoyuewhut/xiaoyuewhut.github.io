@@ -1,9 +1,107 @@
 .expressive-code {
     .frame {
         @apply !shadow-none;
+        --codeblock-header-height: 2.3rem;
+        --codeblock-action-size: 1.35rem;
+        --codeblock-header-padding-x: 0.75rem;
+        --codeblock-header-padding-top: 0.4rem;
+    }
+
+    .header {
+        display: grid !important;
+        position: relative;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: var(--codeblock-header-height) !important;
+        height: var(--codeblock-header-height) !important;
+        padding: 0 var(--codeblock-header-padding-x) !important;
+    }
+
+    .header > .title,
+    .header > .header-actions {
+        position: relative;
+        z-index: 1;
     }
 
     .title {
+        @apply flex items-center;
+        grid-column: 1;
         font-family: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        height: 100%;
+        min-width: 0;
+        padding-right: 0.75rem;
+    }
+
+    .header-actions {
+        @apply flex items-center shrink-0;
+        grid-column: 2;
+        justify-self: end;
+        align-self: center;
+        gap: 0.45rem;
+    }
+
+    .code-lang-badge {
+        @apply inline-flex items-center justify-center rounded-md;
+        min-height: var(--codeblock-action-size);
+        padding: 0 0.55rem;
+        font-family: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.62rem;
+        font-weight: 700;
+        line-height: 1;
+        text-transform: uppercase;
+        color: white;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .frame:not(.has-title):not(.is-terminal) {
+        .header {
+            background: var(--codeblock-topbar-bg);
+            border-bottom: 1px solid var(--line-color);
+        }
+
+        pre, code {
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+        }
+    }
+
+    .frame.is-terminal {
+        .header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 var(--codeblock-header-padding-x) !important;
+        }
+
+        .header::before {
+            top: 50%;
+            left: var(--codeblock-header-padding-x);
+            transform: translateY(-50%);
+        }
+
+        .title {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            padding: 0;
+            line-height: 1;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .header-actions {
+            position: absolute;
+            right: var(--codeblock-header-padding-x);
+            top: 50%;
+            transform: translateY(-50%);
+        }
     }
 }

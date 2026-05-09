@@ -1,0 +1,236 @@
+{
+  "main": {
+    "id": "abcb03d249dcee54",
+    "type": "split",
+    "children": [
+      {
+        "id": "8ff8cab076b9a4f0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9ccc6a0478f9f83e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "整车通信与诊断/故障码 DTC 详解.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "故障码 DTC 详解"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7dcab25e2a30f734",
+    "type": "split",
+    "children": [
+      {
+        "id": "4ae7a63722bc37a5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1a8dd9e5886a3935",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "ddad6734dd5c92bc",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "2c098848b67c83d8",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "9eb5ece419f25b28",
+    "type": "split",
+    "children": [
+      {
+        "id": "fe9077a491fd159c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d21df9ce280f20e5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "运动控制/不确定性感知双分支注意力轮和估计方法.md",
+                "collapseAll": true,
+                "extraContext": true,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "不确定性感知双分支注意力轮和估计方法 的反向链接列表"
+            }
+          },
+          {
+            "id": "309e3f64c86b432d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "运动控制/不确定性感知双分支注意力轮和估计方法.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "不确定性感知双分支注意力轮和估计方法 的出链列表"
+            }
+          },
+          {
+            "id": "6968b14e7b15e3f0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "5fa7140a600c20f6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "75e12536d5b3f864",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "整车通信与诊断/故障码 DTC 详解.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "故障码 DTC 详解 的大纲"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "obsidian42-brat:BRAT": false
+    }
+  },
+  "active": "9ccc6a0478f9f83e",
+  "lastOpenFiles": [
+    "整车通信与诊断/DoIP.md",
+    "2026-05-05.md",
+    "整车通信与诊断/车载以太网基础.md",
+    "整车通信与诊断/附件/Pasted image 20260505111527.png",
+    "整车通信与诊断/附件/Pasted image 20260505111436.png",
+    "整车通信与诊断/附件/Pasted image 20260505101100.png",
+    "整车通信与诊断/附件/Pasted image 20260504193409.png",
+    "整车通信与诊断/附件/Pasted image 20260504193004.png",
+    "整车通信与诊断/附件/Pasted image 20260504192831.png",
+    "整车通信与诊断/UDS 刷写软件详解.md",
+    "整车通信与诊断/CAN Bus-Off 详解.md",
+    "整车通信与诊断/doip.md",
+    "整车通信与诊断/UDP 与 TCP.md",
+    "整车通信与诊断/OTA 原理与基础.md",
+    "智驾系统开发/时间同步.md",
+    "codex api 中转站月卡记录.md",
+    "智驾系统开发/信号矩阵设计.md",
+    "智驾系统开发/需求分解.md",
+    "智驾系统开发/ACC 功能规范.md",
+    "智驾系统开发/ALC 功能规范.md",
+    "智驾系统开发/智驾行车_泊车功能层级.md",
+    "智驾系统开发/APO 功能规范.md",
+    "其他/hx之死.md",
+    "其他",
+    "未命名.md",
+    "整车通信与诊断/AUTOSAR 网络管理详解.md",
+    "智驾系统开发/附件/Pasted image 20260427175152.png",
+    "整车通信与诊断/CAN 与 CAN FD.md",
+    "整车通信与诊断/附件/Pasted image 20260426140646.png",
+    "整车通信与诊断/附件",
+    "随记.md",
+    "运动控制与状态辨识/双阶段概率 TSMixer 轮荷估计.md",
+    "深度学习/TSMixer 时序预测.md",
+    "运动控制与状态辨识/双分支时序混合载荷估计方法.md",
+    "功能安全/ASIL 分解.md",
+    "深度学习/Encoder 与 Decoder.md",
+    "深度学习",
+    "运动控制与状态辨识",
+    "智驾系统开发/附件/Pasted image 20260416141636.png",
+    "智驾系统开发/附件/Pasted image 20260416141616.png",
+    "附件",
+    "端到端自动驾驶/附件",
+    "硬件/附件",
+    "智驾系统开发/附件",
+    "UDS 诊断协议.pdf",
+    "ADAS 传感器下线标定.pdf"
+  ]
+}

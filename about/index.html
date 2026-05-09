@@ -1,291 +1,279 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>关于我 | xiaoyue的博客</title><meta name="author" content="Xiao yue"><meta name="copyright" content="Xiao yue"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="勾曹德，到底怎样才能找到好工作？ 基本信息 姓名：Xiao Yue 职位：智能驾驶系统工程师 邮箱：xiao_yue@whut.edu.cn  教育背景 武汉理工大学 · 交通运输工程 (硕士) 武汉理工大学 · 交通运输工程 (学士)  工作经历 理想汽车 · 整车控制工程师 2025年 | 常州 科大讯飞 · 智能驾驶系统工程师 2026年 | 合肥">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于我">
-<meta property="og:url" content="http://example.com/about/index.html">
-<meta property="og:site_name" content="xiaoyue的博客">
-<meta property="og:description" content="勾曹德，到底怎样才能找到好工作？ 基本信息 姓名：Xiao Yue 职位：智能驾驶系统工程师 邮箱：xiao_yue@whut.edu.cn  教育背景 武汉理工大学 · 交通运输工程 (硕士) 武汉理工大学 · 交通运输工程 (学士)  工作经历 理想汽车 · 整车控制工程师 2025年 | 常州 科大讯飞 · 智能驾驶系统工程师 2026年 | 合肥">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/butterfly-icon.png">
-<meta property="article:published_time" content="2025-11-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-11-20T10:00:02.753Z">
-<meta property="article:author" content="Xiao yue">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/img/butterfly-icon.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/about/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
-    (() => {
-      
-    const saveToLocal = {
-      set: (key, value, ttl) => {
-        if (!ttl) return
-        const expiry = Date.now() + ttl * 86400000
-        localStorage.setItem(key, JSON.stringify({ value, expiry }))
-      },
-      get: key => {
-        const itemStr = localStorage.getItem(key)
-        if (!itemStr) return undefined
-        const { value, expiry } = JSON.parse(itemStr)
-        if (Date.now() > expiry) {
-          localStorage.removeItem(key)
-          return undefined
+<!DOCTYPE html><html lang="zh-CN" class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]" data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <head><title>关于 - 小月手记</title><meta charset="UTF-8"><meta name="description" content="关于"><meta name="author" content="小月"><meta property="og:site_name" content="小月手记"><meta property="og:url" content="https://xiaoyuewhut.github.io/about/"><meta property="og:title" content="关于 - 小月手记"><meta property="og:description" content="关于"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://xiaoyuewhut.github.io/about/"><meta name="twitter:title" content="关于 - 小月手记"><meta name="twitter:description" content="关于"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.13.10"><link rel="icon" href="/favicon/favicon-light-32.png" sizes="32x32" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-128.png" sizes="128x128" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-180.png" sizes="180x180" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-192.png" sizes="192x192" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-dark-32.png" sizes="32x32" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-128.png" sizes="128x128" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-180.png" sizes="180x180" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-192.png" sizes="192x192" media="(prefers-color-scheme: dark)"><!-- Set the theme before the page is rendered to avoid a flash --><script>(function(){const DEFAULT_THEME = "light";
+const LIGHT_MODE = "light";
+const DARK_MODE = "dark";
+const AUTO_MODE = "auto";
+const BANNER_HEIGHT_EXTEND = 30;
+const PAGE_WIDTH = 75;
+const configHue = 24;
+const configHueFixed = true;
+
+			// Load the theme from local storage
+			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
+			switch (theme) {
+				case LIGHT_MODE:
+					document.documentElement.classList.remove('dark');
+					break
+				case DARK_MODE:
+					document.documentElement.classList.add('dark');
+					break
+				case AUTO_MODE:
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+			}
+
+			// Use the configured hue when the palette is fixed.
+			if (configHueFixed) {
+				localStorage.removeItem('hue');
+			}
+			const hue = configHueFixed ? configHue : (localStorage.getItem('hue') || configHue);
+			document.documentElement.style.setProperty('--hue', hue);
+
+			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
+			offset = offset - offset % 4;
+			document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+		})();</script><!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why --><link rel="alternate" type="application/rss+xml" title="小月" href="https://xiaoyuewhut.github.io/rss.xml"><link rel="stylesheet" href="/_astro/Layout.DSulWsr7.css">
+<link rel="stylesheet" href="/_astro/Layout.CKPtf-VR.css">
+<link rel="stylesheet" href="/_astro/about.BtniRLn_.css">
+<link rel="stylesheet" href="/_astro/_page_.C3Uhk80C.css">
+<link rel="stylesheet" href="/_astro/_page_.CzA7YvoV.css">
+<style>input.svelte-1wah7ro:focus{outline:0}.search-panel.svelte-1wah7ro{max-height:calc(100vh - 100px);overflow-y:auto}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k){-webkit-appearance:none;height:1.5rem;background-image:var(--color-selection-bar);transition:background-image .15s ease-in-out}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;border-width:0;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:active{background:#fff9}
+</style><script type="module" src="/_astro/page.xXXvkYYW.js"></script></head> <body class=" min-h-screen transition " data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <div id="config-carrier" data-hue="24" data-hue-fixed="true"></div>    <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto"> <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all"> <div id="navbar" class="z-50 onload-animation"> <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--page-bg)] transition"></div> <!-- used for onload animation --> <div class="card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-[1.4rem] mx-auto mt-2 flex items-center justify-between px-4 md:px-5"> <a href="/" class="btn-plain scale-animation rounded-xl h-[3.25rem] px-5 font-bold active:scale-95"> <div class="flex flex-row text-[var(--primary)] items-center text-md tracking-tight"> <svg width="1em" height="1em" class="text-[1.75rem] mb-1 mr-2" data-icon="material-symbols:home-outline-rounded">   <symbol id="ai:material-symbols:home-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75"/></symbol><use href="#ai:material-symbols:home-outline-rounded"></use>  </svg> 小月手记 </div> </a> <div class="hidden md:flex"> <a aria-label="首页" href="/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 首页  </div> </a><a aria-label="时间线" href="/timeline/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 时间线  </div> </a><a aria-label="专题" href="/studies/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 专题  </div> </a><a aria-label="关于" href="/about/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 关于  </div> </a> </div> <div class="flex"> <!--<SearchPanel client:load>--> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1fnFdc" component-url="/_astro/Search.BNBag9ir.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Search&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island>  <astro-island uid="ZXWCws" component-url="/_astro/LightDarkSwitch.CfGE5ug7.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;LightDarkSwitch&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-xl w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch"> <svg width="1em" height="1em" class="text-[1.25rem]" data-icon="material-symbols:menu-rounded">   <symbol id="ai:material-symbols:menu-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:menu-rounded"></use>  </svg> </button> </div> <div id="nav-menu-panel" class="float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2"> <a href="/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 首页 </div> <svg width="1em" height="1em" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <symbol id="ai:material-symbols:chevron-right-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"/></symbol><use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/timeline/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 时间线 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/studies/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 专题 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/about/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 关于 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a> </div> <astro-island uid="Z1I5MKx" component-url="/_astro/DisplaySettings.BoEDqxxf.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;DisplaySettings&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> </div> </div> <script type="module">function c(){localStorage.theme==="dark"?(document.documentElement.classList.remove("dark"),localStorage.theme="light"):(document.documentElement.classList.add("dark"),localStorage.theme="dark")}function o(){let t=document.getElementById("scheme-switch");t&&(t.onclick=function(){c()});let n=document.getElementById("display-settings-switch");n&&(n.onclick=function(){let e=document.getElementById("display-setting");e&&e.classList.toggle("float-panel-closed")});let l=document.getElementById("nav-menu-switch");l&&(l.onclick=function(){let e=document.getElementById("nav-menu-panel");e&&e.classList.toggle("float-panel-closed")})}o();</script> <script>(function(){const scriptUrl = "/pagefind/pagefind.js";
+
+async function loadPagefind() {
+    try {
+        const response = await fetch(scriptUrl, { method: 'HEAD' });
+        if (!response.ok) {
+            throw new Error(`Pagefind script not found: ${response.status}`);
         }
-        return value
-      }
+
+        const pagefind = await import(scriptUrl);
+
+        await pagefind.options({
+            excerptLength: 20
+        });
+
+        window.pagefind = pagefind;
+
+        document.dispatchEvent(new CustomEvent('pagefindready'));
+        console.log('Pagefind loaded and initialized successfully, event dispatched.');
+    } catch (error) {
+        console.error('Failed to load Pagefind:', error);
+        window.pagefind = {
+            search: () => Promise.resolve({ results: [] }),
+            options: () => Promise.resolve(),
+        };
+        document.dispatchEvent(new CustomEvent('pagefindloaderror'));
+        console.log('Pagefind load error, event dispatched.');
     }
+}
 
-    window.btf = {
-      saveToLocal,
-      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
-        const script = document.createElement('script')
-        script.src = url
-        script.async = true
-        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
-        script.onload = script.onreadystatechange = () => {
-          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
-        }
-        script.onerror = reject
-        document.head.appendChild(script)
-      }),
-      getCSS: (url, id) => new Promise((resolve, reject) => {
-        const link = document.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = url
-        if (id) link.id = id
-        link.onload = link.onreadystatechange = () => {
-          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
-        }
-        link.onerror = reject
-        document.head.appendChild(link)
-      }),
-      addGlobalFn: (key, fn, name = false, parent = window) => {
-        if (!false && key.startsWith('pjax')) return
-        const globalFn = parent.globalFn || {}
-        globalFn[key] = globalFn[key] || {}
-        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
-        parent.globalFn = globalFn
-      }
-    }
-  
-      
-      const activateDarkMode = () => {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      const activateLightMode = () => {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-
-      btf.activateDarkMode = activateDarkMode
-      btf.activateLightMode = activateLightMode
-
-      const theme = saveToLocal.get('theme')
-    
-          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
-          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
-
-          if (theme === undefined) {
-            if (mediaQueryLight.matches) activateLightMode()
-            else if (mediaQueryDark.matches) activateDarkMode()
-            else {
-              const hour = new Date().getHours()
-              const isNight = hour <= 6 || hour >= 18
-              isNight ? activateDarkMode() : activateLightMode()
-            }
-            mediaQueryDark.addEventListener('change', () => {
-              if (saveToLocal.get('theme') === undefined) {
-                e.matches ? activateDarkMode() : activateLightMode()
-              }
-            })
-          } else {
-            theme === 'light' ? activateLightMode() : activateDarkMode()
-          }
-        
-      
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
-      }
-    
-      
-    const detectApple = () => {
-      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
-        document.documentElement.classList.add('apple')
-      }
-    }
-    detectApple()
-  
-    })()
-  </script><script>const GLOBAL_CONFIG = {
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
-  copy: {
-    success: '复制成功',
-    error: '复制失败',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '',
-  dateSuffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: undefined,
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  infinitegrid: {
-    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
-    buttonText: '加载更多'
-  },
-  isPhotoFigcaption: false,
-  islazyloadPlugin: false,
-  isAnchor: false,
-  percent: {
-    toc: true,
-    rightside: false,
-  },
-  autoDarkmode: true
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '关于我',
-  isHighlightShrink: false,
-  isToc: false,
-  pageType: 'page'
-}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="web_bg" style="background-image: url(https://api.dujin.org/bing/1920.php);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(https://cn.bing.com/th?id=OHR.AspensColorado_ZH-CN0132780533_1920x1080.jpg&amp;rf=LaDigue_1920x1080.jpg&amp;pid=hp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">xiaoyue的博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><i class="fa-fw fas fa-robot"></i><span> 自动驾驶</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><i class="fa-fw fas fa-solar-panel"></i><span> 新能源技术</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><i class="fa-fw fas fa-car-side"></i><span> 车辆动力学</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%8E%A7%E5%88%B6/"><i class="fa-fw fas fa-cogs"></i><span> 控制</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%85%B6%E4%BB%96/"><i class="fa-fw fas fa-ellipsis-h"></i><span> 其他</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">关于我</h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><p>勾曹德，到底怎样才能找到好工作？</p>
-<h2 id="基本信息">基本信息</h2>
-<p><strong>姓名</strong>：Xiao Yue<br>
-<strong>职位</strong>：智能驾驶系统工程师<br>
-<strong>邮箱</strong>：xiao_yue@whut.edu.cn</p>
-<hr>
-<h2 id="教育背景">教育背景</h2>
-<p><strong>武汉理工大学</strong> · 交通运输工程 (硕士)</p>
-<p><strong>武汉理工大学</strong> · 交通运输工程 (学士)</p>
-<hr>
-<h2 id="工作经历">工作经历</h2>
-<p><strong>理想汽车</strong> · 整车控制工程师<br>
-<code>2025年</code> | 常州</p>
-<p><strong>科大讯飞</strong> · 智能驾驶系统工程师<br>
-<code>2026年</code> | 合肥</p>
-<hr>
-</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">Xiao yue</div><div class="author-info-description">🚗 智能驾驶系统工程师</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiaoyuewhut"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:xiaoyuewhut@whut.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">图片加载不出来需要挂vpn</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/12/%E4%BE%A7%E5%81%8F%E5%88%9A%E5%BA%A6%E7%9A%84%E8%AE%A1%E7%AE%97/" title="侧偏刚度的计算"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251122124428639.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侧偏刚度的计算"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/12/12/%E4%BE%A7%E5%81%8F%E5%88%9A%E5%BA%A6%E7%9A%84%E8%AE%A1%E7%AE%97/" title="侧偏刚度的计算">侧偏刚度的计算</a><time datetime="2025-12-12T03:14:35.000Z" title="发表于 2025-12-12 11:14:35">2025-12-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自动驶出 APO 功能规范"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251211142406683.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自动驶出 APO 功能规范"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/12/11/%E8%87%AA%E5%8A%A8%E9%A9%B6%E5%87%BA-APO-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/" title="自动驶出 APO 功能规范">自动驶出 APO 功能规范</a><time datetime="2025-12-11T02:56:41.000Z" title="发表于 2025-12-11 10:56:41">2025-12-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/10/%E2%80%9C%E4%BD%BF%E7%94%A8%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B%E6%B1%82%E8%A7%A3%E5%8F%82%E8%80%83%E7%82%B9%E2%80%9C/" title="使用非线性模型求解参考点">使用非线性模型求解参考点</a><time datetime="2025-12-10T03:26:13.000Z" title="发表于 2025-12-10 11:26:13">2025-12-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/%E8%BD%AE%E6%AF%82%E7%94%B5%E6%9C%BA%E7%9A%84%E5%8F%8D%E5%8A%9B%E7%9F%A9/" title="轮毂电机的反力矩">轮毂电机的反力矩</a><time datetime="2025-12-08T05:49:35.000Z" title="发表于 2025-12-08 13:49:35">2025-12-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/12/05/ADAS-%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%83%E7%BD%AE/" title="ADAS 传感器布置"><img src="https://cdn.jsdelivr.net/gh/xiaoyuewhut/image@main/20251205114331669.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADAS 传感器布置"/ loading='lazy'></a><div class="content"><a class="title" href="/2025/12/05/ADAS-%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%83%E7%BD%AE/" title="ADAS 传感器布置">ADAS 传感器布置</a><time datetime="2025-12-05T03:39:58.000Z" title="发表于 2025-12-05 11:39:58">2025-12-05</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
-            <i class="fas fa-folder-open"></i>
-            <span>分类</span>
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPagefind);
+} else {
+    loadPagefind();
+}
+})();</script> </div> </div>   <div class="absolute w-full z-30 pointer-events-none" style="top: 5.5rem"> <!-- The pointer-events-none here prevent blocking the click event of the TOC --> <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto"> <div id="main-grid" class="transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto]
+    mx-auto gap-4 px-0 md:px-4"> <!-- Banner image credit -->  <div id="sidebar" class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation w-full"> <div class="flex flex-col w-full gap-4 mb-4"> <div class="card-base p-4 md:p-5"> <a aria-label="Go to About Page" href="/about/" class="group block relative mx-auto mt-1 lg:mx-0 lg:mt-0 mb-3
+        max-w-[12rem] lg:max-w-none overflow-hidden rounded-xl active:scale-95"> <div class="absolute transition pointer-events-none group-hover:bg-[rgb(83_63_41_/_0.16)] group-active:bg-[rgb(83_63_41_/_0.24)]
+        w-full h-full z-50 flex items-center justify-center"> <svg width="1.13em" height="1em" class="transition opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 text-white text-5xl" data-icon="fa6-regular:address-card">   <symbol id="ai:fa6-regular:address-card" viewBox="0 0 576 512"><path fill="currentColor" d="M512 80c8.8 0 16 7.2 16 16v320c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V96c0-8.8 7.2-16 16-16zM64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm144 224a64 64 0 1 0 0-128a64 64 0 1 0 0 128m-32 32c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16h192c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80zm200-144c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24z"/></symbol><use href="#ai:fa6-regular:address-card"></use>  </svg> </div> <div class="mx-auto lg:w-full h-full lg:mt-0  overflow-hidden relative"> <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div> <img src="/_astro/demo-avatar.CxcI0ivM_1nbuVe.webp" alt="Profile Image of the Author" style="object-position: center" loading="lazy" decoding="async" fetchpriority="auto" width="512" height="512" class="w-full h-full object-cover">  </div> </a> <div class="px-2"> <div class="font-display font-bold text-2xl text-center mb-1 text-90 transition">小月</div> <div class="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition"></div> <div class="text-center text-75 mb-3 leading-7 transition">记录整车通信、智驾系统、控制与持续学习过程的中文笔记。</div> <div class="flex flex-wrap gap-2 justify-center mb-1"> <a rel="me" aria-label="QQ" href="https://wpa.qq.com/msgrd?v=3&uin=1410419147&site=qq&menu=yes" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="0.88em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:qq">   <symbol id="ai:fa6-brands:qq" viewBox="0 0 448 512"><path fill="currentColor" d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741c0 31.345-16.136 72.247-51.051 101.786c16.842 5.192 54.843 19.167 45.803 34.421c-7.316 12.343-125.51 7.881-159.632 4.037c-34.122 3.844-152.316 8.306-159.632-4.037c-9.045-15.25 28.918-29.214 45.783-34.415c-34.92-29.539-51.059-70.445-51.059-101.792c0 0-33.334 54.134-44.859 52.741c-5.37-.65-12.424-29.644 9.347-99.704c10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963c18.118 45.223 29.912 72.85 40.144 105.778c21.768 70.06 14.716 99.053 9.346 99.704"/></symbol><use href="#ai:fa6-brands:qq"></use>  </svg> </a><a rel="me" aria-label="邮箱" href="mailto:xiaoyue@example.com" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1em" height="1em" class="text-[1.5rem]" data-icon="material-symbols:mail-outline-rounded">   <symbol id="ai:material-symbols:mail-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20zM20 8l-7.475 4.675q-.125.075-.262.113t-.263.037t-.262-.037t-.263-.113L4 8v10h16zm-8 3l8-5H4zM4 8v.25v-1.475v.025V6v.8v-.012V8.25zv10z"/></symbol><use href="#ai:material-symbols:mail-outline-rounded"></use>  </svg> </a><a rel="me" aria-label="微信" href="https://weixin.qq.com/" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1.13em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:weixin">   <symbol id="ai:fa6-brands:weixin" viewBox="0 0 576 512"><path fill="currentColor" d="M385.2 167.6c6.4 0 12.6.3 18.8 1.1C387.4 90.3 303.3 32 207.7 32C100.5 32 13 104.8 13 197.4c0 53.4 29.3 97.5 77.9 131.6l-19.3 58.6l68-34.1c24.4 4.8 43.8 9.7 68.2 9.7c6.2 0 12.1-.3 18.3-.8c-4-12.9-6.2-26.6-6.2-40.8c-.1-84.9 72.9-154 165.3-154m-104.5-52.9c14.5 0 24.2 9.7 24.2 24.4c0 14.5-9.7 24.2-24.2 24.2c-14.8 0-29.3-9.7-29.3-24.2c.1-14.7 14.6-24.4 29.3-24.4m-136.4 48.6c-14.5 0-29.3-9.7-29.3-24.2c0-14.8 14.8-24.4 29.3-24.4c14.8 0 24.4 9.7 24.4 24.4c0 14.6-9.6 24.2-24.4 24.2M563 319.4c0-77.9-77.9-141.3-165.4-141.3c-92.7 0-165.4 63.4-165.4 141.3S305 460.7 397.6 460.7c19.3 0 38.9-5.1 58.6-9.9l53.4 29.3l-14.8-48.6C534 402.1 563 363.2 563 319.4m-219.1-24.5c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.8 0 24.4 9.7 24.4 19.3c0 10-9.7 19.6-24.4 19.6m107.1 0c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.5 0 24.4 9.7 24.4 19.3c.1 10-9.9 19.6-24.4 19.6"/></symbol><use href="#ai:fa6-brands:weixin"></use>  </svg> </a>  </div> </div> </div> </div> <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4"> <widget-layout data-id="categories" data-is-collapsed="false" class="pb-4 card-base onload-animation" style="animation-delay: 150ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">分类</div> <div id="categories" class="collapse-wrapper px-4 overflow-hidden" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <a href="/timeline/?category=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
             
-          </div>
-          <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%B6%E4%BB%96/"><span class="card-category-list-name">其他</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8E%A7%E5%88%B6/"><span class="card-category-list-name">控制</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><span class="card-category-list-name">文献阅读</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%96%B0%E8%83%BD%E6%BA%90%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">新能源技术</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"><span class="card-category-list-name">自动驾驶</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%BD%A6%E8%BE%86%E5%8A%A8%E5%8A%9B%E5%AD%A6/"><span class="card-category-list-name">车辆动力学</span><span class="card-category-list-count">7</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/hexo/" style="font-size: 1.1em; color: #999">hexo</a> <a href="/tags/%E7%94%B5%E6%9C%BA/" style="font-size: 1.1em; color: #999">电机</a> <a href="/tags/%E7%AB%AF%E5%88%B0%E7%AB%AF/" style="font-size: 1.1em; color: #999">端到端</a> <a href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%A0%87%E5%AE%9A/" style="font-size: 1.1em; color: #999">传感器标定</a> <a href="/tags/%E6%93%8D%E7%BA%B5%E7%A8%B3%E5%AE%9A%E6%80%A7/" style="font-size: 1.1em; color: #999">操纵稳定性</a> <a href="/tags/%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6/" style="font-size: 1.5em; color: #99a9bf">智能驾驶</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 1.1em; color: #999">工作</a> <a href="/tags/%E6%A0%87%E5%AE%9A/" style="font-size: 1.1em; color: #999">标定</a> <a href="/tags/latex/" style="font-size: 1.1em; color: #999">latex</a> <a href="/tags/EOL/" style="font-size: 1.1em; color: #999">EOL</a> <a href="/tags/%E6%B3%8A%E8%BD%A6/" style="font-size: 1.1em; color: #999">泊车</a> <a href="/tags/%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/" style="font-size: 1.1em; color: #999">时间同步</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" style="font-size: 1.42em; color: #99a6b7">自动驾驶</a> <a href="/tags/%E7%A7%8B%E6%8B%9B/" style="font-size: 1.1em; color: #999">秋招</a> <a href="/tags/%E8%BD%AE%E8%83%8E/" style="font-size: 1.1em; color: #999">轮胎</a> <a href="/tags/uds/" style="font-size: 1.18em; color: #999ca1">uds</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 1.18em; color: #999ca1">故障</a> <a href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" style="font-size: 1.18em; color: #999ca1">传感器</a> <a href="/tags/%E4%BB%A3%E5%AE%A2%E6%B3%8A%E8%BD%A6/" style="font-size: 1.1em; color: #999">代客泊车</a> <a href="/tags/%E6%8E%A7%E5%88%B6/" style="font-size: 1.26em; color: #999fa8">控制</a> <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="font-size: 1.26em; color: #999fa8">强化学习</a> <a href="/tags/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/" style="font-size: 1.34em; color: #99a3b0">控制理论</a> <a href="/tags/%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0/" style="font-size: 1.1em; color: #999">传递函数</a> <a href="/tags/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92/" style="font-size: 1.1em; color: #999">人机交互</a> <a href="/tags/%E7%BA%B5%E5%90%91%E6%8E%A7%E5%88%B6/" style="font-size: 1.1em; color: #999">纵向控制</a> <a href="/tags/%E8%AF%8A%E6%96%AD/" style="font-size: 1.18em; color: #999ca1">诊断</a></div></div><div class="card-widget card-archives">
-    <div class="item-headline">
-      <i class="fas fa-archive"></i>
-      <span>归档</span>
-      
-    </div>
-  
-    <ul class="card-archive-list">
-      
-        <li class="card-archive-list-item">
-          <a class="card-archive-list-link" href="/archives/2025/12/">
-            <span class="card-archive-list-date">
-              十二月 2025
-            </span>
-            <span class="card-archive-list-count">8</span>
-          </a>
-        </li>
-      
-        <li class="card-archive-list-item">
-          <a class="card-archive-list-link" href="/archives/2025/11/">
-            <span class="card-archive-list-date">
-              十一月 2025
-            </span>
-            <span class="card-archive-list-count">17</span>
-          </a>
-        </li>
-      
-        <li class="card-archive-list-item">
-          <a class="card-archive-list-link" href="/archives/2023/11/">
-            <span class="card-archive-list-date">
-              十一月 2023
-            </span>
-            <span class="card-archive-list-count">1</span>
-          </a>
-        </li>
-      
-    </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">26</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-12-16T07:16:17.882Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Xiao yue</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(async () => {
-  const showKatex = () => {
-    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
-  }
-
-  if (!window.katex_js_css) {
-    window.katex_js_css = true
-    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css')
-    if (true) {
-      await btf.getScript('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/copy-tex.min.js')
-    }
-  }
-
-  showKatex()
-})()</script><script>(() => {
-  const runMermaid = ele => {
-    window.loadMermaid = true
-    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
-
-    ele.forEach((item, index) => {
-      const mermaidSrc = item.firstElementChild
-      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
-      if (!config.theme) {
-        config.theme = theme
-      }
-      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
-      const mermaidID = `mermaid-${index}`
-      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
-
-      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
-      const renderMermaid = svg => {
-        mermaidSrc.insertAdjacentHTML('afterend', svg)
-      }
-
-      // mermaid v9 and v10 compatibility
-      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
-    })
-  }
-
-  const codeToMermaid = () => {
-    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
-    if (codeMermaidEle.length === 0) return
-
-    codeMermaidEle.forEach(ele => {
-      const preEle = document.createElement('pre')
-      preEle.className = 'mermaid-src'
-      preEle.hidden = true
-      preEle.textContent = ele.textContent
-      const newEle = document.createElement('div')
-      newEle.className = 'mermaid-wrap'
-      newEle.appendChild(preEle)
-      ele.parentNode.replaceWith(newEle)
-    })
-  }
-
-  const loadMermaid = () => {
-    if (true) codeToMermaid()
-    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
-    if ($mermaid.length === 0) return
-
-    const runMermaidFn = () => runMermaid($mermaid)
-    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
-    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.min.js').then(runMermaidFn)
-  }
-
-  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
-  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
-})()</script></div><script async data-pjax src="/"></script></div></body></html>
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 2 </div> </div> </button> </a><a href="/timeline/?category=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD" aria-label="View all posts in the 整车通信与诊断 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 整车通信与诊断 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 9 </div> </div> </button> </a><a href="/timeline/?category=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts in the 智驾系统开发 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 智驾系统开发 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 8 </div> </div> </button> </a><a href="/timeline/?category=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts in the 深度学习 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 深度学习 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%A1%AC%E4%BB%B6" aria-label="View all posts in the 硬件 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 硬件 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts in the 端到端自动驾驶 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 端到端自动驾驶 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts in the 运动控制与状态辨识 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 运动控制与状态辨识 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E9%A2%84%E6%9C%9F%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 预期功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 预期功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a> </div>  </widget-layout>  <script type="module">class d extends HTMLElement{constructor(){if(super(),this.dataset.isCollapsed!=="true")return;const e=this.dataset.id,t=this.querySelector(".expand-btn"),s=this.querySelector(`#${e}`);t.addEventListener("click",()=>{s.classList.remove("collapsed"),t.classList.add("hidden")})}}customElements.get("widget-layout")||customElements.define("widget-layout",d);</script> <widget-layout data-id="tags" data-is-collapsed="true" class="pb-4 card-base onload-animation" style="animation-delay: 200ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">标签</div> <div id="tags" class="collapse-wrapper px-4 overflow-hidden collapsed" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">  <div class="flex gap-1.5 flex-wrap"> <a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E7%BD%91%E7%BB%9C" aria-label="View all posts with the 整车网络 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车网络</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E8%AF%8A%E6%96%AD" aria-label="View all posts with the 整车诊断 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车诊断</span>  </a><a href="/timeline/?tag=ECU" aria-label="View all posts with the ECU tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ECU</span>  </a><a href="/timeline/?tag=L2" aria-label="View all posts with the L2 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L2</span>  </a><a href="/timeline/?tag=UDS" aria-label="View all posts with the UDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDS</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83" aria-label="View all posts with the 功能规范 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能规范</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE" aria-label="View all posts with the 智驾 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾</span>  </a><a href="/timeline/?tag=%E8%BE%85%E5%8A%A9%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 辅助驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">辅助驾驶</span>  </a><a href="/timeline/?tag=CAN" aria-label="View all posts with the CAN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN</span>  </a><a href="/timeline/?tag=DoIP" aria-label="View all posts with the DoIP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DoIP</span>  </a><a href="/timeline/?tag=ISO-26262" aria-label="View all posts with the ISO-26262 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-26262</span>  </a><a href="/timeline/?tag=TCP" aria-label="View all posts with the TCP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TCP</span>  </a><a href="/timeline/?tag=UDP" aria-label="View all posts with the UDP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDP</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E6%84%9F%E5%99%A8" aria-label="View all posts with the 传感器 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传感器</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts with the 功能安全 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能安全</span>  </a><a href="/timeline/?tag=%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 智能驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智能驾驶</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts with the 智驾系统开发 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统开发</span>  </a><a href="/timeline/?tag=%E8%A1%8C%E8%BD%A6" aria-label="View all posts with the 行车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">行车</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E4%BB%A5%E5%A4%AA%E7%BD%91" aria-label="View all posts with the 车载以太网 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载以太网</span>  </a><a href="/timeline/?tag=1000BASE-T1" aria-label="View all posts with the 1000BASE-T1 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">1000BASE-T1</span>  </a><a href="/timeline/?tag=100BASE-TX" aria-label="View all posts with the 100BASE-TX tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">100BASE-TX</span>  </a><a href="/timeline/?tag=ADAS" aria-label="View all posts with the ADAS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ADAS</span>  </a><a href="/timeline/?tag=ALC" aria-label="View all posts with the ALC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ALC</span>  </a><a href="/timeline/?tag=APO" aria-label="View all posts with the APO tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">APO</span>  </a><a href="/timeline/?tag=ASIL" aria-label="View all posts with the ASIL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL</span>  </a><a href="/timeline/?tag=ASIL%E5%88%86%E8%A7%A3" aria-label="View all posts with the ASIL分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL分解</span>  </a><a href="/timeline/?tag=AUTOSAR" aria-label="View all posts with the AUTOSAR tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">AUTOSAR</span>  </a><a href="/timeline/?tag=Bootloader" aria-label="View all posts with the Bootloader tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bootloader</span>  </a><a href="/timeline/?tag=Bus-Off" aria-label="View all posts with the Bus-Off tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bus-Off</span>  </a><a href="/timeline/?tag=CAN-FD" aria-label="View all posts with the CAN-FD tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN-FD</span>  </a><a href="/timeline/?tag=CanNm" aria-label="View all posts with the CanNm tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CanNm</span>  </a><a href="/timeline/?tag=ComM" aria-label="View all posts with the ComM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ComM</span>  </a><a href="/timeline/?tag=DDS" aria-label="View all posts with the DDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DDS</span>  </a><a href="/timeline/?tag=Diffusion" aria-label="View all posts with the Diffusion tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Diffusion</span>  </a><a href="/timeline/?tag=DMS" aria-label="View all posts with the DMS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DMS</span>  </a><a href="/timeline/?tag=DTC" aria-label="View all posts with the DTC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DTC</span>  </a><a href="/timeline/?tag=EOL" aria-label="View all posts with the EOL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">EOL</span>  </a><a href="/timeline/?tag=HARA" aria-label="View all posts with the HARA tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HARA</span>  </a><a href="/timeline/?tag=HMI" aria-label="View all posts with the HMI tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HMI</span>  </a><a href="/timeline/?tag=ISO-13400" aria-label="View all posts with the ISO-13400 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-13400</span>  </a><a href="/timeline/?tag=ISO-14229" aria-label="View all posts with the ISO-14229 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-14229</span>  </a><a href="/timeline/?tag=L3" aria-label="View all posts with the L3 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L3</span>  </a><a href="/timeline/?tag=LSTM" aria-label="View all posts with the LSTM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">LSTM</span>  </a><a href="/timeline/?tag=MLP-Mixer" aria-label="View all posts with the MLP-Mixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">MLP-Mixer</span>  </a><a href="/timeline/?tag=REC" aria-label="View all posts with the REC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">REC</span>  </a><a href="/timeline/?tag=RTPS" aria-label="View all posts with the RTPS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">RTPS</span>  </a><a href="/timeline/?tag=SOME%2FIP" aria-label="View all posts with the SOME/IP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">SOME/IP</span>  </a><a href="/timeline/?tag=TEC" aria-label="View all posts with the TEC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TEC</span>  </a><a href="/timeline/?tag=TSMixer" aria-label="View all posts with the TSMixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSMixer</span>  </a><a href="/timeline/?tag=TSN" aria-label="View all posts with the TSN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSN</span>  </a><a href="/timeline/?tag=%E4%B8%AD%E9%97%B4%E4%BB%B6" aria-label="View all posts with the 中间件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">中间件</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E8%BE%93%E5%B1%82" aria-label="View all posts with the 传输层 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传输层</span>  </a><a href="/timeline/?tag=%E4%BF%A1%E5%8F%B7%E7%9F%A9%E9%98%B5" aria-label="View all posts with the 信号矩阵 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">信号矩阵</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 功能设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能设计</span>  </a><a href="/timeline/?tag=%E5%8D%B1%E5%AE%B3%E5%88%86%E6%9E%90" aria-label="View all posts with the 危害分析 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">危害分析</span>  </a><a href="/timeline/?tag=%E5%91%BD%E4%BB%A4%E5%8F%98%E9%81%93" aria-label="View all posts with the 命令变道 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">命令变道</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 接口设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接口设计</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E7%AE%A1" aria-label="View all posts with the 接管 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接管</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86" aria-label="View all posts with the 故障处理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障处理</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E7%A0%81" aria-label="View all posts with the 故障码 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障码</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 整车通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车通信</span>  </a><a href="/timeline/?tag=%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B" aria-label="View all posts with the 时序预测 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时序预测</span>  </a><a href="/timeline/?tag=%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5" aria-label="View all posts with the 时间同步 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时间同步</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F" aria-label="View all posts with the 智驾系统 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统</span>  </a><a href="/timeline/?tag=%E6%A0%87%E5%AE%9A" aria-label="View all posts with the 标定 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">标定</span>  </a><a href="/timeline/?tag=%E6%B3%8A%E8%BD%A6" aria-label="View all posts with the 泊车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">泊车</span>  </a><a href="/timeline/?tag=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts with the 深度学习 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">深度学习</span>  </a><a href="/timeline/?tag=%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B" aria-label="View all posts with the 生成模型 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">生成模型</span>  </a><a href="/timeline/?tag=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 端到端自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">端到端自动驾驶</span>  </a><a href="/timeline/?tag=%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90" aria-label="View all posts with the 系统集成 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">系统集成</span>  </a><a href="/timeline/?tag=%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86" aria-label="View all posts with the 网络管理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">网络管理</span>  </a><a href="/timeline/?tag=%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自动驾驶</span>  </a><a href="/timeline/?tag=%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6" aria-label="View all posts with the 自适应巡航控制 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自适应巡航控制</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E5%9F%9F" aria-label="View all posts with the 设计运行域 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行域</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E6%9D%A1%E4%BB%B6" aria-label="View all posts with the 设计运行条件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行条件</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 车载通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载通信</span>  </a><a href="/timeline/?tag=%E8%BD%A8%E8%BF%B9%E8%A7%84%E5%88%92" aria-label="View all posts with the 轨迹规划 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">轨迹规划</span>  </a><a href="/timeline/?tag=%E8%BD%AF%E4%BB%B6%E5%88%B7%E5%86%99" aria-label="View all posts with the 软件刷写 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">软件刷写</span>  </a><a href="/timeline/?tag=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts with the 运动控制与状态辨识 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">运动控制与状态辨识</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3" aria-label="View all posts with the 需求分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求分解</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B" aria-label="View all posts with the 需求工程 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求工程</span>  </a><a href="/timeline/?tag=%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0" aria-label="View all posts with the 风险评估 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">风险评估</span>  </a> </div>  </div> <div class="expand-btn px-4 -mb-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <button class="btn-plain rounded-lg w-full h-9" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <div class="text-[var(--primary)] flex items-center justify-center gap-2 -translate-x-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <svg width="1em" height="1em" class="text-[1.75rem]" data-astro-cid-ucso7hve="true" data-icon="material-symbols:more-horiz">   <symbol id="ai:material-symbols:more-horiz" viewBox="0 0 24 24"><path fill="currentColor" d="M6 14q-.825 0-1.412-.587T4 12t.588-1.412T6 10t1.413.588T8 12t-.587 1.413T6 14m6 0q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m6 0q-.825 0-1.412-.587T16 12t.588-1.412T18 10t1.413.588T20 12t-.587 1.413T18 14"/></symbol><use href="#ai:material-symbols:more-horiz"></use>  </svg> 更多 </div> </button> </div> </widget-layout>   </div> </div> <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden"> <div id="content-wrapper" class="onload-animation"> <!-- the overflow-hidden here prevent long text break the layout--> <!-- make id different from windows.swup global property -->  <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"> <div class="card-base z-10 px-9 py-6 relative w-full "> <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mt-2"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">-->  <section><h1 id="about">About<a class="anchor" href="#about"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><p>This is the demo site for <a href="https://github.com/saicaca/fuwari">Fuwari</a>.</p><a id="GCij8f6o-card" class="card-github fetch-waiting no-styling" href="https://github.com/saicaca/fuwari" target="_blank" repo="saicaca/fuwari"><div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="GCij8f6o-avatar" class="gc-avatar"></div><div class="gc-user">saicaca</div></div><div class="gc-divider">/</div><div class="gc-repo">fuwari</div></div><div class="github-logo"></div></div><div id="GCij8f6o-description" class="gc-description">Waiting for api.github.com...</div><div class="gc-infobar"><div id="GCij8f6o-stars" class="gc-stars">00K</div><div id="GCij8f6o-forks" class="gc-forks">0K</div><div id="GCij8f6o-license" class="gc-license">0K</div><span id="GCij8f6o-language" class="gc-language">Waiting...</span></div><script id="GCij8f6o-script" type="text/javascript" defer>
+      fetch('https://api.github.com/repos/saicaca/fuwari', { referrerPolicy: "no-referrer" }).then(response => response.json()).then(data => {
+        document.getElementById('GCij8f6o-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
+        document.getElementById('GCij8f6o-language').innerText = data.language;
+        document.getElementById('GCij8f6o-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll(" ", '');
+        document.getElementById('GCij8f6o-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll(" ", '');
+        const avatarEl = document.getElementById('GCij8f6o-avatar');
+        avatarEl.style.backgroundImage = 'url(' + data.owner.avatar_url + ')';
+        avatarEl.style.backgroundColor = 'transparent';
+        document.getElementById('GCij8f6o-license').innerText = data.license?.spdx_id || "no-license";
+        document.getElementById('GCij8f6o-card').classList.remove("fetch-waiting");
+        console.log("[GITHUB-CARD] Loaded card for saicaca/fuwari | GCij8f6o.")
+      }).catch(err => {
+        const c = document.getElementById('GCij8f6o-card');
+        c?.classList.add("fetch-error");
+        console.warn("[GITHUB-CARD] (Error) Loading card for saicaca/fuwari | GCij8f6o.")
+      })
+    </script></a><blockquote>
+<section><h3 id="sources-of-images-used-in-this-site">Sources of images used in this site<a class="anchor" href="#sources-of-images-used-in-this-site"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><ul>
+<li><a href="https://unsplash.com/">Unsplash</a></li>
+<li><a href="https://www.pixiv.net/artworks/108916539">星と少女</a> by <a href="https://www.pixiv.net/users/93273965">Stella</a></li>
+<li><a href="https://civitai.com/posts/586908">Rabbit - v1.4 Showcase</a> by <a href="https://civitai.com/user/Rabbit_YourMajesty">Rabbit_YourMajesty</a></li>
+</ul></section>
+</blockquote></section>  </div> <script type="module">document.addEventListener("click",function(s){const t=s.target;if(t&&t.classList.contains("copy-btn")){const c=t.closest("pre")?.querySelector("code"),i=Array.from(c?.querySelectorAll(".code:not(summary *)")??[]).map(e=>e.textContent).map(e=>e===`
+`?"":e).join(`
+`);navigator.clipboard.writeText(i);const o=t.getAttribute("data-timeout-id");o&&clearTimeout(parseInt(o)),t.classList.add("success");const n=setTimeout(()=>{t.classList.remove("success")},1e3);t.setAttribute("data-timeout-id",n.toString())}});</script> </div> </div>  <div class="footer col-span-2 onload-animation hidden lg:block"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> </main> <div class="footer col-span-2 onload-animation block lg:hidden"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> <!-- There can't be a filter on parent element, or it will break `fixed` --><div class="back-to-top-wrapper hidden lg:block" data-astro-cid-eymb5ayk> <div id="back-to-top-btn" class="back-to-top-btn hide flex items-center rounded-2xl overflow-hidden transition" onclick="backToTop()" data-astro-cid-eymb5ayk> <button aria-label="Back to Top" class="btn-card h-[3.75rem] w-[3.75rem]" data-astro-cid-eymb5ayk> <svg width="1em" height="1em" class="mx-auto" data-astro-cid-eymb5ayk="true" data-icon="material-symbols:keyboard-arrow-up-rounded">   <symbol id="ai:material-symbols:keyboard-arrow-up-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m12 10.8l-3.9 3.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.6-4.6q.3-.3.7-.3t.7.3l4.6 4.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></symbol><use href="#ai:material-symbols:keyboard-arrow-up-rounded"></use>  </svg> </button> </div> </div>  <script>
+function backToTop() {
+    window.scroll({ top: 0, behavior: 'smooth' });
+}
+</script> </div> </div>  <div class="absolute w-full z-0 hidden 2xl:block"> <div class="relative max-w-[var(--page-width)] mx-auto"> <!-- TOC component --> <div id="toc-wrapper" class="hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center"> <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar"> <div id="toc" class="w-full h-full transition-swup-fade "> <div class="h-8 w-full"></div> <script type="module">class l extends HTMLElement{tocEl=null;visibleClass="visible";observer;anchorNavTarget=null;headingIdxMap=new Map;headings=[];sections=[];tocEntries=[];active=[];activeIndicator=null;constructor(){super(),this.observer=new IntersectionObserver(this.markVisibleSection,{threshold:0})}markVisibleSection=t=>{t.forEach(e=>{const i=e.target.children[0]?.getAttribute("id"),s=i?this.headingIdxMap.get(i):void 0;s!=null&&(this.active[s]=e.isIntersecting),e.isIntersecting&&this.anchorNavTarget==e.target.firstChild&&(this.anchorNavTarget=null)}),this.active.includes(!0)||this.fallback(),this.update()};toggleActiveHeading=()=>{let t=this.active.length-1,e=this.active.length-1,i=-1;for(;t>=0&&!this.active[t];)this.tocEntries[t].classList.remove(this.visibleClass),t--;for(;t>=0&&this.active[t];)this.tocEntries[t].classList.add(this.visibleClass),e=Math.min(e,t),i=Math.max(i,t),t--;for(;t>=0;)this.tocEntries[t].classList.remove(this.visibleClass),t--;if(e>i)this.activeIndicator?.setAttribute("style","opacity: 0");else{let s=this.tocEl?.getBoundingClientRect().top||0,n=this.tocEl?.scrollTop||0,o=this.tocEntries[e].getBoundingClientRect().top-s+n,c=this.tocEntries[i].getBoundingClientRect().bottom-s+n;this.activeIndicator?.setAttribute("style",`top: ${o}px; height: ${c-o}px`)}};scrollToActiveHeading=()=>{if(this.anchorNavTarget||!this.tocEl)return;const t=document.querySelectorAll(`#toc .${this.visibleClass}`);if(!t.length)return;const e=t[0],i=t[t.length-1],s=this.tocEl.clientHeight;let n;i.getBoundingClientRect().bottom-e.getBoundingClientRect().top<.9*s?n=e.offsetTop-32:n=i.offsetTop-s*.8,this.tocEl.scrollTo({top:n,left:0,behavior:"smooth"})};update=()=>{requestAnimationFrame(()=>{this.toggleActiveHeading(),this.scrollToActiveHeading()})};fallback=()=>{if(this.sections.length)for(let t=0;t<this.sections.length;t++){let e=this.sections[t].getBoundingClientRect().top,i=this.sections[t].getBoundingClientRect().bottom;if(this.isInRange(e,0,window.innerHeight)||this.isInRange(i,0,window.innerHeight)||e<0&&i>window.innerHeight)this.markActiveHeading(t);else if(e>window.innerHeight)break}};markActiveHeading=t=>{this.active[t]=!0};handleAnchorClick=t=>{const e=t.composedPath().find(i=>i instanceof HTMLAnchorElement);if(e){const i=decodeURIComponent(e.hash?.substring(1)),s=this.headingIdxMap.get(i);s!==void 0?this.anchorNavTarget=this.headings[s]:this.anchorNavTarget=null}};isInRange(t,e,i){return e<t&&t<i}connectedCallback(){const t=document.querySelector(".prose");t?t.addEventListener("animationend",()=>{this.init()},{once:!0}):console.debug("Animation element not found")}init(){if(this.tocEl=document.getElementById("toc-inner-wrapper"),!!this.tocEl&&(this.tocEl.addEventListener("click",this.handleAnchorClick,{capture:!0}),this.activeIndicator=document.getElementById("active-indicator"),this.tocEntries=Array.from(document.querySelectorAll("#toc a[href^='#']")),this.tocEntries.length!==0)){this.sections=new Array(this.tocEntries.length),this.headings=new Array(this.tocEntries.length);for(let t=0;t<this.tocEntries.length;t++){const e=decodeURIComponent(this.tocEntries[t].hash?.substring(1)),i=document.getElementById(e),s=i?.parentElement;i instanceof HTMLElement&&s instanceof HTMLElement&&(this.headings[t]=i,this.sections[t]=s,this.headingIdxMap.set(e,t))}this.active=new Array(this.tocEntries.length).fill(!1),this.sections.forEach(t=>this.observer.observe(t)),this.fallback(),this.update()}}disconnectedCallback(){this.sections.forEach(t=>this.observer.unobserve(t)),this.observer.disconnect(),this.tocEl?.removeEventListener("click",this.handleAnchorClick)}}customElements.get("table-of-contents")||customElements.define("table-of-contents",l);</script> <div class="h-8 w-full"></div> </div> </div> </div> <!-- #toc needs to exist for Swup to work normally -->  </div> </div>  <!-- increase the page height during page transition to prevent the scrolling animation from jumping --> <div id="page-height-extend" class="hidden h-[300vh]" data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"></div>  <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.CkDAorbp.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_1_lang.DAHrxWCB.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_2_lang.CVGuqTLd.js"></script> </body></html>

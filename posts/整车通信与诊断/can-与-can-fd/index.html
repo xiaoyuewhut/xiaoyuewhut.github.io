@@ -1,0 +1,680 @@
+<!DOCTYPE html><html lang="zh-CN" class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]" data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <head><title>CAN 与 CAN FD - 小月手记</title><meta charset="UTF-8"><meta name="description" content="学习 CAN 和 CAN FD 时，经常会遇到两个断点。一个断点在物理层和协议层之间：端接、差分线、位时序看起来像硬件问题，仲裁、ACK、CRC 又像协议问题，但实际通信时它们连在同一条链上。另一个断点在帧结构内部：资料里会列出一串字段名，却没有把字段组和具体位域的关系说清楚。"><meta name="author" content="小月"><meta property="og:site_name" content="小月手记"><meta property="og:url" content="https://xiaoyuewhut.github.io/posts/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/can-%E4%B8%8E-can-fd/"><meta property="og:title" content="CAN 与 CAN FD - 小月手记"><meta property="og:description" content="学习 CAN 和 CAN FD 时，经常会遇到两个断点。一个断点在物理层和协议层之间：端接、差分线、位时序看起来像硬件问题，仲裁、ACK、CRC 又像协议问题，但实际通信时它们连在同一条链上。另一个断点在帧结构内部：资料里会列出一串字段名，却没有把字段组和具体位域的关系说清楚。"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://xiaoyuewhut.github.io/posts/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/can-%E4%B8%8E-can-fd/"><meta name="twitter:title" content="CAN 与 CAN FD - 小月手记"><meta name="twitter:description" content="学习 CAN 和 CAN FD 时，经常会遇到两个断点。一个断点在物理层和协议层之间：端接、差分线、位时序看起来像硬件问题，仲裁、ACK、CRC 又像协议问题，但实际通信时它们连在同一条链上。另一个断点在帧结构内部：资料里会列出一串字段名，却没有把字段组和具体位域的关系说清楚。"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.13.10"><link rel="icon" href="/favicon/favicon-light-32.png" sizes="32x32" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-128.png" sizes="128x128" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-180.png" sizes="180x180" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-192.png" sizes="192x192" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-dark-32.png" sizes="32x32" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-128.png" sizes="128x128" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-180.png" sizes="180x180" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-192.png" sizes="192x192" media="(prefers-color-scheme: dark)"><!-- Set the theme before the page is rendered to avoid a flash --><script>(function(){const DEFAULT_THEME = "light";
+const LIGHT_MODE = "light";
+const DARK_MODE = "dark";
+const AUTO_MODE = "auto";
+const BANNER_HEIGHT_EXTEND = 30;
+const PAGE_WIDTH = 75;
+const configHue = 24;
+const configHueFixed = true;
+
+			// Load the theme from local storage
+			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
+			switch (theme) {
+				case LIGHT_MODE:
+					document.documentElement.classList.remove('dark');
+					break
+				case DARK_MODE:
+					document.documentElement.classList.add('dark');
+					break
+				case AUTO_MODE:
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+			}
+
+			// Use the configured hue when the palette is fixed.
+			if (configHueFixed) {
+				localStorage.removeItem('hue');
+			}
+			const hue = configHueFixed ? configHue : (localStorage.getItem('hue') || configHue);
+			document.documentElement.style.setProperty('--hue', hue);
+
+			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
+			offset = offset - offset % 4;
+			document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+		})();</script><!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"CAN 与 CAN FD","description":"学习 CAN 和 CAN FD 时，经常会遇到两个断点。一个断点在物理层和协议层之间：端接、差分线、位时序看起来像硬件问题，仲裁、ACK、CRC 又像协议问题，但实际通信时它们连在同一条链上。另一个断点在帧结构内部：资料里会列出一串字段名，却没有把字段组和具体位域的关系说清楚。","keywords":["整车网络","CAN","CAN-FD","车载通信"],"author":{"@type":"Person","name":"小月","url":"https://xiaoyuewhut.github.io/"},"datePublished":"2026-04-26","inLanguage":"zh-CN"}</script><link rel="alternate" type="application/rss+xml" title="小月" href="https://xiaoyuewhut.github.io/rss.xml"><link rel="stylesheet" href="/_astro/Layout.DSulWsr7.css">
+<link rel="stylesheet" href="/_astro/Layout.CKPtf-VR.css">
+<link rel="stylesheet" href="/_astro/_page_.CzA7YvoV.css">
+<link rel="stylesheet" href="/_astro/_page_.C3Uhk80C.css">
+<link rel="stylesheet" href="/_astro/about.BtniRLn_.css">
+<style>input.svelte-1wah7ro:focus{outline:0}.search-panel.svelte-1wah7ro{max-height:calc(100vh - 100px);overflow-y:auto}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k){-webkit-appearance:none;height:1.5rem;background-image:var(--color-selection-bar);transition:background-image .15s ease-in-out}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;border-width:0;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:active{background:#fff9}
+</style><script type="module" src="/_astro/page.xXXvkYYW.js"></script></head> <body class=" min-h-screen transition " data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <div id="config-carrier" data-hue="24" data-hue-fixed="true"></div>    <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto"> <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all"> <div id="navbar" class="z-50 onload-animation"> <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--page-bg)] transition"></div> <!-- used for onload animation --> <div class="card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-[1.4rem] mx-auto mt-2 flex items-center justify-between px-4 md:px-5"> <a href="/" class="btn-plain scale-animation rounded-xl h-[3.25rem] px-5 font-bold active:scale-95"> <div class="flex flex-row text-[var(--primary)] items-center text-md tracking-tight"> <svg width="1em" height="1em" class="text-[1.75rem] mb-1 mr-2" data-icon="material-symbols:home-outline-rounded">   <symbol id="ai:material-symbols:home-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75"/></symbol><use href="#ai:material-symbols:home-outline-rounded"></use>  </svg> 小月手记 </div> </a> <div class="hidden md:flex"> <a aria-label="首页" href="/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 首页  </div> </a><a aria-label="时间线" href="/timeline/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 时间线  </div> </a><a aria-label="专题" href="/studies/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 专题  </div> </a><a aria-label="关于" href="/about/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 关于  </div> </a> </div> <div class="flex"> <!--<SearchPanel client:load>--> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1fnFdc" component-url="/_astro/Search.BNBag9ir.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Search&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island>  <astro-island uid="ZXWCws" component-url="/_astro/LightDarkSwitch.CfGE5ug7.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;LightDarkSwitch&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-xl w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch"> <svg width="1em" height="1em" class="text-[1.25rem]" data-icon="material-symbols:menu-rounded">   <symbol id="ai:material-symbols:menu-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:menu-rounded"></use>  </svg> </button> </div> <div id="nav-menu-panel" class="float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2"> <a href="/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 首页 </div> <svg width="1em" height="1em" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <symbol id="ai:material-symbols:chevron-right-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"/></symbol><use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/timeline/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 时间线 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/studies/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 专题 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/about/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 关于 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a> </div> <astro-island uid="Z1I5MKx" component-url="/_astro/DisplaySettings.BoEDqxxf.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;DisplaySettings&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> </div> </div> <script type="module">function c(){localStorage.theme==="dark"?(document.documentElement.classList.remove("dark"),localStorage.theme="light"):(document.documentElement.classList.add("dark"),localStorage.theme="dark")}function o(){let t=document.getElementById("scheme-switch");t&&(t.onclick=function(){c()});let n=document.getElementById("display-settings-switch");n&&(n.onclick=function(){let e=document.getElementById("display-setting");e&&e.classList.toggle("float-panel-closed")});let l=document.getElementById("nav-menu-switch");l&&(l.onclick=function(){let e=document.getElementById("nav-menu-panel");e&&e.classList.toggle("float-panel-closed")})}o();</script> <script>(function(){const scriptUrl = "/pagefind/pagefind.js";
+
+async function loadPagefind() {
+    try {
+        const response = await fetch(scriptUrl, { method: 'HEAD' });
+        if (!response.ok) {
+            throw new Error(`Pagefind script not found: ${response.status}`);
+        }
+
+        const pagefind = await import(scriptUrl);
+
+        await pagefind.options({
+            excerptLength: 20
+        });
+
+        window.pagefind = pagefind;
+
+        document.dispatchEvent(new CustomEvent('pagefindready'));
+        console.log('Pagefind loaded and initialized successfully, event dispatched.');
+    } catch (error) {
+        console.error('Failed to load Pagefind:', error);
+        window.pagefind = {
+            search: () => Promise.resolve({ results: [] }),
+            options: () => Promise.resolve(),
+        };
+        document.dispatchEvent(new CustomEvent('pagefindloaderror'));
+        console.log('Pagefind load error, event dispatched.');
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPagefind);
+} else {
+    loadPagefind();
+}
+})();</script> </div> </div>   <div class="absolute w-full z-30 pointer-events-none" style="top: 5.5rem"> <!-- The pointer-events-none here prevent blocking the click event of the TOC --> <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto"> <div id="main-grid" class="transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto]
+    mx-auto gap-4 px-0 md:px-4"> <!-- Banner image credit -->  <div id="sidebar" class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation w-full"> <div class="flex flex-col w-full gap-4 mb-4"> <div class="card-base p-4 md:p-5"> <a aria-label="Go to About Page" href="/about/" class="group block relative mx-auto mt-1 lg:mx-0 lg:mt-0 mb-3
+        max-w-[12rem] lg:max-w-none overflow-hidden rounded-xl active:scale-95"> <div class="absolute transition pointer-events-none group-hover:bg-[rgb(83_63_41_/_0.16)] group-active:bg-[rgb(83_63_41_/_0.24)]
+        w-full h-full z-50 flex items-center justify-center"> <svg width="1.13em" height="1em" class="transition opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 text-white text-5xl" data-icon="fa6-regular:address-card">   <symbol id="ai:fa6-regular:address-card" viewBox="0 0 576 512"><path fill="currentColor" d="M512 80c8.8 0 16 7.2 16 16v320c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V96c0-8.8 7.2-16 16-16zM64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm144 224a64 64 0 1 0 0-128a64 64 0 1 0 0 128m-32 32c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16h192c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80zm200-144c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24z"/></symbol><use href="#ai:fa6-regular:address-card"></use>  </svg> </div> <div class="mx-auto lg:w-full h-full lg:mt-0  overflow-hidden relative"> <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div> <img src="/_astro/demo-avatar.CxcI0ivM_1nbuVe.webp" alt="Profile Image of the Author" style="object-position: center" loading="lazy" decoding="async" fetchpriority="auto" width="512" height="512" class="w-full h-full object-cover">  </div> </a> <div class="px-2"> <div class="font-display font-bold text-2xl text-center mb-1 text-90 transition">小月</div> <div class="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition"></div> <div class="text-center text-75 mb-3 leading-7 transition">记录整车通信、智驾系统、控制与持续学习过程的中文笔记。</div> <div class="flex flex-wrap gap-2 justify-center mb-1"> <a rel="me" aria-label="QQ" href="https://wpa.qq.com/msgrd?v=3&uin=1410419147&site=qq&menu=yes" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="0.88em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:qq">   <symbol id="ai:fa6-brands:qq" viewBox="0 0 448 512"><path fill="currentColor" d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741c0 31.345-16.136 72.247-51.051 101.786c16.842 5.192 54.843 19.167 45.803 34.421c-7.316 12.343-125.51 7.881-159.632 4.037c-34.122 3.844-152.316 8.306-159.632-4.037c-9.045-15.25 28.918-29.214 45.783-34.415c-34.92-29.539-51.059-70.445-51.059-101.792c0 0-33.334 54.134-44.859 52.741c-5.37-.65-12.424-29.644 9.347-99.704c10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963c18.118 45.223 29.912 72.85 40.144 105.778c21.768 70.06 14.716 99.053 9.346 99.704"/></symbol><use href="#ai:fa6-brands:qq"></use>  </svg> </a><a rel="me" aria-label="邮箱" href="mailto:xiaoyue@example.com" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1em" height="1em" class="text-[1.5rem]" data-icon="material-symbols:mail-outline-rounded">   <symbol id="ai:material-symbols:mail-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20zM20 8l-7.475 4.675q-.125.075-.262.113t-.263.037t-.262-.037t-.263-.113L4 8v10h16zm-8 3l8-5H4zM4 8v.25v-1.475v.025V6v.8v-.012V8.25zv10z"/></symbol><use href="#ai:material-symbols:mail-outline-rounded"></use>  </svg> </a><a rel="me" aria-label="微信" href="https://weixin.qq.com/" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1.13em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:weixin">   <symbol id="ai:fa6-brands:weixin" viewBox="0 0 576 512"><path fill="currentColor" d="M385.2 167.6c6.4 0 12.6.3 18.8 1.1C387.4 90.3 303.3 32 207.7 32C100.5 32 13 104.8 13 197.4c0 53.4 29.3 97.5 77.9 131.6l-19.3 58.6l68-34.1c24.4 4.8 43.8 9.7 68.2 9.7c6.2 0 12.1-.3 18.3-.8c-4-12.9-6.2-26.6-6.2-40.8c-.1-84.9 72.9-154 165.3-154m-104.5-52.9c14.5 0 24.2 9.7 24.2 24.4c0 14.5-9.7 24.2-24.2 24.2c-14.8 0-29.3-9.7-29.3-24.2c.1-14.7 14.6-24.4 29.3-24.4m-136.4 48.6c-14.5 0-29.3-9.7-29.3-24.2c0-14.8 14.8-24.4 29.3-24.4c14.8 0 24.4 9.7 24.4 24.4c0 14.6-9.6 24.2-24.4 24.2M563 319.4c0-77.9-77.9-141.3-165.4-141.3c-92.7 0-165.4 63.4-165.4 141.3S305 460.7 397.6 460.7c19.3 0 38.9-5.1 58.6-9.9l53.4 29.3l-14.8-48.6C534 402.1 563 363.2 563 319.4m-219.1-24.5c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.8 0 24.4 9.7 24.4 19.3c0 10-9.7 19.6-24.4 19.6m107.1 0c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.5 0 24.4 9.7 24.4 19.3c.1 10-9.9 19.6-24.4 19.6"/></symbol><use href="#ai:fa6-brands:weixin"></use>  </svg> </a>  </div> </div> </div> </div> <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4"> <widget-layout data-id="categories" data-is-collapsed="false" class="pb-4 card-base onload-animation" style="animation-delay: 150ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">分类</div> <div id="categories" class="collapse-wrapper px-4 overflow-hidden" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <a href="/timeline/?category=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 2 </div> </div> </button> </a><a href="/timeline/?category=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD" aria-label="View all posts in the 整车通信与诊断 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 整车通信与诊断 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 9 </div> </div> </button> </a><a href="/timeline/?category=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts in the 智驾系统开发 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 智驾系统开发 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 8 </div> </div> </button> </a><a href="/timeline/?category=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts in the 深度学习 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 深度学习 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%A1%AC%E4%BB%B6" aria-label="View all posts in the 硬件 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 硬件 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts in the 端到端自动驾驶 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 端到端自动驾驶 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts in the 运动控制与状态辨识 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 运动控制与状态辨识 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E9%A2%84%E6%9C%9F%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 预期功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 预期功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a> </div>  </widget-layout>  <script type="module">class d extends HTMLElement{constructor(){if(super(),this.dataset.isCollapsed!=="true")return;const e=this.dataset.id,t=this.querySelector(".expand-btn"),s=this.querySelector(`#${e}`);t.addEventListener("click",()=>{s.classList.remove("collapsed"),t.classList.add("hidden")})}}customElements.get("widget-layout")||customElements.define("widget-layout",d);</script> <widget-layout data-id="tags" data-is-collapsed="true" class="pb-4 card-base onload-animation" style="animation-delay: 200ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">标签</div> <div id="tags" class="collapse-wrapper px-4 overflow-hidden collapsed" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">  <div class="flex gap-1.5 flex-wrap"> <a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E7%BD%91%E7%BB%9C" aria-label="View all posts with the 整车网络 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车网络</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E8%AF%8A%E6%96%AD" aria-label="View all posts with the 整车诊断 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车诊断</span>  </a><a href="/timeline/?tag=ECU" aria-label="View all posts with the ECU tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ECU</span>  </a><a href="/timeline/?tag=L2" aria-label="View all posts with the L2 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L2</span>  </a><a href="/timeline/?tag=UDS" aria-label="View all posts with the UDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDS</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83" aria-label="View all posts with the 功能规范 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能规范</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE" aria-label="View all posts with the 智驾 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾</span>  </a><a href="/timeline/?tag=%E8%BE%85%E5%8A%A9%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 辅助驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">辅助驾驶</span>  </a><a href="/timeline/?tag=CAN" aria-label="View all posts with the CAN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN</span>  </a><a href="/timeline/?tag=DoIP" aria-label="View all posts with the DoIP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DoIP</span>  </a><a href="/timeline/?tag=ISO-26262" aria-label="View all posts with the ISO-26262 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-26262</span>  </a><a href="/timeline/?tag=TCP" aria-label="View all posts with the TCP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TCP</span>  </a><a href="/timeline/?tag=UDP" aria-label="View all posts with the UDP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDP</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E6%84%9F%E5%99%A8" aria-label="View all posts with the 传感器 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传感器</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts with the 功能安全 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能安全</span>  </a><a href="/timeline/?tag=%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 智能驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智能驾驶</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts with the 智驾系统开发 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统开发</span>  </a><a href="/timeline/?tag=%E8%A1%8C%E8%BD%A6" aria-label="View all posts with the 行车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">行车</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E4%BB%A5%E5%A4%AA%E7%BD%91" aria-label="View all posts with the 车载以太网 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载以太网</span>  </a><a href="/timeline/?tag=1000BASE-T1" aria-label="View all posts with the 1000BASE-T1 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">1000BASE-T1</span>  </a><a href="/timeline/?tag=100BASE-TX" aria-label="View all posts with the 100BASE-TX tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">100BASE-TX</span>  </a><a href="/timeline/?tag=ADAS" aria-label="View all posts with the ADAS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ADAS</span>  </a><a href="/timeline/?tag=ALC" aria-label="View all posts with the ALC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ALC</span>  </a><a href="/timeline/?tag=APO" aria-label="View all posts with the APO tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">APO</span>  </a><a href="/timeline/?tag=ASIL" aria-label="View all posts with the ASIL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL</span>  </a><a href="/timeline/?tag=ASIL%E5%88%86%E8%A7%A3" aria-label="View all posts with the ASIL分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL分解</span>  </a><a href="/timeline/?tag=AUTOSAR" aria-label="View all posts with the AUTOSAR tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">AUTOSAR</span>  </a><a href="/timeline/?tag=Bootloader" aria-label="View all posts with the Bootloader tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bootloader</span>  </a><a href="/timeline/?tag=Bus-Off" aria-label="View all posts with the Bus-Off tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bus-Off</span>  </a><a href="/timeline/?tag=CAN-FD" aria-label="View all posts with the CAN-FD tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN-FD</span>  </a><a href="/timeline/?tag=CanNm" aria-label="View all posts with the CanNm tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CanNm</span>  </a><a href="/timeline/?tag=ComM" aria-label="View all posts with the ComM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ComM</span>  </a><a href="/timeline/?tag=DDS" aria-label="View all posts with the DDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DDS</span>  </a><a href="/timeline/?tag=Diffusion" aria-label="View all posts with the Diffusion tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Diffusion</span>  </a><a href="/timeline/?tag=DMS" aria-label="View all posts with the DMS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DMS</span>  </a><a href="/timeline/?tag=DTC" aria-label="View all posts with the DTC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DTC</span>  </a><a href="/timeline/?tag=EOL" aria-label="View all posts with the EOL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">EOL</span>  </a><a href="/timeline/?tag=HARA" aria-label="View all posts with the HARA tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HARA</span>  </a><a href="/timeline/?tag=HMI" aria-label="View all posts with the HMI tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HMI</span>  </a><a href="/timeline/?tag=ISO-13400" aria-label="View all posts with the ISO-13400 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-13400</span>  </a><a href="/timeline/?tag=ISO-14229" aria-label="View all posts with the ISO-14229 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-14229</span>  </a><a href="/timeline/?tag=L3" aria-label="View all posts with the L3 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L3</span>  </a><a href="/timeline/?tag=LSTM" aria-label="View all posts with the LSTM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">LSTM</span>  </a><a href="/timeline/?tag=MLP-Mixer" aria-label="View all posts with the MLP-Mixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">MLP-Mixer</span>  </a><a href="/timeline/?tag=REC" aria-label="View all posts with the REC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">REC</span>  </a><a href="/timeline/?tag=RTPS" aria-label="View all posts with the RTPS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">RTPS</span>  </a><a href="/timeline/?tag=SOME%2FIP" aria-label="View all posts with the SOME/IP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">SOME/IP</span>  </a><a href="/timeline/?tag=TEC" aria-label="View all posts with the TEC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TEC</span>  </a><a href="/timeline/?tag=TSMixer" aria-label="View all posts with the TSMixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSMixer</span>  </a><a href="/timeline/?tag=TSN" aria-label="View all posts with the TSN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSN</span>  </a><a href="/timeline/?tag=%E4%B8%AD%E9%97%B4%E4%BB%B6" aria-label="View all posts with the 中间件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">中间件</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E8%BE%93%E5%B1%82" aria-label="View all posts with the 传输层 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传输层</span>  </a><a href="/timeline/?tag=%E4%BF%A1%E5%8F%B7%E7%9F%A9%E9%98%B5" aria-label="View all posts with the 信号矩阵 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">信号矩阵</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 功能设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能设计</span>  </a><a href="/timeline/?tag=%E5%8D%B1%E5%AE%B3%E5%88%86%E6%9E%90" aria-label="View all posts with the 危害分析 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">危害分析</span>  </a><a href="/timeline/?tag=%E5%91%BD%E4%BB%A4%E5%8F%98%E9%81%93" aria-label="View all posts with the 命令变道 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">命令变道</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 接口设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接口设计</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E7%AE%A1" aria-label="View all posts with the 接管 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接管</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86" aria-label="View all posts with the 故障处理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障处理</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E7%A0%81" aria-label="View all posts with the 故障码 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障码</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 整车通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车通信</span>  </a><a href="/timeline/?tag=%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B" aria-label="View all posts with the 时序预测 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时序预测</span>  </a><a href="/timeline/?tag=%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5" aria-label="View all posts with the 时间同步 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时间同步</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F" aria-label="View all posts with the 智驾系统 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统</span>  </a><a href="/timeline/?tag=%E6%A0%87%E5%AE%9A" aria-label="View all posts with the 标定 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">标定</span>  </a><a href="/timeline/?tag=%E6%B3%8A%E8%BD%A6" aria-label="View all posts with the 泊车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">泊车</span>  </a><a href="/timeline/?tag=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts with the 深度学习 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">深度学习</span>  </a><a href="/timeline/?tag=%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B" aria-label="View all posts with the 生成模型 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">生成模型</span>  </a><a href="/timeline/?tag=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 端到端自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">端到端自动驾驶</span>  </a><a href="/timeline/?tag=%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90" aria-label="View all posts with the 系统集成 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">系统集成</span>  </a><a href="/timeline/?tag=%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86" aria-label="View all posts with the 网络管理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">网络管理</span>  </a><a href="/timeline/?tag=%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自动驾驶</span>  </a><a href="/timeline/?tag=%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6" aria-label="View all posts with the 自适应巡航控制 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自适应巡航控制</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E5%9F%9F" aria-label="View all posts with the 设计运行域 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行域</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E6%9D%A1%E4%BB%B6" aria-label="View all posts with the 设计运行条件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行条件</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 车载通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载通信</span>  </a><a href="/timeline/?tag=%E8%BD%A8%E8%BF%B9%E8%A7%84%E5%88%92" aria-label="View all posts with the 轨迹规划 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">轨迹规划</span>  </a><a href="/timeline/?tag=%E8%BD%AF%E4%BB%B6%E5%88%B7%E5%86%99" aria-label="View all posts with the 软件刷写 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">软件刷写</span>  </a><a href="/timeline/?tag=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts with the 运动控制与状态辨识 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">运动控制与状态辨识</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3" aria-label="View all posts with the 需求分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求分解</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B" aria-label="View all posts with the 需求工程 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求工程</span>  </a><a href="/timeline/?tag=%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0" aria-label="View all posts with the 风险评估 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">风险评估</span>  </a> </div>  </div> <div class="expand-btn px-4 -mb-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <button class="btn-plain rounded-lg w-full h-9" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <div class="text-[var(--primary)] flex items-center justify-center gap-2 -translate-x-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <svg width="1em" height="1em" class="text-[1.75rem]" data-astro-cid-ucso7hve="true" data-icon="material-symbols:more-horiz">   <symbol id="ai:material-symbols:more-horiz" viewBox="0 0 24 24"><path fill="currentColor" d="M6 14q-.825 0-1.412-.587T4 12t.588-1.412T6 10t1.413.588T8 12t-.587 1.413T6 14m6 0q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m6 0q-.825 0-1.412-.587T16 12t.588-1.412T18 10t1.413.588T20 12t-.587 1.413T18 14"/></symbol><use href="#ai:material-symbols:more-horiz"></use>  </svg> 更多 </div> </button> </div> </widget-layout>   </div> </div> <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden"> <div id="content-wrapper" class="onload-animation"> <!-- the overflow-hidden here prevent long text break the layout--> <!-- make id different from windows.swup global property -->   <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4"> <div id="post-container" class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full "> <!-- word count and reading time --> <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation"> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:notes-rounded">   <symbol id="ai:material-symbols:notes-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h10q.425 0 .713.288T15 17t-.288.713T14 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:notes-rounded"></use>  </svg> </div> <div class="text-sm">5311  字</div> </div> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:schedule-outline-rounded">   <symbol id="ai:material-symbols:schedule-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M13 11.6V8q0-.425-.288-.712T12 7t-.712.288T11 8v3.975q0 .2.075.388t.225.337l3.3 3.3q.275.275.7.275T16 16t.275-.7t-.275-.7zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.325 0 5.663-2.337T20 12t-2.337-5.663T12 4T6.337 6.338T4 12t2.338 5.663T12 20"/></symbol><use href="#ai:material-symbols:schedule-outline-rounded"></use>  </svg> </div> <div class="text-sm"> 27  分钟 </div> </div> </div> <!-- title --> <div class="relative onload-animation"> <div data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title" class="transition w-full block font-display font-bold mb-3
+                    text-3xl md:text-[2.25rem]/[2.75rem]
+                    text-black/90 dark:text-white/90
+                    md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-[0.75rem] before:left-[-1.125rem]
+                "> CAN 与 CAN FD </div> </div> <!-- metadata --> <div class="onload-animation"> <div class="flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2 mb-5"> <!-- publish date --> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:calendar-today-outline-rounded">   <symbol id="ai:material-symbols:calendar-today-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V3q0-.425.288-.712T7 2t.713.288T8 3v1h8V3q0-.425.288-.712T17 2t.713.288T18 3v1h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5zM5 8h14V6H5zm0 0V6z"/></symbol><use href="#ai:material-symbols:calendar-today-outline-rounded"></use>  </svg> </div> <span class="text-50 font-medium text-sm">2026-04-26</span> </div> <!-- update date -->  <!-- categories --> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:book-2-outline-rounded">   <symbol id="ai:material-symbols:book-2-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 15.325q.35-.175.725-.25T7.5 15H8V4h-.5q-.625 0-1.062.438T6 5.5zM10 15h8V4h-8zm-4 .325V4zM7.5 22q-1.45 0-2.475-1.025T4 18.5v-13q0-1.45 1.025-2.475T7.5 2H18q.825 0 1.413.587T20 4v12.525q0 .2-.162.363t-.588.362q-.35.175-.55.5t-.2.75t.2.763t.55.487t.55.413t.2.562v.25q0 .425-.288.725T19 22zm0-2h9.325q-.15-.35-.237-.712T16.5 18.5q0-.4.075-.775t.25-.725H7.5q-.65 0-1.075.438T6 18.5q0 .65.425 1.075T7.5 20"/></symbol><use href="#ai:material-symbols:book-2-outline-rounded"></use>  </svg> </div> <div class="flex flex-row flex-nowrap items-center"> <a href="/timeline/?category=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD" aria-label="View all posts in the 整车通信与诊断 category" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 整车通信与诊断 </a> </div> </div> <!-- tags --> <div class="items-center flex"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:tag-rounded">   <symbol id="ai:material-symbols:tag-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m9 16l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T6.3 18.8L7 16H4.275q-.5 0-.8-.387T3.3 14.75q.075-.35.35-.55t.625-.2H7.5l1-4H5.775q-.5 0-.8-.387T4.8 8.75q.075-.35.35-.55t.625-.2H9l.825-3.275Q9.9 4.4 10.15 4.2t.6-.2q.475 0 .775.375t.175.825L11 8h4l.825-3.275q.075-.325.325-.525t.6-.2q.475 0 .775.375t.175.825L17 8h2.725q.5 0 .8.387t.175.863q-.075.35-.35.55t-.625.2H16.5l-1 4h2.725q.5 0 .8.388t.175.862q-.075.35-.35.55t-.625.2H15l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T12.3 18.8L13 16zm.5-2h4l1-4h-4z"/></symbol><use href="#ai:material-symbols:tag-rounded"></use>  </svg> </div> <div class="flex flex-row flex-nowrap items-center"> <div class="hidden mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E7%BD%91%E7%BB%9C" aria-label="View all posts with the 整车网络 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 整车网络 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=CAN" aria-label="View all posts with the CAN tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> CAN </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=CAN-FD" aria-label="View all posts with the CAN-FD tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> CAN-FD </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 车载通信 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 车载通信 </a>  </div> </div> </div> <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div> </div> <!-- always show cover as long as it has one -->  <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mb-6 markdown-content onload-animation"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">-->  <p>CAN 是车载电子系统里最常见的总线协议之一。它把物理层、电气判决、优先级仲裁、错误检测和故障隔离连成了一条完整链路。CAN FD 沿用这条链路，把单帧载荷和有效吞吐继续往上推。</p>
+<p>学习 CAN 和 CAN FD 时，经常会遇到两个断点。一个断点在物理层和协议层之间：端接、差分线、位时序看起来像硬件问题，仲裁、ACK、CRC 又像协议问题，但实际通信时它们连在同一条链上。另一个断点在帧结构内部：资料里会列出一串字段名，却没有把字段组和具体位域的关系说清楚。</p>
+<p>下面按一帧报文的传输过程整理：报文怎样从节点里发出来，怎样在总线上完成仲裁、传输和确认；这个过程怎样对应到帧结构；CAN FD 改了哪些位置；CAN FD 之后的 CAN XL 又处在什么位置。</p>
+<section><h1 id="classical-can-的通信过程">Classical CAN 的通信过程<a class="anchor" href="#classical-can-的通信过程"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="节点组成">节点组成<a class="anchor" href="#节点组成"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>一个 CAN 节点通常可以拆成三个层次来看：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>对象</th><th>属性</th><th>主要职责</th></tr></thead><tbody><tr><td><code>CAN Controller</code></td><td>硬件控制器，常集成在 MCU 或独立通信控制器中</td><td>位时序、仲裁、帧格式、CRC、ACK、错误计数、邮箱管理</td></tr><tr><td><code>CAN Transceiver</code></td><td>物理层器件</td><td>逻辑电平和差分总线电平转换、总线驱动、接收整形、电气保护</td></tr><tr><td><code>CAN Driver / CAN Interface / PduR / COM</code></td><td>软件栈</td><td>报文配置、发送请求、接收分发、与应用层交互</td></tr></tbody></table><p>这三个对象的边界会影响后面的故障判断。仲裁、CRC、ACK 和 Bus-Off 属于控制器层面的协议行为；波形质量、显隐性判决、总线保护更多取决于收发器、端接和线束；软件决定节点发送哪些报文、发送周期怎样配置、接收内容怎样交给上层模块。</p><img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260426140646.png" alt="Pasted image 20260426140646"></section><section><h2 id="物理层前提">物理层前提<a class="anchor" href="#物理层前提"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN 物理层通常使用 <code>CAN_H</code> 和 <code>CAN_L</code> 两根差分线。控制器最终关心的是总线当前呈现出的逻辑状态，而单根线对地电压只是形成这个状态的电气表现。这个状态可以分成两种：</p><ol>
+<li><code>Dominant</code></li>
+<li><code>Recessive</code></li>
+</ol><p>显性位能够覆盖隐性位。这个电气特性决定了 CAN 可以做位级仲裁。几个节点同时起发时，只要某一位上有节点输出显性，总线最后被所有人读到的就是显性。某个节点如果自己发送的是隐性位，却在总线上读到了显性位，就会立刻知道自己已经失去这次发送权。</p><p>这个电气特性直接连到协议层。CAN 的仲裁能够成立，依赖的就是多个节点边发边比，再由总线上的实际位值决定谁继续发送。</p></section><section><h2 id="端接拓扑和位时序">端接、拓扑和位时序<a class="anchor" href="#端接拓扑和位时序"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN 总线通常在物理两端各接一个终端电阻，用来做阻抗匹配和抑制反射。主干长度、支路长度、收发器延时和比特率之间也有成组约束。报文字段和控制位属于协议视角，端接、电阻、支路长度属于物理视角；进到实际网络里，这两部分会共同决定一帧报文能不能被稳定采样。</p><p>这些约束一旦失配，问题往往会顺着链路层层传导：</p><ol>
+<li>波形边沿振铃变大。</li>
+<li>采样点附近电平不稳定。</li>
+<li>位错误、CRC 错误和 ACK 丢失开始出现。</li>
+<li>控制器错误计数持续增加。</li>
+</ol><p>CAN 的协议行为需要物理层支撑。物理层余量足够，总线上的每个节点才能在相近的时间点读到相同的位值；只有这个前提成立，仲裁、校验和确认才谈得上可靠。</p></section><section><h2 id="一帧报文的传输链路">一帧报文的传输链路<a class="anchor" href="#一帧报文的传输链路"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>把前面的背景放在一起，一帧 Classical CAN 数据报文可以按下面这条链路来理解：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>阶段</th><th>总线上发生什么</th><th>这一阶段解决的问题</th></tr></thead><tbody><tr><td><code>Bus Idle</code></td><td>总线保持隐性，等待新的发送机会</td><td>节点判断当前能否起发</td></tr><tr><td><code>SOF</code></td><td>某个节点发出帧起始位</td><td>所有节点开始同步</td></tr><tr><td><code>Arbitration</code></td><td>多个节点可以同时竞争总线</td><td>决定哪一帧获得发送权</td></tr><tr><td><code>Control</code></td><td>获胜节点继续给出帧格式和长度信息</td><td>接收端知道后面要按什么格式解释报文</td></tr><tr><td><code>Data</code></td><td>发送有效载荷</td><td>传输真正的业务内容</td></tr><tr><td><code>CRC</code></td><td>发送端给出校验序列</td><td>接收端判断整帧内容是否可靠</td></tr><tr><td><code>ACK</code></td><td>正确接收的节点在 ACK 槽写显性位</td><td>发送端确认这次通信已被其他节点接收</td></tr><tr><td><code>EOF</code></td><td>发送端结束当前帧</td><td>一帧逻辑上传输完成</td></tr><tr><td><code>Intermission</code></td><td>总线进入最小帧间隔</td><td>为下一帧留出边界</td></tr></tbody></table><p>这组阶段既描述通信过程，也可以作为后面理解帧结构的索引。后面再看到 <code>SOF</code>、<code>Arbitration</code>、<code>CRC</code> 这些字段时，可以把它们放回这条链上看。</p></section><section><h2 id="仲裁ack-和位时序">仲裁、ACK 和位时序<a class="anchor" href="#仲裁ack-和位时序"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>仲裁解决的是 谁先使用总线。CAN 是多主总线，任何节点只要发现总线空闲，都可以尝试起发。真正留下来的那一帧，由仲裁字段逐位竞争决定。发送隐性却读到显性的节点，会立刻停止发送并转为接收状态。因为总线上已经发出的位始终保持有效，这个过程被称为无破坏仲裁。</p><p>ACK 检查的是<code>这帧报文有没有真正到达其他节点</code>。发送节点不会自己确认自己。只有已经正确收到整帧、并且 CRC 检查通过的节点，才会在 ACK 槽主动把总线拉成显性。发送端如果没有看到 ACK，就会把这次发送记为失败。这类失败有时来自接收端协议校验，有时来自位时序、收发器状态、端接或线束问题。</p><p>假设 <code>ESP ECU</code> 周期性发送一帧 <code>0x1A0</code> 报文，数据里放的是四轮轮速。<code>VCU</code>、<code>ABS</code> 和仪表都需要这帧报文。发送过程如下：</p><ol>
+<li><code>ESP ECU</code> 发送 <code>SOF</code>，整条总线开始同步。</li>
+<li>它继续发 <code>Identifier = 0x1A0</code>、控制字段、8 字节轮速数据和 <code>CRC</code>。</li>
+<li><code>VCU</code>、<code>ABS</code>、仪表三个节点一边接收，一边各自在本地做位判决、长度检查和 <code>CRC</code> 检查。</li>
+<li>报文走到 <code>ACK Slot</code> 时，<code>ESP ECU</code> 自己不会去写显性位，而是释放总线，并在采样点读取总线结果。</li>
+<li>只要 <code>VCU</code>、<code>ABS</code>、仪表里有任意一个节点已经正确收完整帧，它就会在 <code>ACK Slot</code> 把总线拉成显性。</li>
+<li><code>ESP ECU</code> 在采样点读到显性位，就会认为这次发送成功。</li>
+</ol><p>多个接收节点同时存在时，所有正确收到该帧的节点都可以 ACK。它们会在同一个 <code>ACK Slot</code> 同时把总线拉成显性。这里不会冲突，因为 CAN 总线按显性覆盖隐性的规则工作。对发送端来说，只要这个时刻总线变成显性，ACK 就成立；它并不知道是 <code>VCU</code> 在 ACK，还是 <code>ABS</code> 和仪表也一起在 ACK。</p><p><strong>ACK 只能证明至少有一个其他节点正确收到了这帧报文，不能证明所有需要它的节点都收到了。</strong></p><p>沿用上面的例子，如果 <code>VCU</code> 和仪表正确收到了 <code>0x1A0</code>，但 <code>ABS</code> 因为采样点配置不合适导致 <code>CRC</code> 检查失败，那么 <code>VCU</code> 和仪表仍然会在 <code>ACK Slot</code> 拉显性，发送端看到 ACK 以后会认为这次发送成功；但对 <code>ABS</code> 来说，这帧报文依然是无效的，它后续会按自己的错误处理逻辑响应。</p><p>如果总线上只有 <code>ESP ECU</code> 自己在线，或者 <code>VCU</code>、<code>ABS</code>、仪表都因为收发器异常、端接问题、线束故障、位时序不匹配而没有正确收下这帧报文，那么 <code>ACK Slot</code> 上就不会有人把总线拉成显性。<code>ESP ECU</code> 采样到的仍然是隐性位，于是它会把这次发送判定为 ACK 失败，并进入后续的重发和错误处理路径。</p><p>位时序则决定节点在什么时刻采样总线。控制器会按配置好的采样点来判定位值，不会在一个比特周期里任意挑时间读总线。工程上常见的配置参数包括：</p><ol>
+<li><code>Bit Rate</code></li>
+<li><code>Sample Point</code></li>
+<li><code>Propagation Segment</code></li>
+<li><code>Phase Segment</code></li>
+<li><code>SJW</code></li>
+</ol><p>如果节点之间的时钟误差和传播延时没有被这些参数吸收掉，不同节点看到的位边界就会慢慢错开。错开的结果不会停留在抽象层面，最终会体现在仲裁异常、CRC 异常、ACK 异常甚至 Bus-Off 上。</p></section></section>
+<section><h1 id="再把这个过程对回帧结构">再把这个过程对回帧结构<a class="anchor" href="#再把这个过程对回帧结构"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="整帧骨架和具体位域">整帧骨架和具体位域<a class="anchor" href="#整帧骨架和具体位域"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>帧结构先看字段组，再看字段组内部的位域。Classical CAN 数据帧可以整理成下面这组骨架：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>位置</th><th><code>SOF</code></th><th><code>Arbitration</code></th><th><code>Control</code></th><th><code>Data</code></th><th><code>CRC</code></th><th><code>ACK</code></th><th><code>EOF</code></th><th><code>Intermission</code></th></tr></thead><tbody><tr><td>对应阶段</td><td>起发与同步</td><td>总线竞争</td><td>格式说明</td><td>业务数据传输</td><td>整帧校验</td><td>接收确认</td><td>帧结束</td><td>帧间隔</td></tr></tbody></table><p>这个骨架和上一节的通信过程是一一对应的。通信过程描述总线上发生了什么，帧结构描述这些过程在报文格式里落成了哪些字段组。把这两层对上以后，再去区分标准帧、扩展帧和 CAN FD。</p></section><section><h2 id="11-bit-标准数据帧">11-bit 标准数据帧<a class="anchor" href="#11-bit-标准数据帧"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>对于最常见的 11-bit 标准数据帧，可以把字段组继续展开成下面这张表：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>字段组</th><th>具体位域</th><th>说明</th></tr></thead><tbody><tr><td><code>SOF</code></td><td><code>SOF</code></td><td>宣告一帧开始，并触发同步</td></tr><tr><td><code>Arbitration</code></td><td><code>Identifier[10:0] + RTR</code></td><td>标识报文并完成优先级竞争</td></tr><tr><td><code>Control</code></td><td><code>IDE + r0 + DLC</code></td><td>指定帧格式并给出数据长度码</td></tr><tr><td><code>Data</code></td><td><code>Data Field</code></td><td>最多承载 8 字节应用数据</td></tr><tr><td><code>CRC</code></td><td><code>CRC Sequence + CRC Delimiter</code></td><td>让接收端检查整帧内容是否出错</td></tr><tr><td><code>ACK</code></td><td><code>ACK Slot + ACK Delimiter</code></td><td>由接收端确认报文已被正确接收</td></tr><tr><td><code>EOF</code></td><td><code>EOF</code></td><td>标记当前帧结束</td></tr><tr><td><code>Intermission</code></td><td><code>Intermission</code></td><td>在前后两帧之间留出最小间隔</td></tr></tbody></table><p><code>Identifier</code> 和 <code>DLC</code> 的位置需要单独记一下。<code>Identifier</code> 属于 <code>Arbitration</code>，因为它直接参与总线竞争；<code>DLC</code> 属于 <code>Control</code>，因为它描述的是后续数据字段的长度信息。后面看控制器寄存器、DBC 配置或总线抓包时，这层归属关系会反复出现。</p></section><section><h2 id="29-bit-扩展数据帧">29-bit 扩展数据帧<a class="anchor" href="#29-bit-扩展数据帧"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>扩展帧没有换掉整帧骨架，变化主要集中在仲裁字段内部。它的核心展开形式如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>字段组</th><th>具体位域</th><th>说明</th></tr></thead><tbody><tr><td><code>SOF</code></td><td><code>SOF</code></td><td>帧起始</td></tr><tr><td><code>Arbitration</code></td><td><code>Base Identifier[10:0] + SRR + IDE + Extended Identifier[17:0] + RTR</code></td><td>仲裁字段扩展为 29-bit 标识符路径</td></tr><tr><td><code>Control</code></td><td><code>r1 + r0 + DLC</code></td><td>继续承载控制和长度信息</td></tr><tr><td><code>Data</code></td><td><code>Data Field</code></td><td>最多 8 字节</td></tr><tr><td><code>CRC</code></td><td><code>CRC Sequence + CRC Delimiter</code></td><td>检错</td></tr><tr><td><code>ACK</code></td><td><code>ACK Slot + ACK Delimiter</code></td><td>接收确认</td></tr><tr><td><code>EOF</code></td><td><code>EOF</code></td><td>帧结束</td></tr><tr><td><code>Intermission</code></td><td><code>Intermission</code></td><td>帧间隔</td></tr></tbody></table><p>扩展帧的重点是理解<u>仲裁字段为什么会变长</u>。</p><p>标准帧中，仲裁字段主要由 <code>11-bit Identifier + RTR</code> 组成；到了扩展帧，这一组内容被拉长成 <code>基标识符 + SRR + IDE + 扩展标识符 + RTR</code>。字段组没有变，变化发生在字段组内部。这个视角能把标准帧和扩展帧自然地连起来。</p></section><section><h2 id="位填充和实际波形">位填充和实际波形<a class="anchor" href="#位填充和实际波形"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>帧结构表给出的是逻辑字段顺序，<strong>总线上真正出现的波形还要再叠加位填充规则</strong>。</p><p><font color="#2DC26B">位填充的作用可以从同步角度理解：CAN 节点需要依靠总线边沿不断校准自己的采样时刻，如果总线上长时间保持同一个电平，接收节点就缺少重新同步的机会。位填充通过人为插入反相位，强制总线上定期出现边沿。</font></p><p>总线边沿有点像跑步时的节拍声。接收节点除了判断高低电平，还要在合适的时刻采样。节拍声隔一段时间出现一次，接收节点就能修正自己的步伐；长时间没有节拍时，接收节点只能靠自己的时钟往前估，时间一长就容易偏。位填充插入的反相位，相当于在连续同电平中补一个节拍，让接收节点有机会重新对齐采样位置。</p><p>Classical CAN 的基本规则很直接：从 <code>SOF</code> 开始，到 <code>CRC Sequence</code> 结束，只要发送端连续发送了 5 个相同位，就会自动插入 1 个相反电平的填充位。这个填充位只是线上传输用的辅助位，不属于 <code>Identifier</code>、<code>DLC</code>、<code>Data Field</code> 或其他任何逻辑字段。接收端按同一条规则识别它，并<font color="#ff0000">在解释报文之前把它删除</font>。</p><p>看一个具体比特串。假设某一段原始逻辑内容里连续出现了 6 个 <code>0</code>：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>内容</th><th>比特串</th></tr></thead><tbody><tr><td>原始逻辑内容</td><td><code>000000</code></td></tr><tr><td>线上实际发送</td><td><code>00000 1(stuff) 0</code></td></tr><tr><td>接收端还原后</td><td><code>000000</code></td></tr></tbody></table><p>这里的 <code>1(stuff)</code> 是发送端在 5 个 <code>0</code> 后面自动插入的填充位，最后那个 <code>0</code> 才是原始逻辑内容里的第 6 个 <code>0</code>。接收端看到 5 个连续 <code>0</code> 以后，会把紧跟着的反相位当作填充位丢掉，再继续解析后面的真实字段。</p><p>如果原始逻辑内容里连续出现 6 个 <code>1</code>，规则完全一样，只是插入的填充位会变成 <code>0</code>：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>内容</th><th>比特串</th></tr></thead><tbody><tr><td>原始逻辑内容</td><td><code>111111</code></td></tr><tr><td>线上实际发送</td><td><code>11111 0(stuff) 1</code></td></tr><tr><td>接收端还原后</td><td><code>111111</code></td></tr></tbody></table><p>位填充还会参与错误检测。在需要位填充的区域里，如果接收端看到 6 个连续相同位，就会判断为 Stuff Error。比如接收端在 <code>SOF</code> 到 <code>CRC Sequence</code> 这段范围内看到了 <code>000000</code>，说明发送端没有在 5 个 <code>0</code> 后插入反相位，或者线上波形已经被干扰破坏。这个节点随后会触发错误处理。</p><p>位填充会影响两个现象。<font color="#00b0f0">第一，示波器上看到的连续位数，不会完全等于表格里列出的原始位宽。第二，同样是 8 字节报文，不同位模式下插入的填充位数量可能不同，总线占用时间也会有细微变化。CRC 校验时也要注意这一点：发送端计算 CRC 用的是逻辑内容，接收端会先去掉填充位，再按还原后的逻辑内容做 CRC 检查。</font></p></section></section>
+<section><h1 id="can-fd-的扩展位置">CAN FD 的扩展位置<a class="anchor" href="#can-fd-的扩展位置"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="can-fd-保留的-can-思路">CAN FD 保留的 CAN 思路<a class="anchor" href="#can-fd-保留的-can-思路"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN FD 保留了 CAN 的基本通信思路，同时对若干关键位置做了增强。它保留的部分主要有三条：</p><ol>
+<li>仍然是多主总线。</li>
+<li>仍然依赖显性位覆盖隐性位完成仲裁。</li>
+<li>仍然按 <code>SOF -> Arbitration -> Control -> Data -> CRC -> ACK -> EOF -> Intermission</code> 这条骨架组织整帧。</li>
+</ol><p>也正因为这三点没有变，CAN FD 才能被归入 CAN 的扩展体系。</p></section><section><h2 id="can-fd-的来源">CAN FD 的来源<a class="anchor" href="#can-fd-的来源"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>Classical CAN 的数据字段最多只有 8 字节。这个长度对很多周期控制报文足够用，但对诊断、刷写、标定和更高密度的数据交换会显得紧张。报文一旦拆得过碎，固定协议开销就会被重复支付，总线效率也会下降。</p><p>CAN FD 的扩展目标集中在三点：</p><ol>
+<li>单帧载荷扩大到最多 <strong><font color="#d83931">64 字节</font></strong>。</li>
+<li><font color="#d83931">数据阶段</font>允许使用更高比特率。</li>
+<li>在尽量保留原有 CAN 生态的前提下提升有效吞吐。</li>
+</ol></section><section><h2 id="can-fd-的变化集中在-controldata-和-crc">CAN FD 的变化集中在 Control、Data 和 CRC<a class="anchor" href="#can-fd-的变化集中在-controldata-和-crc"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>沿着前面的骨架看，CAN FD 的主要改动集中在三组字段：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>字段组</th><th>典型变化</th><th>变化带来的结果</th></tr></thead><tbody><tr><td><code>Control</code></td><td>加入 <code>FDF</code>、<code>BRS</code>、<code>ESI</code> 等控制位</td><td><font color="#d83931">节点能区分 FD 帧、决定是否切换高速数据阶段、反映错误状态</font></td></tr><tr><td><code>Data</code></td><td>最多从 8 字节扩展到 64 字节</td><td>单帧承载能力显著提高</td></tr><tr><td><code>CRC</code></td><td>针对更长载荷和更高相位速率增强</td><td>在新工作条件下维持足够检错能力</td></tr></tbody></table><p><code>Arbitration</code>、<code>ACK</code>、<code>EOF</code> 和 <code>Intermission</code> 这些部分仍然沿用前面的理解框架。CAN FD 的新增控制位，主要服务于 FD 帧识别、速率切换、错误状态标记和长载荷校验。</p></section><section><h2 id="brs-和双速率阶段"><code>BRS</code> 和双速率阶段<a class="anchor" href="#brs-和双速率阶段"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN FD 最有代表性的变化，是允许一帧内部使用两个速率阶段。仲裁阶段仍然使用较保守的 nominal bit rate，数据阶段在 <code>BRS = 1</code> 时可以切换到更高的数据相位速率。</p><p>它可以拆成三个阶段：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>阶段</th><th>典型内容</th><th>速率特征</th></tr></thead><tbody><tr><td><code>Nominal Phase</code></td><td><code>SOF + Arbitration + Control</code> 的主要前段</td><td>所有节点共同参与，速率保持保守</td></tr><tr><td><code>Data Phase</code></td><td><code>Data Field + CRC</code> 的主要高速部分</td><td>由获胜发送者主导，可切高比特率</td></tr><tr><td><code>Return to Nominal</code></td><td><code>ACK + EOF + Intermission</code></td><td>回到多节点共同参与的节奏</td></tr></tbody></table><p>这里的逻辑和 CAN 原有仲裁机制是连贯的。仲裁阶段需要多个节点一起比较位值，所以速率要稳；数据阶段只剩下一个发送者继续主导，总线具备提速空间；ACK 阶段又需要其他节点参与确认，因此再回到 nominal 域。<code>BRS</code> 对应的正是这一段速率切换。</p></section><section><h2 id="dlc-映射和物理层敏感度都需要单独记住">DLC 映射和物理层敏感度都需要单独记住<a class="anchor" href="#dlc-映射和物理层敏感度都需要单独记住"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN FD 还有两点经常在工程里带来误解。</p><p>第一，<code>DLC</code> 和字节数不再简单线性对应。8 字节以上采用离散映射，常见长度包括 <code>12</code>、<code>16</code>、<code>20</code>、<code>24</code>、<code>32</code>、<code>48</code>、<code>64</code>。看到某个 <code>DLC</code> 值时，需要按 CAN FD 的映射表确认真实字节数。</p><p>第二，CAN FD 对物理层更敏感。高速数据阶段会压缩采样裕量，终端偏差、支路过长、线束反射、收发器延时、节点时钟误差都会更容易暴露成实际故障。一套 Classical CAN 网络能够稳定运行，并不自动意味着切到 CAN FD 高速数据阶段以后仍然稳定。</p></section></section>
+<section><h1 id="can-fd-之后的-can-xl">CAN FD 之后的 CAN XL<a class="anchor" href="#can-fd-之后的-can-xl"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="can-xl-的位置">CAN XL 的位置<a class="anchor" href="#can-xl-的位置"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN FD 之后，CAN 体系里还有 CAN XL。它属于第三代 CAN 数据链路层协议。按照 CAN in Automation 的说法，CAN XL 支持 Classical CAN、CAN FD 和 CAN XL 三类协议形态；Bosch 也把 CAN XL 描述为 CAN 演进里的下一步，用来填补 CAN FD 和 <code>100BASE-T1</code> 车载以太网之间的带宽空档。</p><p>三代 CAN 的关系如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>代际</th><th>名称</th><th>单帧数据字段</th><th>学习重点</th></tr></thead><tbody><tr><td>第一代</td><td>Classical CAN / CAN CC</td><td>最多 8 字节</td><td>多主总线、无破坏仲裁、错误处理</td></tr><tr><td>第二代</td><td>CAN FD</td><td>最多 64 字节</td><td>数据阶段提速、载荷扩大、CRC 增强</td></tr><tr><td>第三代</td><td>CAN XL</td><td><font color="#d83931">最多 2048 字节</font></td><td>更大载荷、更高吞吐、面向骨干网和上层协议承载</td></tr></tbody></table><p>这组关系体现了 CAN 的演进方向：CAN FD 主要解决 8 字节载荷和有效吞吐不足的问题；CAN XL 继续把载荷扩大到 2048 字节，并把协议设计进一步靠近骨干网、子骨干网和高层协议承载场景。</p></section><section><h2 id="can-xl-主要增强了什么">CAN XL 主要增强了什么<a class="anchor" href="#can-xl-主要增强了什么"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN XL 的变化主要集中在三点。</p><p>第一，<font color="#d83931">数据字段大幅增加</font>。ISO 11898-1:2024 的公开摘要中提到，使用 XL 帧格式时，CAN 数据链路层的数据字段可以达到 2048 字节。这个量级已经明显不同于 CAN FD 的 64 字节，适合更大的数据块传输。</p><p>第二，<font color="#d83931">数据速率继续提高</font>。Bosch 资料给出的 CAN XL 净数据速率可到 <code>20 Mbit/s</code>，并说明 CAN XL 仍然保留 CAN 协议里无破坏仲裁这类优势。它继续沿用 CAN 的基本访问思想，同时把数据阶段能力往上推。</p><p>第三，<font color="#d83931">标识和过滤思路更适合复杂网络</font>。CiA 资料提到，CAN XL 把 CAN-ID 相关功能拆成 <code>11-bit Priority ID</code> 和 <code>32-bit Acceptance Field</code>。前者更偏优先级，后者更偏接收过滤和上层寻址信息。这比单纯扩大原有 ID 更适合复杂网络里的路由、网关和高层协议映射。</p></section><section><h2 id="can-xl-和以太网can-sic-的关系">CAN XL 和以太网、CAN SIC 的关系<a class="anchor" href="#can-xl-和以太网can-sic-的关系"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>CAN XL 的定位经常会和车载以太网一起讨论。它主要填补 CAN FD 和以太网之间的空档。对于一些不需要完整以太网交换体系、但又觉得 CAN FD 载荷和吞吐不够的网络，CAN XL 提供了一个延续 CAN 工程生态的选项。（<em>但是我没看到有什么应用</em>）</p><p>CAN SIC 和 CAN FD-SIC 则更适合归入物理层增强。它们主要改善高速 CAN / CAN FD 网络上的信号完整性和物理层表现。协议代际上，Classical CAN 之后是 CAN FD，CAN FD 之后看 CAN XL；物理层增强上，可以再单独看 CAN SIC、CAN FD-SIC 和 CAN SIC XL。</p></section></section>
+<section><h1 id="参考资料">参考资料<a class="anchor" href="#参考资料"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><ul>
+<li>Bosch Semiconductors, <a href="https://www.bosch-semiconductors.com/products/ip-modules/can-protocols/can-fd/">CAN FD Protocol</a></li>
+<li>Bosch Semiconductors, <a href="https://www.bosch-semiconductors.com/products/ip-modules/can-protocols/can-xl/">CAN XL Protocol</a></li>
+<li>CAN in Automation, <a href="https://www.can-cia.org/can-knowledge/can-xl">CAN XL</a></li>
+<li>ISO, <a href="https://www.iso.org/standard/86384.html">ISO 11898-1:2024</a></li>
+<li>Kvaser, <a href="https://kvaser.com/can-fd-protocol-tutorial/">CAN FD Protocol Tutorial</a></li>
+<li>Infineon, <a href="https://www.infineon.com/design-resources/development-tools/sdk/psoc-software/psoc-3-5-components/controller-area-network-can">Controller Area Network (CAN)</a></li>
+</ul></section>  </div> <script type="module">document.addEventListener("click",function(s){const t=s.target;if(t&&t.classList.contains("copy-btn")){const c=t.closest("pre")?.querySelector("code"),i=Array.from(c?.querySelectorAll(".code:not(summary *)")??[]).map(e=>e.textContent).map(e=>e===`
+`?"":e).join(`
+`);navigator.clipboard.writeText(i);const o=t.getAttribute("data-timeout-id");o&&clearTimeout(parseInt(o)),t.classList.add("success");const n=setTimeout(()=>{t.classList.remove("success")},1e3);t.setAttribute("data-timeout-id",n.toString())}});</script> <div class="relative transition overflow-hidden bg-[var(--license-block-bg)] py-5 px-6 mb-6 rounded-xl license-container onload-animation"> <div class="transition font-bold text-black/75 dark:text-white/75"> CAN 与 CAN FD </div> <a href="https://xiaoyuewhut.github.io/posts/整车通信与诊断/can-与-can-fd/" class="link text-[var(--primary)]"> https://xiaoyuewhut.github.io/posts/整车通信与诊断/can-与-can-fd/ </a> <div class="flex gap-6 mt-2"> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">作者</div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2">小月</div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">发布于</div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2">2026-04-26</div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">许可协议</div> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="link text-[var(--primary)] line-clamp-2">CC BY-NC-SA 4.0</a> </div> </div> <svg width="0.97em" height="1em" class="transition text-[15rem] absolute pointer-events-none right-6 top-1/2 -translate-y-1/2 text-black/5 dark:text-white/5" data-icon="fa6-brands:creative-commons">   <symbol id="ai:fa6-brands:creative-commons" viewBox="0 0 496 512"><path fill="currentColor" d="m245.83 214.87l-33.22 17.28c-9.43-19.58-25.24-19.93-27.46-19.93c-22.13 0-33.22 14.61-33.22 43.84c0 23.57 9.21 43.84 33.22 43.84c14.47 0 24.65-7.09 30.57-21.26l30.55 15.5c-6.17 11.51-25.69 38.98-65.1 38.98c-22.6 0-73.96-10.32-73.96-77.05c0-58.69 43-77.06 72.63-77.06c30.72-.01 52.7 11.95 65.99 35.86m143.05 0l-32.78 17.28c-9.5-19.77-25.72-19.93-27.9-19.93c-22.14 0-33.22 14.61-33.22 43.84c0 23.55 9.23 43.84 33.22 43.84c14.45 0 24.65-7.09 30.54-21.26l31 15.5c-2.1 3.75-21.39 38.98-65.09 38.98c-22.69 0-73.96-9.87-73.96-77.05c0-58.67 42.97-77.06 72.63-77.06c30.71-.01 52.58 11.95 65.56 35.86M247.56 8.05C104.74 8.05 0 123.11 0 256.05c0 138.49 113.6 248 247.56 248c129.93 0 248.44-100.87 248.44-248c0-137.87-106.62-248-248.44-248m.87 450.81c-112.54 0-203.7-93.04-203.7-202.81c0-105.42 85.43-203.27 203.72-203.27c112.53 0 202.82 89.46 202.82 203.26c-.01 121.69-99.68 202.82-202.84 202.82"/></symbol><use href="#ai:fa6-brands:creative-commons"></use>  </svg> </div> </div> </div> <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full"> <a href="/posts/智驾系统开发/需求分解/" class="w-full font-bold overflow-hidden active:scale-95"> <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4"> <svg width="1em" height="1em" class="text-[2rem] text-[var(--primary)]" data-icon="material-symbols:chevron-left-rounded">   <symbol id="ai:material-symbols:chevron-left-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m10.8 12l3.9 3.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-4.6-4.6q-.15-.15-.212-.325T8.425 12t.063-.375t.212-.325l4.6-4.6q.275-.275.7-.275t.7.275t.275.7t-.275.7z"/></symbol><use href="#ai:material-symbols:chevron-left-rounded"></use>  </svg> <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75"> 需求分解 </div> </div> </a> <a href="/posts/整车通信与诊断/autosar-网络管理详解/" class="w-full font-bold overflow-hidden active:scale-95"> <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4"> <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75"> AUTOSAR 网络管理详解 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="text-[2rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg> </div> </a> </div>  <div class="footer col-span-2 onload-animation hidden lg:block"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> </main> <div class="footer col-span-2 onload-animation block lg:hidden"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> <!-- There can't be a filter on parent element, or it will break `fixed` --><div class="back-to-top-wrapper hidden lg:block" data-astro-cid-eymb5ayk> <div id="back-to-top-btn" class="back-to-top-btn hide flex items-center rounded-2xl overflow-hidden transition" onclick="backToTop()" data-astro-cid-eymb5ayk> <button aria-label="Back to Top" class="btn-card h-[3.75rem] w-[3.75rem]" data-astro-cid-eymb5ayk> <svg width="1em" height="1em" class="mx-auto" data-astro-cid-eymb5ayk="true" data-icon="material-symbols:keyboard-arrow-up-rounded">   <symbol id="ai:material-symbols:keyboard-arrow-up-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m12 10.8l-3.9 3.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.6-4.6q.3-.3.7-.3t.7.3l4.6 4.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></symbol><use href="#ai:material-symbols:keyboard-arrow-up-rounded"></use>  </svg> </button> </div> </div>  <script>
+function backToTop() {
+    window.scroll({ top: 0, behavior: 'smooth' });
+}
+</script> </div> </div>  <div class="absolute w-full z-0 hidden 2xl:block"> <div class="relative max-w-[var(--page-width)] mx-auto"> <!-- TOC component --> <div id="toc-wrapper" class="hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center"> <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar"> <div id="toc" class="w-full h-full transition-swup-fade "> <div class="h-8 w-full"></div> <table-of-contents class="group"><a href="#classical-can-的通信过程" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">1</div><div class="transition text-sm text-50">Classical CAN 的通信过程</div></a><a href="#节点组成" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">节点组成</div></a><a href="#物理层前提" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">物理层前提</div></a><a href="#端接拓扑和位时序" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">端接、拓扑和位时序</div></a><a href="#一帧报文的传输链路" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">一帧报文的传输链路</div></a><a href="#仲裁ack-和位时序" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">仲裁、ACK 和位时序</div></a><a href="#再把这个过程对回帧结构" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">2</div><div class="transition text-sm text-50">再把这个过程对回帧结构</div></a><a href="#整帧骨架和具体位域" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">整帧骨架和具体位域</div></a><a href="#11-bit-标准数据帧" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">11-bit 标准数据帧</div></a><a href="#29-bit-扩展数据帧" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">29-bit 扩展数据帧</div></a><a href="#位填充和实际波形" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">位填充和实际波形</div></a><a href="#can-fd-的扩展位置" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">3</div><div class="transition text-sm text-50">CAN FD 的扩展位置</div></a><a href="#can-fd-保留的-can-思路" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">CAN FD 保留的 CAN 思路</div></a><a href="#can-fd-的来源" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">CAN FD 的来源</div></a><a href="#can-fd-的变化集中在-controldata-和-crc" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">CAN FD 的变化集中在 Control、Data 和 CRC</div></a><a href="#brs-和双速率阶段" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">BRS 和双速率阶段</div></a><a href="#dlc-映射和物理层敏感度都需要单独记住" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">DLC 映射和物理层敏感度都需要单独记住</div></a><a href="#can-fd-之后的-can-xl" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">4</div><div class="transition text-sm text-50">CAN FD 之后的 CAN XL</div></a><a href="#can-xl-的位置" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">CAN XL 的位置</div></a><a href="#can-xl-主要增强了什么" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">CAN XL 主要增强了什么</div></a><a href="#can-xl-和以太网can-sic-的关系" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">CAN XL 和以太网、CAN SIC 的关系</div></a><a href="#参考资料" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">5</div><div class="transition text-sm text-50">参考资料</div></a><div id="active-indicator" style="opacity: 0" class="-z-10 absolute bg-[var(--toc-btn-hover)] left-0 right-0 rounded-xl transition-all group-hover:bg-transparent border-2 border-[var(--toc-btn-hover)] group-hover:border-[var(--toc-btn-active)] border-dashed"></div></table-of-contents><script type="module">class l extends HTMLElement{tocEl=null;visibleClass="visible";observer;anchorNavTarget=null;headingIdxMap=new Map;headings=[];sections=[];tocEntries=[];active=[];activeIndicator=null;constructor(){super(),this.observer=new IntersectionObserver(this.markVisibleSection,{threshold:0})}markVisibleSection=t=>{t.forEach(e=>{const i=e.target.children[0]?.getAttribute("id"),s=i?this.headingIdxMap.get(i):void 0;s!=null&&(this.active[s]=e.isIntersecting),e.isIntersecting&&this.anchorNavTarget==e.target.firstChild&&(this.anchorNavTarget=null)}),this.active.includes(!0)||this.fallback(),this.update()};toggleActiveHeading=()=>{let t=this.active.length-1,e=this.active.length-1,i=-1;for(;t>=0&&!this.active[t];)this.tocEntries[t].classList.remove(this.visibleClass),t--;for(;t>=0&&this.active[t];)this.tocEntries[t].classList.add(this.visibleClass),e=Math.min(e,t),i=Math.max(i,t),t--;for(;t>=0;)this.tocEntries[t].classList.remove(this.visibleClass),t--;if(e>i)this.activeIndicator?.setAttribute("style","opacity: 0");else{let s=this.tocEl?.getBoundingClientRect().top||0,n=this.tocEl?.scrollTop||0,o=this.tocEntries[e].getBoundingClientRect().top-s+n,c=this.tocEntries[i].getBoundingClientRect().bottom-s+n;this.activeIndicator?.setAttribute("style",`top: ${o}px; height: ${c-o}px`)}};scrollToActiveHeading=()=>{if(this.anchorNavTarget||!this.tocEl)return;const t=document.querySelectorAll(`#toc .${this.visibleClass}`);if(!t.length)return;const e=t[0],i=t[t.length-1],s=this.tocEl.clientHeight;let n;i.getBoundingClientRect().bottom-e.getBoundingClientRect().top<.9*s?n=e.offsetTop-32:n=i.offsetTop-s*.8,this.tocEl.scrollTo({top:n,left:0,behavior:"smooth"})};update=()=>{requestAnimationFrame(()=>{this.toggleActiveHeading(),this.scrollToActiveHeading()})};fallback=()=>{if(this.sections.length)for(let t=0;t<this.sections.length;t++){let e=this.sections[t].getBoundingClientRect().top,i=this.sections[t].getBoundingClientRect().bottom;if(this.isInRange(e,0,window.innerHeight)||this.isInRange(i,0,window.innerHeight)||e<0&&i>window.innerHeight)this.markActiveHeading(t);else if(e>window.innerHeight)break}};markActiveHeading=t=>{this.active[t]=!0};handleAnchorClick=t=>{const e=t.composedPath().find(i=>i instanceof HTMLAnchorElement);if(e){const i=decodeURIComponent(e.hash?.substring(1)),s=this.headingIdxMap.get(i);s!==void 0?this.anchorNavTarget=this.headings[s]:this.anchorNavTarget=null}};isInRange(t,e,i){return e<t&&t<i}connectedCallback(){const t=document.querySelector(".prose");t?t.addEventListener("animationend",()=>{this.init()},{once:!0}):console.debug("Animation element not found")}init(){if(this.tocEl=document.getElementById("toc-inner-wrapper"),!!this.tocEl&&(this.tocEl.addEventListener("click",this.handleAnchorClick,{capture:!0}),this.activeIndicator=document.getElementById("active-indicator"),this.tocEntries=Array.from(document.querySelectorAll("#toc a[href^='#']")),this.tocEntries.length!==0)){this.sections=new Array(this.tocEntries.length),this.headings=new Array(this.tocEntries.length);for(let t=0;t<this.tocEntries.length;t++){const e=decodeURIComponent(this.tocEntries[t].hash?.substring(1)),i=document.getElementById(e),s=i?.parentElement;i instanceof HTMLElement&&s instanceof HTMLElement&&(this.headings[t]=i,this.sections[t]=s,this.headingIdxMap.set(e,t))}this.active=new Array(this.tocEntries.length).fill(!1),this.sections.forEach(t=>this.observer.observe(t)),this.fallback(),this.update()}}disconnectedCallback(){this.sections.forEach(t=>this.observer.unobserve(t)),this.observer.disconnect(),this.tocEl?.removeEventListener("click",this.handleAnchorClick)}}customElements.get("table-of-contents")||customElements.define("table-of-contents",l);</script> <div class="h-8 w-full"></div> </div> </div> </div> <!-- #toc needs to exist for Swup to work normally -->  </div> </div>  <!-- increase the page height during page transition to prevent the scrolling animation from jumping --> <div id="page-height-extend" class="hidden h-[300vh]" data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"></div>  <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.CkDAorbp.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_1_lang.DAHrxWCB.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_2_lang.CVGuqTLd.js"></script> </body></html>

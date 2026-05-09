@@ -1,0 +1,1077 @@
+<!DOCTYPE html><html lang="zh-CN" class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]" data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <head><title>需求分解 - 小月手记</title><meta charset="UTF-8"><meta name="description" content="需求分解要解决的问题很具体：把模糊愿望变成可设计、可实现、可验证、可追溯的工程条目。比如 ACC 要能跟车只能表达方向。进入项目后，还要回答更多问题：什么时候允许开启，前车怎样定义，跟车距离按什么规则算，谁负责发制动请求，ESP 执行失败怎么办，驾驶员踩刹车以后系统怎样退出，测试"><meta name="author" content="小月"><meta property="og:site_name" content="小月手记"><meta property="og:url" content="https://xiaoyuewhut.github.io/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3/"><meta property="og:title" content="需求分解 - 小月手记"><meta property="og:description" content="需求分解要解决的问题很具体：把模糊愿望变成可设计、可实现、可验证、可追溯的工程条目。比如 ACC 要能跟车只能表达方向。进入项目后，还要回答更多问题：什么时候允许开启，前车怎样定义，跟车距离按什么规则算，谁负责发制动请求，ESP 执行失败怎么办，驾驶员踩刹车以后系统怎样退出，测试"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://xiaoyuewhut.github.io/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3/"><meta name="twitter:title" content="需求分解 - 小月手记"><meta name="twitter:description" content="需求分解要解决的问题很具体：把模糊愿望变成可设计、可实现、可验证、可追溯的工程条目。比如 ACC 要能跟车只能表达方向。进入项目后，还要回答更多问题：什么时候允许开启，前车怎样定义，跟车距离按什么规则算，谁负责发制动请求，ESP 执行失败怎么办，驾驶员踩刹车以后系统怎样退出，测试"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.13.10"><link rel="icon" href="/favicon/favicon-light-32.png" sizes="32x32" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-128.png" sizes="128x128" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-180.png" sizes="180x180" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-192.png" sizes="192x192" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-dark-32.png" sizes="32x32" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-128.png" sizes="128x128" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-180.png" sizes="180x180" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-192.png" sizes="192x192" media="(prefers-color-scheme: dark)"><!-- Set the theme before the page is rendered to avoid a flash --><script>(function(){const DEFAULT_THEME = "light";
+const LIGHT_MODE = "light";
+const DARK_MODE = "dark";
+const AUTO_MODE = "auto";
+const BANNER_HEIGHT_EXTEND = 30;
+const PAGE_WIDTH = 75;
+const configHue = 24;
+const configHueFixed = true;
+
+			// Load the theme from local storage
+			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
+			switch (theme) {
+				case LIGHT_MODE:
+					document.documentElement.classList.remove('dark');
+					break
+				case DARK_MODE:
+					document.documentElement.classList.add('dark');
+					break
+				case AUTO_MODE:
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+			}
+
+			// Use the configured hue when the palette is fixed.
+			if (configHueFixed) {
+				localStorage.removeItem('hue');
+			}
+			const hue = configHueFixed ? configHue : (localStorage.getItem('hue') || configHue);
+			document.documentElement.style.setProperty('--hue', hue);
+
+			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
+			offset = offset - offset % 4;
+			document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+		})();</script><!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"需求分解","description":"需求分解要解决的问题很具体：把模糊愿望变成可设计、可实现、可验证、可追溯的工程条目。比如 ACC 要能跟车只能表达方向。进入项目后，还要回答更多问题：什么时候允许开启，前车怎样定义，跟车距离按什么规则算，谁负责发制动请求，ESP 执行失败怎么办，驾驶员踩刹车以后系统怎样退出，测试","keywords":["智驾系统开发","需求工程","需求分解","功能设计"],"author":{"@type":"Person","name":"小月","url":"https://xiaoyuewhut.github.io/"},"datePublished":"2026-04-28","inLanguage":"zh-CN"}</script><link rel="alternate" type="application/rss+xml" title="小月" href="https://xiaoyuewhut.github.io/rss.xml"><link rel="stylesheet" href="/_astro/Layout.CKPtf-VR.css">
+<link rel="stylesheet" href="/_astro/Layout.DSulWsr7.css">
+<link rel="stylesheet" href="/_astro/_page_.CzA7YvoV.css">
+<link rel="stylesheet" href="/_astro/_page_.C3Uhk80C.css">
+<link rel="stylesheet" href="/_astro/about.BtniRLn_.css">
+<style>input.svelte-1wah7ro:focus{outline:0}.search-panel.svelte-1wah7ro{max-height:calc(100vh - 100px);overflow-y:auto}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k){-webkit-appearance:none;height:1.5rem;background-image:var(--color-selection-bar);transition:background-image .15s ease-in-out}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;border-width:0;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:active{background:#fff9}
+</style><script type="module" src="/_astro/page.xXXvkYYW.js"></script></head> <body class=" min-h-screen transition " data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <div id="config-carrier" data-hue="24" data-hue-fixed="true"></div>    <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto"> <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all"> <div id="navbar" class="z-50 onload-animation"> <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--page-bg)] transition"></div> <!-- used for onload animation --> <div class="card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-[1.4rem] mx-auto mt-2 flex items-center justify-between px-4 md:px-5"> <a href="/" class="btn-plain scale-animation rounded-xl h-[3.25rem] px-5 font-bold active:scale-95"> <div class="flex flex-row text-[var(--primary)] items-center text-md tracking-tight"> <svg width="1em" height="1em" class="text-[1.75rem] mb-1 mr-2" data-icon="material-symbols:home-outline-rounded">   <symbol id="ai:material-symbols:home-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75"/></symbol><use href="#ai:material-symbols:home-outline-rounded"></use>  </svg> 小月手记 </div> </a> <div class="hidden md:flex"> <a aria-label="首页" href="/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 首页  </div> </a><a aria-label="时间线" href="/timeline/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 时间线  </div> </a><a aria-label="专题" href="/studies/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 专题  </div> </a><a aria-label="关于" href="/about/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 关于  </div> </a> </div> <div class="flex"> <!--<SearchPanel client:load>--> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1fnFdc" component-url="/_astro/Search.BNBag9ir.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Search&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island>  <astro-island uid="ZXWCws" component-url="/_astro/LightDarkSwitch.CfGE5ug7.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;LightDarkSwitch&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-xl w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch"> <svg width="1em" height="1em" class="text-[1.25rem]" data-icon="material-symbols:menu-rounded">   <symbol id="ai:material-symbols:menu-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:menu-rounded"></use>  </svg> </button> </div> <div id="nav-menu-panel" class="float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2"> <a href="/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 首页 </div> <svg width="1em" height="1em" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <symbol id="ai:material-symbols:chevron-right-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"/></symbol><use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/timeline/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 时间线 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/studies/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 专题 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/about/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 关于 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a> </div> <astro-island uid="Z1I5MKx" component-url="/_astro/DisplaySettings.BoEDqxxf.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;DisplaySettings&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> </div> </div> <script type="module">function c(){localStorage.theme==="dark"?(document.documentElement.classList.remove("dark"),localStorage.theme="light"):(document.documentElement.classList.add("dark"),localStorage.theme="dark")}function o(){let t=document.getElementById("scheme-switch");t&&(t.onclick=function(){c()});let n=document.getElementById("display-settings-switch");n&&(n.onclick=function(){let e=document.getElementById("display-setting");e&&e.classList.toggle("float-panel-closed")});let l=document.getElementById("nav-menu-switch");l&&(l.onclick=function(){let e=document.getElementById("nav-menu-panel");e&&e.classList.toggle("float-panel-closed")})}o();</script> <script>(function(){const scriptUrl = "/pagefind/pagefind.js";
+
+async function loadPagefind() {
+    try {
+        const response = await fetch(scriptUrl, { method: 'HEAD' });
+        if (!response.ok) {
+            throw new Error(`Pagefind script not found: ${response.status}`);
+        }
+
+        const pagefind = await import(scriptUrl);
+
+        await pagefind.options({
+            excerptLength: 20
+        });
+
+        window.pagefind = pagefind;
+
+        document.dispatchEvent(new CustomEvent('pagefindready'));
+        console.log('Pagefind loaded and initialized successfully, event dispatched.');
+    } catch (error) {
+        console.error('Failed to load Pagefind:', error);
+        window.pagefind = {
+            search: () => Promise.resolve({ results: [] }),
+            options: () => Promise.resolve(),
+        };
+        document.dispatchEvent(new CustomEvent('pagefindloaderror'));
+        console.log('Pagefind load error, event dispatched.');
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPagefind);
+} else {
+    loadPagefind();
+}
+})();</script> </div> </div>   <div class="absolute w-full z-30 pointer-events-none" style="top: 5.5rem"> <!-- The pointer-events-none here prevent blocking the click event of the TOC --> <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto"> <div id="main-grid" class="transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto]
+    mx-auto gap-4 px-0 md:px-4"> <!-- Banner image credit -->  <div id="sidebar" class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation w-full"> <div class="flex flex-col w-full gap-4 mb-4"> <div class="card-base p-4 md:p-5"> <a aria-label="Go to About Page" href="/about/" class="group block relative mx-auto mt-1 lg:mx-0 lg:mt-0 mb-3
+        max-w-[12rem] lg:max-w-none overflow-hidden rounded-xl active:scale-95"> <div class="absolute transition pointer-events-none group-hover:bg-[rgb(83_63_41_/_0.16)] group-active:bg-[rgb(83_63_41_/_0.24)]
+        w-full h-full z-50 flex items-center justify-center"> <svg width="1.13em" height="1em" class="transition opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 text-white text-5xl" data-icon="fa6-regular:address-card">   <symbol id="ai:fa6-regular:address-card" viewBox="0 0 576 512"><path fill="currentColor" d="M512 80c8.8 0 16 7.2 16 16v320c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V96c0-8.8 7.2-16 16-16zM64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm144 224a64 64 0 1 0 0-128a64 64 0 1 0 0 128m-32 32c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16h192c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80zm200-144c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24z"/></symbol><use href="#ai:fa6-regular:address-card"></use>  </svg> </div> <div class="mx-auto lg:w-full h-full lg:mt-0  overflow-hidden relative"> <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div> <img src="/_astro/demo-avatar.CxcI0ivM_1nbuVe.webp" alt="Profile Image of the Author" style="object-position: center" loading="lazy" decoding="async" fetchpriority="auto" width="512" height="512" class="w-full h-full object-cover">  </div> </a> <div class="px-2"> <div class="font-display font-bold text-2xl text-center mb-1 text-90 transition">小月</div> <div class="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition"></div> <div class="text-center text-75 mb-3 leading-7 transition">记录整车通信、智驾系统、控制与持续学习过程的中文笔记。</div> <div class="flex flex-wrap gap-2 justify-center mb-1"> <a rel="me" aria-label="QQ" href="https://wpa.qq.com/msgrd?v=3&uin=1410419147&site=qq&menu=yes" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="0.88em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:qq">   <symbol id="ai:fa6-brands:qq" viewBox="0 0 448 512"><path fill="currentColor" d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741c0 31.345-16.136 72.247-51.051 101.786c16.842 5.192 54.843 19.167 45.803 34.421c-7.316 12.343-125.51 7.881-159.632 4.037c-34.122 3.844-152.316 8.306-159.632-4.037c-9.045-15.25 28.918-29.214 45.783-34.415c-34.92-29.539-51.059-70.445-51.059-101.792c0 0-33.334 54.134-44.859 52.741c-5.37-.65-12.424-29.644 9.347-99.704c10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963c18.118 45.223 29.912 72.85 40.144 105.778c21.768 70.06 14.716 99.053 9.346 99.704"/></symbol><use href="#ai:fa6-brands:qq"></use>  </svg> </a><a rel="me" aria-label="邮箱" href="mailto:xiaoyue@example.com" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1em" height="1em" class="text-[1.5rem]" data-icon="material-symbols:mail-outline-rounded">   <symbol id="ai:material-symbols:mail-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20zM20 8l-7.475 4.675q-.125.075-.262.113t-.263.037t-.262-.037t-.263-.113L4 8v10h16zm-8 3l8-5H4zM4 8v.25v-1.475v.025V6v.8v-.012V8.25zv10z"/></symbol><use href="#ai:material-symbols:mail-outline-rounded"></use>  </svg> </a><a rel="me" aria-label="微信" href="https://weixin.qq.com/" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1.13em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:weixin">   <symbol id="ai:fa6-brands:weixin" viewBox="0 0 576 512"><path fill="currentColor" d="M385.2 167.6c6.4 0 12.6.3 18.8 1.1C387.4 90.3 303.3 32 207.7 32C100.5 32 13 104.8 13 197.4c0 53.4 29.3 97.5 77.9 131.6l-19.3 58.6l68-34.1c24.4 4.8 43.8 9.7 68.2 9.7c6.2 0 12.1-.3 18.3-.8c-4-12.9-6.2-26.6-6.2-40.8c-.1-84.9 72.9-154 165.3-154m-104.5-52.9c14.5 0 24.2 9.7 24.2 24.4c0 14.5-9.7 24.2-24.2 24.2c-14.8 0-29.3-9.7-29.3-24.2c.1-14.7 14.6-24.4 29.3-24.4m-136.4 48.6c-14.5 0-29.3-9.7-29.3-24.2c0-14.8 14.8-24.4 29.3-24.4c14.8 0 24.4 9.7 24.4 24.4c0 14.6-9.6 24.2-24.4 24.2M563 319.4c0-77.9-77.9-141.3-165.4-141.3c-92.7 0-165.4 63.4-165.4 141.3S305 460.7 397.6 460.7c19.3 0 38.9-5.1 58.6-9.9l53.4 29.3l-14.8-48.6C534 402.1 563 363.2 563 319.4m-219.1-24.5c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.8 0 24.4 9.7 24.4 19.3c0 10-9.7 19.6-24.4 19.6m107.1 0c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.5 0 24.4 9.7 24.4 19.3c.1 10-9.9 19.6-24.4 19.6"/></symbol><use href="#ai:fa6-brands:weixin"></use>  </svg> </a>  </div> </div> </div> </div> <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4"> <widget-layout data-id="categories" data-is-collapsed="false" class="pb-4 card-base onload-animation" style="animation-delay: 150ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">分类</div> <div id="categories" class="collapse-wrapper px-4 overflow-hidden" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <a href="/timeline/?category=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 2 </div> </div> </button> </a><a href="/timeline/?category=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD" aria-label="View all posts in the 整车通信与诊断 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 整车通信与诊断 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 9 </div> </div> </button> </a><a href="/timeline/?category=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts in the 智驾系统开发 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 智驾系统开发 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 8 </div> </div> </button> </a><a href="/timeline/?category=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts in the 深度学习 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 深度学习 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%A1%AC%E4%BB%B6" aria-label="View all posts in the 硬件 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 硬件 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts in the 端到端自动驾驶 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 端到端自动驾驶 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts in the 运动控制与状态辨识 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 运动控制与状态辨识 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E9%A2%84%E6%9C%9F%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 预期功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 预期功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a> </div>  </widget-layout>  <script type="module">class d extends HTMLElement{constructor(){if(super(),this.dataset.isCollapsed!=="true")return;const e=this.dataset.id,t=this.querySelector(".expand-btn"),s=this.querySelector(`#${e}`);t.addEventListener("click",()=>{s.classList.remove("collapsed"),t.classList.add("hidden")})}}customElements.get("widget-layout")||customElements.define("widget-layout",d);</script> <widget-layout data-id="tags" data-is-collapsed="true" class="pb-4 card-base onload-animation" style="animation-delay: 200ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">标签</div> <div id="tags" class="collapse-wrapper px-4 overflow-hidden collapsed" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">  <div class="flex gap-1.5 flex-wrap"> <a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E7%BD%91%E7%BB%9C" aria-label="View all posts with the 整车网络 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车网络</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E8%AF%8A%E6%96%AD" aria-label="View all posts with the 整车诊断 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车诊断</span>  </a><a href="/timeline/?tag=ECU" aria-label="View all posts with the ECU tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ECU</span>  </a><a href="/timeline/?tag=L2" aria-label="View all posts with the L2 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L2</span>  </a><a href="/timeline/?tag=UDS" aria-label="View all posts with the UDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDS</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83" aria-label="View all posts with the 功能规范 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能规范</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE" aria-label="View all posts with the 智驾 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾</span>  </a><a href="/timeline/?tag=%E8%BE%85%E5%8A%A9%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 辅助驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">辅助驾驶</span>  </a><a href="/timeline/?tag=CAN" aria-label="View all posts with the CAN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN</span>  </a><a href="/timeline/?tag=DoIP" aria-label="View all posts with the DoIP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DoIP</span>  </a><a href="/timeline/?tag=ISO-26262" aria-label="View all posts with the ISO-26262 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-26262</span>  </a><a href="/timeline/?tag=TCP" aria-label="View all posts with the TCP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TCP</span>  </a><a href="/timeline/?tag=UDP" aria-label="View all posts with the UDP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDP</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E6%84%9F%E5%99%A8" aria-label="View all posts with the 传感器 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传感器</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts with the 功能安全 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能安全</span>  </a><a href="/timeline/?tag=%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 智能驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智能驾驶</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts with the 智驾系统开发 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统开发</span>  </a><a href="/timeline/?tag=%E8%A1%8C%E8%BD%A6" aria-label="View all posts with the 行车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">行车</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E4%BB%A5%E5%A4%AA%E7%BD%91" aria-label="View all posts with the 车载以太网 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载以太网</span>  </a><a href="/timeline/?tag=1000BASE-T1" aria-label="View all posts with the 1000BASE-T1 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">1000BASE-T1</span>  </a><a href="/timeline/?tag=100BASE-TX" aria-label="View all posts with the 100BASE-TX tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">100BASE-TX</span>  </a><a href="/timeline/?tag=ADAS" aria-label="View all posts with the ADAS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ADAS</span>  </a><a href="/timeline/?tag=ALC" aria-label="View all posts with the ALC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ALC</span>  </a><a href="/timeline/?tag=APO" aria-label="View all posts with the APO tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">APO</span>  </a><a href="/timeline/?tag=ASIL" aria-label="View all posts with the ASIL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL</span>  </a><a href="/timeline/?tag=ASIL%E5%88%86%E8%A7%A3" aria-label="View all posts with the ASIL分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL分解</span>  </a><a href="/timeline/?tag=AUTOSAR" aria-label="View all posts with the AUTOSAR tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">AUTOSAR</span>  </a><a href="/timeline/?tag=Bootloader" aria-label="View all posts with the Bootloader tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bootloader</span>  </a><a href="/timeline/?tag=Bus-Off" aria-label="View all posts with the Bus-Off tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bus-Off</span>  </a><a href="/timeline/?tag=CAN-FD" aria-label="View all posts with the CAN-FD tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN-FD</span>  </a><a href="/timeline/?tag=CanNm" aria-label="View all posts with the CanNm tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CanNm</span>  </a><a href="/timeline/?tag=ComM" aria-label="View all posts with the ComM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ComM</span>  </a><a href="/timeline/?tag=DDS" aria-label="View all posts with the DDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DDS</span>  </a><a href="/timeline/?tag=Diffusion" aria-label="View all posts with the Diffusion tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Diffusion</span>  </a><a href="/timeline/?tag=DMS" aria-label="View all posts with the DMS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DMS</span>  </a><a href="/timeline/?tag=DTC" aria-label="View all posts with the DTC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DTC</span>  </a><a href="/timeline/?tag=EOL" aria-label="View all posts with the EOL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">EOL</span>  </a><a href="/timeline/?tag=HARA" aria-label="View all posts with the HARA tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HARA</span>  </a><a href="/timeline/?tag=HMI" aria-label="View all posts with the HMI tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HMI</span>  </a><a href="/timeline/?tag=ISO-13400" aria-label="View all posts with the ISO-13400 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-13400</span>  </a><a href="/timeline/?tag=ISO-14229" aria-label="View all posts with the ISO-14229 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-14229</span>  </a><a href="/timeline/?tag=L3" aria-label="View all posts with the L3 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L3</span>  </a><a href="/timeline/?tag=LSTM" aria-label="View all posts with the LSTM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">LSTM</span>  </a><a href="/timeline/?tag=MLP-Mixer" aria-label="View all posts with the MLP-Mixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">MLP-Mixer</span>  </a><a href="/timeline/?tag=REC" aria-label="View all posts with the REC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">REC</span>  </a><a href="/timeline/?tag=RTPS" aria-label="View all posts with the RTPS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">RTPS</span>  </a><a href="/timeline/?tag=SOME%2FIP" aria-label="View all posts with the SOME/IP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">SOME/IP</span>  </a><a href="/timeline/?tag=TEC" aria-label="View all posts with the TEC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TEC</span>  </a><a href="/timeline/?tag=TSMixer" aria-label="View all posts with the TSMixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSMixer</span>  </a><a href="/timeline/?tag=TSN" aria-label="View all posts with the TSN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSN</span>  </a><a href="/timeline/?tag=%E4%B8%AD%E9%97%B4%E4%BB%B6" aria-label="View all posts with the 中间件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">中间件</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E8%BE%93%E5%B1%82" aria-label="View all posts with the 传输层 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传输层</span>  </a><a href="/timeline/?tag=%E4%BF%A1%E5%8F%B7%E7%9F%A9%E9%98%B5" aria-label="View all posts with the 信号矩阵 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">信号矩阵</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 功能设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能设计</span>  </a><a href="/timeline/?tag=%E5%8D%B1%E5%AE%B3%E5%88%86%E6%9E%90" aria-label="View all posts with the 危害分析 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">危害分析</span>  </a><a href="/timeline/?tag=%E5%91%BD%E4%BB%A4%E5%8F%98%E9%81%93" aria-label="View all posts with the 命令变道 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">命令变道</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 接口设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接口设计</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E7%AE%A1" aria-label="View all posts with the 接管 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接管</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86" aria-label="View all posts with the 故障处理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障处理</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E7%A0%81" aria-label="View all posts with the 故障码 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障码</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 整车通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车通信</span>  </a><a href="/timeline/?tag=%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B" aria-label="View all posts with the 时序预测 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时序预测</span>  </a><a href="/timeline/?tag=%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5" aria-label="View all posts with the 时间同步 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时间同步</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F" aria-label="View all posts with the 智驾系统 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统</span>  </a><a href="/timeline/?tag=%E6%A0%87%E5%AE%9A" aria-label="View all posts with the 标定 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">标定</span>  </a><a href="/timeline/?tag=%E6%B3%8A%E8%BD%A6" aria-label="View all posts with the 泊车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">泊车</span>  </a><a href="/timeline/?tag=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts with the 深度学习 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">深度学习</span>  </a><a href="/timeline/?tag=%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B" aria-label="View all posts with the 生成模型 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">生成模型</span>  </a><a href="/timeline/?tag=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 端到端自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">端到端自动驾驶</span>  </a><a href="/timeline/?tag=%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90" aria-label="View all posts with the 系统集成 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">系统集成</span>  </a><a href="/timeline/?tag=%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86" aria-label="View all posts with the 网络管理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">网络管理</span>  </a><a href="/timeline/?tag=%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自动驾驶</span>  </a><a href="/timeline/?tag=%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6" aria-label="View all posts with the 自适应巡航控制 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自适应巡航控制</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E5%9F%9F" aria-label="View all posts with the 设计运行域 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行域</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E6%9D%A1%E4%BB%B6" aria-label="View all posts with the 设计运行条件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行条件</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 车载通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载通信</span>  </a><a href="/timeline/?tag=%E8%BD%A8%E8%BF%B9%E8%A7%84%E5%88%92" aria-label="View all posts with the 轨迹规划 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">轨迹规划</span>  </a><a href="/timeline/?tag=%E8%BD%AF%E4%BB%B6%E5%88%B7%E5%86%99" aria-label="View all posts with the 软件刷写 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">软件刷写</span>  </a><a href="/timeline/?tag=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts with the 运动控制与状态辨识 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">运动控制与状态辨识</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3" aria-label="View all posts with the 需求分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求分解</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B" aria-label="View all posts with the 需求工程 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求工程</span>  </a><a href="/timeline/?tag=%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0" aria-label="View all posts with the 风险评估 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">风险评估</span>  </a> </div>  </div> <div class="expand-btn px-4 -mb-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <button class="btn-plain rounded-lg w-full h-9" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <div class="text-[var(--primary)] flex items-center justify-center gap-2 -translate-x-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <svg width="1em" height="1em" class="text-[1.75rem]" data-astro-cid-ucso7hve="true" data-icon="material-symbols:more-horiz">   <symbol id="ai:material-symbols:more-horiz" viewBox="0 0 24 24"><path fill="currentColor" d="M6 14q-.825 0-1.412-.587T4 12t.588-1.412T6 10t1.413.588T8 12t-.587 1.413T6 14m6 0q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m6 0q-.825 0-1.412-.587T16 12t.588-1.412T18 10t1.413.588T20 12t-.587 1.413T18 14"/></symbol><use href="#ai:material-symbols:more-horiz"></use>  </svg> 更多 </div> </button> </div> </widget-layout>   </div> </div> <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden"> <div id="content-wrapper" class="onload-animation"> <!-- the overflow-hidden here prevent long text break the layout--> <!-- make id different from windows.swup global property -->   <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4"> <div id="post-container" class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full "> <!-- word count and reading time --> <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation"> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:notes-rounded">   <symbol id="ai:material-symbols:notes-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h10q.425 0 .713.288T15 17t-.288.713T14 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:notes-rounded"></use>  </svg> </div> <div class="text-sm">8301  字</div> </div> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:schedule-outline-rounded">   <symbol id="ai:material-symbols:schedule-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M13 11.6V8q0-.425-.288-.712T12 7t-.712.288T11 8v3.975q0 .2.075.388t.225.337l3.3 3.3q.275.275.7.275T16 16t.275-.7t-.275-.7zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.325 0 5.663-2.337T20 12t-2.337-5.663T12 4T6.337 6.338T4 12t2.338 5.663T12 20"/></symbol><use href="#ai:material-symbols:schedule-outline-rounded"></use>  </svg> </div> <div class="text-sm"> 42  分钟 </div> </div> </div> <!-- title --> <div class="relative onload-animation"> <div data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title" class="transition w-full block font-display font-bold mb-3
+                    text-3xl md:text-[2.25rem]/[2.75rem]
+                    text-black/90 dark:text-white/90
+                    md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-[0.75rem] before:left-[-1.125rem]
+                "> 需求分解 </div> </div> <!-- metadata --> <div class="onload-animation"> <div class="flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2 mb-5"> <!-- publish date --> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:calendar-today-outline-rounded">   <symbol id="ai:material-symbols:calendar-today-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V3q0-.425.288-.712T7 2t.713.288T8 3v1h8V3q0-.425.288-.712T17 2t.713.288T18 3v1h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5zM5 8h14V6H5zm0 0V6z"/></symbol><use href="#ai:material-symbols:calendar-today-outline-rounded"></use>  </svg> </div> <span class="text-50 font-medium text-sm">2026-04-28</span> </div> <!-- update date -->  <!-- categories --> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:book-2-outline-rounded">   <symbol id="ai:material-symbols:book-2-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 15.325q.35-.175.725-.25T7.5 15H8V4h-.5q-.625 0-1.062.438T6 5.5zM10 15h8V4h-8zm-4 .325V4zM7.5 22q-1.45 0-2.475-1.025T4 18.5v-13q0-1.45 1.025-2.475T7.5 2H18q.825 0 1.413.587T20 4v12.525q0 .2-.162.363t-.588.362q-.35.175-.55.5t-.2.75t.2.763t.55.487t.55.413t.2.562v.25q0 .425-.288.725T19 22zm0-2h9.325q-.15-.35-.237-.712T16.5 18.5q0-.4.075-.775t.25-.725H7.5q-.65 0-1.075.438T6 18.5q0 .65.425 1.075T7.5 20"/></symbol><use href="#ai:material-symbols:book-2-outline-rounded"></use>  </svg> </div> <div class="flex flex-row flex-nowrap items-center"> <a href="/timeline/?category=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts in the 智驾系统开发 category" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 智驾系统开发 </a> </div> </div> <!-- tags --> <div class="items-center flex"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:tag-rounded">   <symbol id="ai:material-symbols:tag-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m9 16l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T6.3 18.8L7 16H4.275q-.5 0-.8-.387T3.3 14.75q.075-.35.35-.55t.625-.2H7.5l1-4H5.775q-.5 0-.8-.387T4.8 8.75q.075-.35.35-.55t.625-.2H9l.825-3.275Q9.9 4.4 10.15 4.2t.6-.2q.475 0 .775.375t.175.825L11 8h4l.825-3.275q.075-.325.325-.525t.6-.2q.475 0 .775.375t.175.825L17 8h2.725q.5 0 .8.387t.175.863q-.075.35-.35.55t-.625.2H16.5l-1 4h2.725q.5 0 .8.388t.175.862q-.075.35-.35.55t-.625.2H15l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T12.3 18.8L13 16zm.5-2h4l1-4h-4z"/></symbol><use href="#ai:material-symbols:tag-rounded"></use>  </svg> </div> <div class="flex flex-row flex-nowrap items-center"> <div class="hidden mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts with the 智驾系统开发 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 智驾系统开发 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B" aria-label="View all posts with the 需求工程 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 需求工程 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3" aria-label="View all posts with the 需求分解 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 需求分解 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 功能设计 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 功能设计 </a>  </div> </div> </div> <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div> </div> <!-- always show cover as long as it has one -->  <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mb-6 markdown-content onload-animation"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">-->  <p>需求分解是系统工程师最重要的工作之一。它把一句功能目标拆成项目里不同角色能执行的内容：架构工程师据此分配系统责任，软件工程师据此写逻辑，硬件和底盘工程师据此确认能力边界，测试工程师据此设计测试用例，项目管理据此判断工作量和风险。</p>
+<p>需求分解要解决的问题很具体：把模糊愿望变成可设计、可实现、可验证、可追溯的工程条目。比如 ACC 要能跟车只能表达方向。进入项目后，还要回答更多问题：什么时候允许开启，前车怎样定义，跟车距离按什么规则算，谁负责发制动请求，ESP 执行失败怎么办，驾驶员踩刹车以后系统怎样退出，测试时怎样判定通过。</p>
+<img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260427175152.png" alt="Pasted image 20260427175152">
+<section><h1 id="系统工程师的工作位置">系统工程师的工作位置<a class="anchor" href="#系统工程师的工作位置"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="协作角色">协作角色<a class="anchor" href="#协作角色"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>系统工程师处在功能、架构、软件、硬件、测试和项目之间。这个岗位不一定亲自写算法代码，也不一定亲自调底盘执行器，但要把整条功能链路想清楚，并把各方责任写成可以执行的需求。</p><p>在一个智驾功能项目里，系统工程师经常要和这些角色协同：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>角色</th><th>关注点</th><th>系统工程师需要给出的内容</th></tr></thead><tbody><tr><td>产品 / 功能定义</td><td>用户想要什么体验，功能覆盖哪些场景</td><td>功能目标、使用场景、功能边界</td></tr><tr><td>架构工程师</td><td>功能由哪些控制器和模块承担</td><td>系统边界、子系统责任、接口关系</td></tr><tr><td>感知工程师</td><td>目标、车道、障碍物能否被识别</td><td>感知输入需求、有效性条件、置信度要求</td></tr><tr><td>规划控制工程师</td><td>车辆怎样运动，目标速度和目标轨迹怎样生成</td><td>控制目标、状态机、限制条件</td></tr><tr><td>底盘 / 执行器工程师</td><td>制动、转向、驱动能否执行请求</td><td>执行接口、能力边界、反馈语义</td></tr><tr><td>HMI 工程师</td><td>驾驶员看到什么、听到什么、如何接管</td><td>状态显示、提示语义、交互流程</td></tr><tr><td>测试工程师</td><td>怎样证明功能满足需求</td><td>测试场景、通过准则、故障注入项</td></tr><tr><td>功能安全 / SOTIF</td><td>风险、危害、性能不足和误用</td><td>安全目标、降级策略、ODD / ODC 边界</td></tr></tbody></table><p>系统工程师要把这些角色的语言翻译到同一套需求体系里。产品说功能要自然，测试需要知道自然对应什么指标；软件说需要输入信号，架构需要知道信号来自哪个控制器；底盘说能力有限，功能需要知道哪些场景必须退出或降级。</p></section><section><h2 id="交付物">交付物<a class="anchor" href="#交付物"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>需求分解最终会形成一组文档和表格。不同公司命名会有差异，但内容大体相近。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>交付物</th><th>作用</th></tr></thead><tbody><tr><td>功能规范</td><td>描述功能目标、场景、状态、交互和边界</td></tr><tr><td>系统需求</td><td>定义整车功能链路需要满足的条件和行为</td></tr><tr><td>子系统需求</td><td>把系统需求分配给感知、融合、控制、HMI、底盘等对象</td></tr><tr><td>软件需求</td><td>把子系统行为继续落到软件模块、逻辑条件和参数</td></tr><tr><td>接口需求 / ICD</td><td>定义控制器之间的信号、服务、周期、取值和超时策略</td></tr><tr><td>状态机</td><td>定义功能状态、进入条件、保持条件、退出条件</td></tr><tr><td>追溯矩阵</td><td>记录需求来源、下游设计项和测试用例</td></tr><tr><td>测试需求</td><td>定义验证场景、输入条件、预期输出和通过准则</td></tr></tbody></table><p>这些交付物之间要能对上。功能规范里写 ACC 支持跟停，系统需求里就要有跟停条件和退出条件；接口需求里要有驻停、起步或制动相关信号；测试需求里要有前车减速至停车、短暂停车再起步、长时间驻停退出等场景。</p></section></section>
+<section><h1 id="需求分解的基本概念">需求分解的基本概念<a class="anchor" href="#需求分解的基本概念"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="需求是什么">需求是什么<a class="anchor" href="#需求是什么"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>需求是对系统必须满足的条件、行为、性能或约束的描述。它需要比想法清单和设计方案清单更严格。合格需求要能回答几个问题：</p><ol>
+<li>谁承担这个需求。</li>
+<li>在什么条件下生效。</li>
+<li>系统要做什么。</li>
+<li>做到什么程度。</li>
+<li>输出给谁。</li>
+<li>怎样验证。</li>
+</ol><p>例如 <font color="#00b050">系统应平顺减速</font> 这个表达太宽。它没有说明系统是谁、什么场景、平顺怎样判断。可改写为：<font color="#00b050">当 ACC 处于激活态且前车减速导致实际时距低于设定时距时，ADAS 控制器应生成纵向减速度请求，并使目标加速度变化率不超过标定阈值</font>；该需求通过 HIL 和实车跟车减速场景验证。</p></section><section><h2 id="需求分解是什么">需求分解是什么<a class="anchor" href="#需求分解是什么"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p><strong>需求分解就是从上层目标逐层下钻，直到每条需求都能被某个对象承担，并能被某种方法验证</strong>。它的方向是从抽象到具体，从用户语言到工程语言，从功能目标到模块行为。</p><p>需求层级如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>层级</th><th>关注对象</th><th>典型问题</th><th>交付物</th></tr></thead><tbody><tr><td>用户 / 干系人需求</td><td>驾驶员、主机厂、法规、安全目标</td><td>用户想要什么，法规和项目要求什么</td><td>用户需求、功能目标、项目约束</td></tr><tr><td>系统需求</td><td>整车功能链路</td><td>功能在什么场景下做什么，边界是什么</td><td>系统需求规格、功能规范</td></tr><tr><td>子系统需求</td><td>感知、规划、控制、HMI、底盘执行</td><td>每个子系统分别承担什么责任</td><td>子系统需求、接口需求</td></tr><tr><td>软件需求</td><td>软件组件和算法模块</td><td>软件逻辑、参数、诊断、容错怎样实现</td><td>软件需求规格、模块设计输入</td></tr><tr><td>接口需求</td><td>信号、服务、总线、诊断</td><td>控制器之间怎样交换信息</td><td>ICD、信号矩阵、服务接口定义</td></tr><tr><td>验证需求</td><td>测试和确认对象</td><td>怎样证明需求已经满足</td><td>测试用例、仿真用例、HIL / 实车验证项</td></tr></tbody></table><p>上层需求定义方向，下层需求定义责任、条件、接口和验证。需求分解不追求把文字写得越来越多，而是让<font color="#00b050">每一层都比上一层更可执行</font>。</p></section><section><h2 id="需求设计和测试的关系">需求、设计和测试的关系<a class="anchor" href="#需求设计和测试的关系"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>三者有关联，但关注点不同。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>类型</th><th>关注问题</th><th>示例</th></tr></thead><tbody><tr><td>需求</td><td>系统必须满足什么</td><td>ACC 激活态下，驾驶员踩下制动踏板时，系统应退出激活态</td></tr><tr><td>设计</td><td>系统怎样做到</td><td>ACC 状态机监听制动踏板信号，触发 Exit 状态，并清除目标加速度请求</td></tr><tr><td>测试</td><td>怎样证明做到</td><td>在 HIL 中使 ACC 进入激活态，注入制动踏板有效信号，检查状态和输出信号</td></tr></tbody></table><p>需求负责规定目标和约束，设计负责选择实现路径，测试负责验证结果。需求里可以提出接口和状态要求，但<strong>不应过早绑定某个内部实现细节，除非这个实现细节本身就是项目约束</strong>。</p></section></section>
+<section><h1 id="分解前的输入材料">分解前的输入材料<a class="anchor" href="#分解前的输入材料"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="功能输入">功能输入<a class="anchor" href="#功能输入"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>开始分解前，要收集能定义功能方向的材料。材料不完整时也可以开工，但需要明确哪些内容已冻结，哪些内容还需要确认。</p><p>==功能输入包括：==</p><ol>
+<li>==功能目标：例如 ACC、LKA、APA、APO 要解决什么驾驶任务。==</li>
+<li>==使用场景：高速巡航、拥堵跟车、自动泊入、自动驶出、驾驶员接管。==</li>
+<li>==目标用户：驾驶员、标定工程师、售后诊断人员、测试人员。==</li>
+<li>==市场和法规：法规限制、区域差异、NCAP 或主机厂评分要求。==</li>
+<li>==竞品或平台约束：已有平台能力、复用控制器、复用传感器、量产成本。==</li>
+</ol><p>这些材料决定功能目标。比如 ACC 如果只面向高速巡航，需求重点会放在中高速跟车和定速巡航；如果支持 Stop&#x26;Go，还要补零速跟停、驻停保持、起步提醒、自动恢复和长时间停车退出。</p></section><section><h2 id="系统输入">系统输入<a class="anchor" href="#系统输入"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>系统输入决定功能能落到哪些工程对象上。</p><p>系统输入包括：</p><ol>
+<li>控制器架构：ADAS、ESP、VCU、EPS、BCM、IPC、HU 分别有哪些能力。</li>
+<li>传感器配置：摄像头、毫米波雷达、超声波雷达、环视、定位模块。</li>
+<li>执行器能力：制动能力、转向能力、驱动扭矩响应、挡位控制权限。</li>
+<li>通信架构：CAN、CAN FD、以太网、DDS、服务接口、诊断链路。</li>
+<li>诊断机制：DTC、DID、故障等级、故障恢复策略。</li>
+<li>安全机制：功能安全、安全目标、ASIL 分解、SOTIF 场景约束。</li>
+</ol><p>如果不知道系统架构，需求很容易写成空泛愿望。比如 系统应自动制动 这句话必须落到 ADAS 输出请求、ESP 执行制动、VCU 协调扭矩、HMI 提示驾驶员 这条链上，才能进入设计。</p></section><section><h2 id="验证输入">验证输入<a class="anchor" href="#验证输入"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>验证输入会反过来影响需求写法。测试条件无法构造、结果无法观测、通过标准无法判断的需求，后期一定会返工。</p><p>验证输入包括：</p><ol>
+<li>仿真能力：场景库、车辆模型、传感器模型、交通参与者模型。</li>
+<li>SIL / HIL 能力：控制器闭环、接口注入、故障注入、信号记录。</li>
+<li>台架能力：底盘执行器、传感器台架、通信一致性测试。</li>
+<li>实车资源：道路、场地、目标车、软目标、天气条件、测试里程。</li>
+<li>数据分析能力：日志字段、采样周期、评价脚本、指标计算方法。</li>
+</ol><p>需求写作时要考虑验证路径。例如 前车切入后系统应及时减速 缺少可验证性；改成 前车在本车道前方 <code>30 m</code> 以内切入，目标置信度满足阈值且 ACC 处于激活态时，系统应在标定时间内生成减速度请求，测试就可以通过仿真、HIL 或场地试验构造。</p></section></section>
+<section><h1 id="分解流程">分解流程<a class="anchor" href="#分解流程"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="第一步定功能边界">第一步：定功能边界<a class="anchor" href="#第一步定功能边界"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>功能边界回答功能管什么、不管什么、依赖什么。边界不清时，后续所有需求都会互相挤压。</p><p>以 ACC 为例，边界可以这样写：</p><ol>
+<li>ACC 负责纵向辅助控制，包括定速巡航、跟车巡航和部分 Stop&#x26;Go 场景。</li>
+<li>ACC 不负责横向车道保持。</li>
+<li>ACC 不把行人作为启动时的跟车目标。</li>
+<li>ACC 依赖前向感知、ESP、VCU、HMI 和驾驶员监督。</li>
+<li>ACC 在传感器不可用、ESP 纵向控制不可用或驾驶员接管时退出。</li>
+</ol><p><strong>边界要尽量早确认</strong>。边界一旦变化，下游状态机、接口、HMI、测试用例都会跟着变化。</p></section><section><h2 id="第二步拆场景">第二步：拆场景<a class="anchor" href="#第二步拆场景"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>场景是需求分解的入口。<strong>智驾功能很少能用一条规则覆盖所有情况，必须按场景拆开</strong>。</p><p>ACC 可拆成以下场景：</p><ol>
+<li>无前车定速巡航。</li>
+<li>稳定跟车巡航。</li>
+<li>前车减速。</li>
+<li>前车停车。</li>
+<li>前车再起步。</li>
+<li>前车切入。</li>
+<li>前车切出。</li>
+<li>驾驶员踩制动接管。</li>
+<li>驾驶员踩油门临时接管。</li>
+<li>传感器或执行器故障。</li>
+</ol><p>每个场景都要继续写清条件、系统行为、输出接口和验证方法。例如 前车停车 这个场景至少要回答：停车前系统怎样减速，停车后是否保持驻停，前车几秒内起步时是否自动跟随，超过时间后是否提示驾驶员确认，驾驶员开门或解安全带时怎样退出。</p></section><section><h2 id="第三步建状态机">第三步：建状态机<a class="anchor" href="#第三步建状态机"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>状态机描述功能处于什么状态，以及状态之间怎样跳转。没有状态机，需求会散成一堆条件句，后面很难处理冲突。</p><p>ACC 的状态可简化成几类：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>状态</th><th>含义</th><th>示例条件</th></tr></thead><tbody><tr><td><code>Off</code></td><td>功能关闭</td><td>驾驶员未开启，或系统关闭</td></tr><tr><td><code>Unavailable</code></td><td>功能不可用</td><td>传感器故障、ESP 不可用、车辆条件不满足</td></tr><tr><td><code>Standby</code></td><td>功能待命</td><td>条件满足，但未进入控制</td></tr><tr><td><code>Active</code></td><td>功能激活</td><td>系统正在输出纵向控制请求</td></tr><tr><td><code>Override</code></td><td>驾驶员临时接管</td><td>驾驶员踩油门，系统暂时让出纵向控制</td></tr><tr><td><code>Exit</code></td><td>退出</td><td>驾驶员取消、踩制动、故障或边界失效</td></tr><tr><td><code>Failure</code></td><td>故障</td><td>关键故障导致功能不可恢复</td></tr></tbody></table><p>状态机需求要写清四类条件：</p><ol>
+<li>进入条件：怎样从一个状态进入另一个状态。</li>
+<li>保持条件：停留在当前状态需要满足什么。</li>
+<li>退出条件：哪些事件会触发退出。</li>
+<li><strong>优先级：多个事件同时发生时先处理谁。</strong></li>
+</ol><p>例如 ACC 激活态下，驾驶员踩制动和前车减速同时发生时，应优先处理驾驶员接管，退出 ACC 激活态，并停止向 ESP 输出目标加速度请求。这里的优先级比单纯写系统应退出更有工程价值。</p></section><section><h2 id="第四步拆子能力">第四步：拆子能力<a class="anchor" href="#第四步拆子能力"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>功能边界和状态机确定以后，就可以把功能拆成子能力。这里的子能力指系统行为里的责任块，和组织架构里的部门划分没有必然对应关系。</p><p>ACC 子能力如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>子能力</th><th>负责内容</th><th>典型输出</th></tr></thead><tbody><tr><td>可用性判断</td><td>判断车辆、传感器、执行器和驾驶员状态是否允许使用 ACC</td><td>ACC 可用 / 不可用</td></tr><tr><td>设定值管理</td><td>管理设定速度、时距档位、恢复速度</td><td>目标巡航速度、目标时距</td></tr><tr><td>主目标管理</td><td>选择前方有效目标并维护目标 ID</td><td>主目标 ID、目标有效标志</td></tr><tr><td>纵向决策</td><td>根据前车和设定值生成控制目标</td><td>目标加速度、目标速度</td></tr><tr><td>执行协同</td><td>与 ESP / VCU 交互，实现制动和驱动</td><td>制动请求、扭矩协同请求</td></tr><tr><td>HMI 管理</td><td>显示状态、设定值、告警和退出原因</td><td>图标、文字、声音提示</td></tr><tr><td>故障处理</td><td>处理信号超时、无效值、执行异常和内部故障</td><td>降级、退出、DTC</td></tr></tbody></table><p>拆子能力的目的，是把系统需求分配给明确对象。比如跟车距离保持需要多个对象协同完成，会拆到主目标管理、纵向决策、执行协同和 HMI 状态显示。</p></section><section><h2 id="第五步分配责任">第五步：分配责任<a class="anchor" href="#第五步分配责任"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>责任分配解决 谁做什么。智驾系统经常跨多个控制器，一个需求如果没有责任分配，很容易出现各方默认别人负责的情况。</p><p>以 ACC 减速为例：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>责任对象</th><th>应承担的内容</th></tr></thead><tbody><tr><td>ADAS 控制器</td><td>计算目标加速度，输出纵向控制请求</td></tr><tr><td>ESP</td><td>接收目标加速度，执行制动控制，反馈执行状态</td></tr><tr><td>VCU</td><td>根据需要协调驱动扭矩，处理动力系统可用性</td></tr><tr><td>IPC / HU</td><td>显示 ACC 状态、设定值和退出原因</td></tr><tr><td>驾驶员</td><td>在系统提示或异常情况下接管车辆</td></tr></tbody></table><p>责任分配还要处理主从关系。例如 ADAS 请求减速，ESP 执行制动；ESP 反馈不可用时，ADAS 应退出 ACC 或进入降级。需求里要写清主控制方、执行方、反馈方和异常处理方。</p></section><section><h2 id="第六步写接口">第六步：写接口<a class="anchor" href="#第六步写接口"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>接口需求把控制器之间的协作落成信号或服务。没有接口需求，系统需求无法进入软件集成。</p><p>==接口需求要写这些信息：==</p><ol>
+<li>==信号名称或服务名称。==</li>
+<li>==发送方和接收方。==</li>
+<li>==周期或触发方式。==</li>
+<li>==数据类型和取值范围。==</li>
+<li>==物理含义和单位。==</li>
+<li>==初始值、无效值、默认值。==</li>
+<li>==超时处理。==</li>
+<li>==故障处理。==</li>
+<li>==与状态机的关系。==</li>
+</ol><p>例如 ACC 向 ESP 输出目标加速度，接口需求需要写到信号语义和异常处理，不能停留在 ADAS 发送目标加速度 这一层。更完整的接口需求应包括：ADAS 控制器在 ACC 激活态下周期发送目标加速度请求；目标加速度单位为 <code>m/s^2</code>；超出范围时按饱和值处理；信号超时后 ESP 应退出纵向控制；ADAS 收到 ESP 不可用反馈后应退出 ACC 激活态并通知 HMI。</p></section><section><h2 id="第七步补非功能需求">第七步：补非功能需求<a class="anchor" href="#第七步补非功能需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p><strong>非功能需求描述功能做得怎么样</strong>。智驾功能里，非功能需求经常比功能开关更影响体验和安全。</p><p>非功能需求包括：</p><ol>
+<li>时延：从输入变化到输出响应的最大时间。</li>
+<li>精度：速度、距离、角度、轨迹误差。</li>
+<li>平顺性：加速度、加加速度、转角变化率。</li>
+<li>可用性：功能在指定 ODD 内的可用条件。</li>
+<li>鲁棒性：信号抖动、短时丢帧、目标短时丢失时的处理。</li>
+<li>诊断性：故障记录、DTC、冻结帧、故障恢复。</li>
+<li>安全性：故障后的退出、降级和驾驶员接管提示。</li>
+</ol><p>例如 ACC 跟车需求里，功能行为是保持设定时距；非功能需求会继续约束目标加速度变化率、制动响应时间、跟车距离误差、目标短时丢失后的保持策略。</p></section><section><h2 id="第八步写验证准则">第八步：写验证准则<a class="anchor" href="#第八步写验证准则"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>每条需求都应能被验证。验证准则要写清测试条件、输入、预期输出和通过标准。</p><p>示例：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>需求</th><th>验证准则</th></tr></thead><tbody><tr><td>ACC 激活态下驾驶员踩制动应退出</td><td>在 HIL 中使 ACC 进入激活态，注入制动踏板有效信号，检查 ACC 状态在标定时间内变为退出态</td></tr><tr><td>ACC 应支持稳定跟车</td><td>实车或仿真中设置前车以 <code>80 km/h</code> 匀速行驶，本车 ACC 激活后应稳定保持设定时距</td></tr><tr><td>APO 检测到路径内障碍物应制动</td><td>在泊车场景中向规划路径注入障碍物，检查系统请求制动并进入暂停或退出状态</td></tr><tr><td>HMI 应显示不可用原因</td><td>注入 ESP 不可用信号，检查 IPC / HU 显示 ACC 不可用并给出一致原因</td></tr></tbody></table><p>验证方法按需求类型选择。逻辑状态跳转适合 HIL，舒适性和平顺性需要实车或高保真仿真，通信超时适合台架，需求一致性可以通过评审和静态检查完成。</p></section></section>
+<section><h1 id="需求条目的写法">需求条目的写法<a class="anchor" href="#需求条目的写法"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="基本结构">基本结构<a class="anchor" href="#基本结构"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>一条需求可按 <font color="#00b050">条件 + 对象 + 行为 + 约束 + 输出 + 验证</font> 的结构写。句式如下：</p><p><font color="#00b050">在某条件下，某系统 / 模块应执行某行为，并满足某约束。</font></p><p>示例：</p><ol>
+<li>当 ACC 处于激活态且驾驶员踩下制动踏板时，ADAS 控制器应在标定时间内退出 ACC 激活态，并停止向 ESP 输出目标加速度请求。</li>
+<li>当 ACC 处于激活态且前方存在有效主目标时，ADAS 控制器应根据主目标距离、相对速度、本车速度和时距档位生成目标加速度。</li>
+<li>当 APO 处于运行态且路径安全包络内出现障碍物时，ADAS 控制器应请求 ESP 制动，并进入暂停或退出状态。</li>
+</ol><p>这样写能保留责任、条件和行为，后续设计和测试也能继续接下去。</p></section><section><h2 id="弱需求和可用需求">弱需求和可用需求<a class="anchor" href="#弱需求和可用需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>需求评审里经常会看到一些<font color="#00b050">弱需求</font>。弱需求的主要问题是<font color="#00b050">缺少工程信息</font>，和文字长短没有直接关系。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>弱需求</th><th>问题</th><th>可用写法</th></tr></thead><tbody><tr><td>ACC 应及时退出</td><td>缺少触发条件、退出时间、输出动作</td><td>当驾驶员踩下制动踏板且 ACC 处于激活态时，ACC 应在标定时间内退出激活态，并向 HMI 输出驾驶员接管提示</td></tr><tr><td>系统应平顺减速</td><td>缺少平顺性指标</td><td>ACC 输出目标加速度时，应限制目标加速度变化率不超过标定阈值</td></tr><tr><td>APO 应避免碰撞</td><td>缺少障碍条件和系统行为</td><td>APO 运行过程中，当障碍物进入规划路径安全包络内时，系统应请求制动并进入暂停或退出状态</td></tr><tr><td>HMI 应提示清楚</td><td>缺少状态和提示语义</td><td>当 ACC 因 ESP 故障不可用时，IPC 应显示 ACC 不可用状态，并给出与故障原因一致的提示语义</td></tr></tbody></table><p>弱需求在项目早期可以作为讨论入口，但不能直接作为开发和测试基线。进入基线前，需要补齐条件、对象、行为、约束和验证方式。</p></section><section><h2 id="需求编号和追溯">需求编号和追溯<a class="anchor" href="#需求编号和追溯"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>需求进入项目后要编号。编号服务于评审、变更、测试和问题定位。</p><p>编号方式示例：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>编号</th><th>含义</th></tr></thead><tbody><tr><td><code>ACC-SYS-001</code></td><td>ACC 系统需求第 1 条</td></tr><tr><td><code>ACC-SW-012</code></td><td>ACC 软件需求第 12 条</td></tr><tr><td><code>ACC-ICD-005</code></td><td>ACC 接口需求第 5 条</td></tr><tr><td><code>ACC-VER-020</code></td><td>ACC 验证需求第 20 条</td></tr></tbody></table><p>编号之后，每条需求都应记录来源和下游关系。例如 <code>ACC-SYS-010</code> 来源于功能目标 跟车巡航，下游分解到主目标管理、纵向控制、ESP 接口和 HMI 显示，再对应若干 HIL 和实车测试用例。需求变更时，影响范围就能顺着追溯关系找到。</p></section></section>
+<section><h1 id="acc-分解示例">ACC 分解示例<a class="anchor" href="#acc-分解示例"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="从功能目标开始">从功能目标开始<a class="anchor" href="#从功能目标开始"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>功能目标可以写成工程上能接受的系统描述：<font color="#00b050">ACC 在驾驶员监督下，根据驾驶员设定速度、设定时距、本车状态和前向目标状态，实现定速巡航和跟车巡航，并在驾驶员接管、系统故障或运行条件不满足时退出</font>。</p><p>这句话已经比 ACC 要能跟车 更具体，因为它包含了四类信息：</p><ol>
+<li>责任对象：ACC。</li>
+<li>输入来源：设定速度、设定时距、本车状态、前向目标状态。</li>
+<li>主要行为：定速巡航、跟车巡航。</li>
+<li>退出触发：驾驶员接管、系统故障、运行条件不满足。</li>
+</ol></section><section><h2 id="系统需求">系统需求<a class="anchor" href="#系统需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>从功能目标可以拆出系统需求：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>编号</th><th>系统需求</th></tr></thead><tbody><tr><td><code>ACC-SYS-001</code></td><td>ACC 仅在 D 档、驾驶员安全带已系、车门关闭、ESP 可用、前向感知无相关故障时允许进入待命态</td></tr><tr><td><code>ACC-SYS-002</code></td><td>当驾驶员发出激活指令且车辆条件满足时，ACC 应从待命态进入激活态</td></tr><tr><td><code>ACC-SYS-003</code></td><td>ACC 激活态下，若前方无有效主目标，系统应按照设定巡航速度进行纵向控制</td></tr><tr><td><code>ACC-SYS-004</code></td><td>ACC 激活态下，若前方存在有效主目标，系统应按照设定时距进行跟车控制</td></tr><tr><td><code>ACC-SYS-005</code></td><td>ACC 激活态下，驾驶员踩下制动踏板时，系统应退出激活态</td></tr><tr><td><code>ACC-SYS-006</code></td><td>ACC 退出时，应停止发送有效纵向控制请求，并向 HMI 输出退出原因</td></tr></tbody></table><p>系统需求描述整条功能链路，不急着写具体代码。比如 <code>ACC-SYS-004</code> 还没有说明主目标怎么选、目标加速度怎么算、ESP 信号叫什么；这些内容会继续分解到子系统和软件需求。</p></section><section><h2 id="子系统需求">子系统需求<a class="anchor" href="#子系统需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>系统需求继续下钻后，会分到不同子系统。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>系统需求</th><th>子系统</th><th>子系统需求</th></tr></thead><tbody><tr><td><code>ACC-SYS-004</code></td><td>感知融合</td><td>感知融合应输出主目标距离、相对速度、目标 ID 和置信度</td></tr><tr><td><code>ACC-SYS-004</code></td><td>主目标管理</td><td>主目标管理模块应根据车道关系、距离、速度和置信度维护 ACC 主目标</td></tr><tr><td><code>ACC-SYS-004</code></td><td>纵向决策</td><td>纵向决策模块应根据本车速度、主目标距离、相对速度和时距档位生成目标加速度</td></tr><tr><td><code>ACC-SYS-004</code></td><td>ESP 接口</td><td>ADAS 控制器应向 ESP 周期发送目标加速度请求</td></tr><tr><td><code>ACC-SYS-004</code></td><td>HMI</td><td>HMI 应显示 ACC 跟车状态、设定速度和时距档位</td></tr></tbody></table><p>这一步的关键是<font color="#00b050">责任分配</font>。跟车巡航需要感知提供目标，决策生成控制目标，ESP 执行制动，HMI 告诉驾驶员当前状态。</p></section><section><h2 id="软件需求">软件需求<a class="anchor" href="#软件需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>软件需求会继续细化到模块内部逻辑。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>子系统</th><th>软件需求示例</th></tr></thead><tbody><tr><td>主目标管理</td><td>当融合目标位于本车道前方且置信度高于标定阈值时，主目标管理模块应将该目标纳入 ACC 候选目标集合</td></tr><tr><td>主目标管理</td><td>当当前主目标连续丢失超过标定时间时，主目标管理模块应取消该主目标有效标志</td></tr><tr><td>纵向决策</td><td>当 ACC 处于跟车控制时，纵向决策模块应根据设定时距计算目标跟车距离</td></tr><tr><td>纵向决策</td><td>当实际距离小于目标跟车距离时，纵向决策模块应生成减速度请求</td></tr><tr><td>状态管理</td><td>当驾驶员踩下制动踏板时，状态管理模块应触发 ACC 退出</td></tr></tbody></table><p>软件需求应避免写成伪代码。它要规定模块行为和约束，但算法实现细节可以放到软件设计文档里。例如具体控制器是 PID、MPC 还是查表加限幅，通常属于设计层面的内容，<strong>除非项目明确要求在需求层锁定算法形式</strong>。</p></section><section><h2 id="接口需求">接口需求<a class="anchor" href="#接口需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>接口需求把控制器之间的协作写清楚。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>接口</th><th>需求示例</th></tr></thead><tbody><tr><td>ADAS -> ESP</td><td>ADAS 控制器在 ACC 激活态下应周期发送目标加速度请求</td></tr><tr><td>ESP -> ADAS</td><td>ESP 应周期反馈纵向控制可用状态和执行状态</td></tr><tr><td>ADAS -> HMI</td><td>ADAS 控制器应输出 ACC 状态、设定速度、时距档位和退出原因</td></tr><tr><td>BCM / ACU -> ADAS</td><td>BCM / ACU 应提供车门、安全带和驾驶员相关状态</td></tr><tr><td>感知 -> ADAS</td><td>前向感知应输出目标距离、相对速度、目标 ID 和目标有效标志</td></tr></tbody></table><p>接口需求还必须定义异常情况。比如目标加速度信号超时以后，ESP 应退出纵向控制；ESP 不可用反馈有效以后，ADAS 应退出 ACC 激活态；HMI 收到退出原因以后，应显示和状态一致的提示。</p></section><section><h2 id="验证需求">验证需求<a class="anchor" href="#验证需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>验证需求把前面的系统需求变成测试用例入口。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>需求</th><th>验证场景</th><th>通过准则</th></tr></thead><tbody><tr><td><code>ACC-SYS-001</code></td><td>D 档、安全带、车门、ESP、传感器条件组合测试</td><td>仅当全部条件满足时 ACC 进入待命态</td></tr><tr><td><code>ACC-SYS-003</code></td><td>无前车定速巡航</td><td>本车速度收敛到设定速度附近，状态显示为巡航</td></tr><tr><td><code>ACC-SYS-004</code></td><td>稳定前车跟车</td><td>本车维持设定时距，目标加速度变化满足平顺性要求</td></tr><tr><td><code>ACC-SYS-005</code></td><td>激活态踩制动</td><td>ACC 在标定时间内退出，纵向控制请求失效，HMI 显示接管或退出</td></tr><tr><td><code>ACC-SYS-006</code></td><td>ESP 故障注入</td><td>ACC 退出激活态，HMI 显示不可用或故障相关提示</td></tr></tbody></table><p>到这里，一条 ACC 功能目标已经从用户能感知的行为，拆到了状态、模块、接口和测试。</p></section></section>
+<section><h1 id="apo-分解示例">APO 分解示例<a class="anchor" href="#apo-分解示例"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="功能差异">功能差异<a class="anchor" href="#功能差异"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>APO 自动驶出和 ACC 的分解重点不同。ACC 主要是行车纵向控制，APO 是低速泊车场景下的横纵向协同控制。它更依赖车位来源、历史泊入轨迹、近距离障碍物、驾驶员确认和底盘低速执行。</p><p>APO 的功能目标可以写成：系统在车辆由 APA 自动泊入平行车位后，根据历史泊入轨迹、周边障碍物和驾驶员确认，规划并执行驶出路径，使车辆低速驶出车位，并在驾驶员接管、空间不足、障碍物风险或系统故障时暂停或退出。</p></section><section><h2 id="分解链路">分解链路<a class="anchor" href="#分解链路"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>APO 可按下面的链路拆分：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>层级</th><th>示例内容</th></tr></thead><tbody><tr><td>功能目标</td><td>系统辅助车辆从已自动泊入的平行车位驶出</td></tr><tr><td>场景前提</td><td>当前车位由 APA 泊入产生，车辆静止，周边空间满足驶出条件</td></tr><tr><td>状态需求</td><td>系统应包含初始化、待命、预运行、运行、暂停、完成、退出和故障状态</td></tr><tr><td>感知需求</td><td>超声波雷达应提供车身周边障碍物距离和方位信息</td></tr><tr><td>规划需求</td><td>路径规划模块应基于泊入轨迹和障碍物位置生成驶出路径</td></tr><tr><td>横向执行需求</td><td>ADAS 控制器应向 EPS 输出目标转角或转向控制请求</td></tr><tr><td>纵向执行需求</td><td>ADAS 控制器应向 ESP 输出速度限制、停车点和制动模式</td></tr><tr><td>HMI 需求</td><td>HU / IPC 应提示开始、松开制动、运行中、暂停、完成、取消和故障</td></tr><tr><td>验证需求</td><td>测试应覆盖空间充足、空间不足、障碍物突入、驾驶员踩刹暂停、故障退出</td></tr></tbody></table><p>这个例子说明需求分解要贴合功能类型。ACC 的关键在纵向跟驰、目标选择和执行平顺性；APO 的关键在泊入历史、低速空间几何、障碍约束和 HMI 交互。直接套用同一张需求表会漏掉功能特有的边界。</p></section></section>
+<section><h1 id="质量检查">质量检查<a class="anchor" href="#质量检查"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="可验证性">可验证性<a class="anchor" href="#可验证性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>需求写完以后，第一项检查是<strong>可验证性</strong>。测试团队拿到需求后，应能判断用什么环境测、输入怎么构造、输出看什么、通过标准是什么。</p><p>可验证需求具备以下特征：</p><ol>
+<li>条件清楚：需求在哪些状态、场景和输入下生效。</li>
+<li>行为明确：系统需要输出、改变、保持或禁止什么。</li>
+<li>指标可观察：车速、距离、时间、状态、信号值、告警内容可以被记录。</li>
+<li>结果可判定：测试通过和失败之间有明确边界。</li>
+<li>验证方法匹配：仿真、SIL、HIL、台架、实车、审查各自适用于不同需求。</li>
+</ol><p>示例：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>弱写法</th><th>可用写法</th></tr></thead><tbody><tr><td>ACC 应及时退出</td><td>当驾驶员踩下制动踏板且 ACC 处于激活态时，ACC 应在标定时间内退出激活态，并向 HMI 输出驾驶员接管提示</td></tr><tr><td>APO 应避免碰撞</td><td>APO 运行过程中，当障碍物进入规划路径安全包络内时，系统应请求制动并进入暂停或退出状态</td></tr><tr><td>HMI 应提示清楚</td><td>当 ACC 因 ESP 故障不可用时，IPC 应显示 ACC 不可用状态，并给出与故障原因一致的提示语义</td></tr></tbody></table></section><section><h2 id="一致性">一致性<a class="anchor" href="#一致性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>一致性检查主要看需求之间有没有互相冲突。智驾系统里的冲突包括：</p><ol>
+<li>状态机冲突：同一个触发条件在不同章节对应不同跳转。</li>
+<li>阈值冲突：速度范围、距离阈值、时间阈值在不同文档里数值不一致。</li>
+<li>责任冲突：同一个行为同时写给 ADAS、ESP 和 VCU，但没有主从关系。</li>
+<li>接口冲突：信号矩阵里的取值范围和功能规范里的语义不一致。</li>
+<li>HMI 冲突：功能状态、提示音、文字提示和图标状态不一致。</li>
+</ol><p>处理一致性问题时，应优先确定主数据源。例如速度边界以参数表为准，信号定义以冻结后的 ICD 为准，状态语义以系统状态机为准。没有主数据源时，需求评审会变成逐条争论。</p></section><section><h2 id="完整性">完整性<a class="anchor" href="#完整性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>完整性强调关键链路没有断点，细节填充应围绕这些链路展开。智驾功能至少需要覆盖以下方面：</p><ol>
+<li>正常进入条件。</li>
+<li>正常运行行为。</li>
+<li>驾驶员接管。</li>
+<li>暂停、恢复和退出。</li>
+<li>故障和降级。</li>
+<li>外部系统不可用。</li>
+<li>通信超时和信号无效。</li>
+<li>HMI 提示。</li>
+<li>诊断记录。</li>
+<li>测试验证。</li>
+</ol><p>如果某条功能链路没有对应的退出、故障或验证需求，后续设计会自然补空白，但补出来的逻辑未必和系统意图一致。</p></section><section><h2 id="可追溯性">可追溯性<a class="anchor" href="#可追溯性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>可追溯性解决的是需求来源和影响范围问题。每条系统需求最好能向上追溯到功能目标、法规、安全目标或项目约束，向下追溯到子系统需求、软件需求、接口需求和测试用例。</p><p>典型追溯关系如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>追溯方向</th><th>示例</th></tr></thead><tbody><tr><td>用户需求 -> 系统需求</td><td>驾驶员希望自动跟车 -> ACC 应支持设定时距下的跟车巡航</td></tr><tr><td>系统需求 -> 子系统需求</td><td>ACC 跟车巡航 -> 感知融合输出主目标距离和相对速度</td></tr><tr><td>子系统需求 -> 软件需求</td><td>主目标管理 -> 目标选择模块维护主目标 ID 和置信度</td></tr><tr><td>软件需求 -> 接口需求</td><td>目标加速度计算 -> ADAS 向 ESP 输出目标加速度信号</td></tr><tr><td>需求 -> 测试用例</td><td>跟车减速需求 -> 前车从 80 km/h 减速至 30 km/h 的 HIL / 实车场景</td></tr></tbody></table><p>追溯关系在需求变更时尤其关键。比如目标车速上限从 <code>130 km/h</code> 改到 <code>135 km/h</code>，受影响的内容包括功能描述、HMI 显示、参数配置、信号范围、控制限幅、测试用例和用户手册。</p></section></section>
+<section><h1 id="参考资料">参考资料<a class="anchor" href="#参考资料"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><ul>
+<li>ISO, <a href="https://www.iso.org/standard/72089.html">ISO/IEC/IEEE 29148:2018 Systems and software engineering - Life cycle processes - Requirements engineering</a></li>
+<li>INCOSE, <a href="https://www.incose.org/publications/guide-to-writing-requirements">Guide to Writing Requirements</a></li>
+<li>intacs, <a href="https://intacs.info/automotive-spice">Automotive SPICE</a></li>
+<li>ISO, <a href="https://www.iso.org/standard/68383.html">ISO 26262-3:2018 Road vehicles - Functional safety - Concept phase</a></li>
+</ul></section>  </div> <script type="module">document.addEventListener("click",function(s){const t=s.target;if(t&&t.classList.contains("copy-btn")){const c=t.closest("pre")?.querySelector("code"),i=Array.from(c?.querySelectorAll(".code:not(summary *)")??[]).map(e=>e.textContent).map(e=>e===`
+`?"":e).join(`
+`);navigator.clipboard.writeText(i);const o=t.getAttribute("data-timeout-id");o&&clearTimeout(parseInt(o)),t.classList.add("success");const n=setTimeout(()=>{t.classList.remove("success")},1e3);t.setAttribute("data-timeout-id",n.toString())}});</script> <div class="relative transition overflow-hidden bg-[var(--license-block-bg)] py-5 px-6 mb-6 rounded-xl license-container onload-animation"> <div class="transition font-bold text-black/75 dark:text-white/75"> 需求分解 </div> <a href="https://xiaoyuewhut.github.io/posts/智驾系统开发/需求分解/" class="link text-[var(--primary)]"> https://xiaoyuewhut.github.io/posts/智驾系统开发/需求分解/ </a> <div class="flex gap-6 mt-2"> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">作者</div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2">小月</div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">发布于</div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2">2026-04-28</div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">许可协议</div> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="link text-[var(--primary)] line-clamp-2">CC BY-NC-SA 4.0</a> </div> </div> <svg width="0.97em" height="1em" class="transition text-[15rem] absolute pointer-events-none right-6 top-1/2 -translate-y-1/2 text-black/5 dark:text-white/5" data-icon="fa6-brands:creative-commons">   <symbol id="ai:fa6-brands:creative-commons" viewBox="0 0 496 512"><path fill="currentColor" d="m245.83 214.87l-33.22 17.28c-9.43-19.58-25.24-19.93-27.46-19.93c-22.13 0-33.22 14.61-33.22 43.84c0 23.57 9.21 43.84 33.22 43.84c14.47 0 24.65-7.09 30.57-21.26l30.55 15.5c-6.17 11.51-25.69 38.98-65.1 38.98c-22.6 0-73.96-10.32-73.96-77.05c0-58.69 43-77.06 72.63-77.06c30.72-.01 52.7 11.95 65.99 35.86m143.05 0l-32.78 17.28c-9.5-19.77-25.72-19.93-27.9-19.93c-22.14 0-33.22 14.61-33.22 43.84c0 23.55 9.23 43.84 33.22 43.84c14.45 0 24.65-7.09 30.54-21.26l31 15.5c-2.1 3.75-21.39 38.98-65.09 38.98c-22.69 0-73.96-9.87-73.96-77.05c0-58.67 42.97-77.06 72.63-77.06c30.71-.01 52.58 11.95 65.56 35.86M247.56 8.05C104.74 8.05 0 123.11 0 256.05c0 138.49 113.6 248 247.56 248c129.93 0 248.44-100.87 248.44-248c0-137.87-106.62-248-248.44-248m.87 450.81c-112.54 0-203.7-93.04-203.7-202.81c0-105.42 85.43-203.27 203.72-203.27c112.53 0 202.82 89.46 202.82 203.26c-.01 121.69-99.68 202.82-202.84 202.82"/></symbol><use href="#ai:fa6-brands:creative-commons"></use>  </svg> </div> </div> </div> <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full"> <a href="/posts/整车通信与诊断/can-bus-off-详解/" class="w-full font-bold overflow-hidden active:scale-95"> <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4"> <svg width="1em" height="1em" class="text-[2rem] text-[var(--primary)]" data-icon="material-symbols:chevron-left-rounded">   <symbol id="ai:material-symbols:chevron-left-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m10.8 12l3.9 3.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-4.6-4.6q-.15-.15-.212-.325T8.425 12t.063-.375t.212-.325l4.6-4.6q.275-.275.7-.275t.7.275t.275.7t-.275.7z"/></symbol><use href="#ai:material-symbols:chevron-left-rounded"></use>  </svg> <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75"> CAN Bus-Off 详解 </div> </div> </a> <a href="/posts/整车通信与诊断/can-与-can-fd/" class="w-full font-bold overflow-hidden active:scale-95"> <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4"> <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75"> CAN 与 CAN FD </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="text-[2rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg> </div> </a> </div>  <div class="footer col-span-2 onload-animation hidden lg:block"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> </main> <div class="footer col-span-2 onload-animation block lg:hidden"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> <!-- There can't be a filter on parent element, or it will break `fixed` --><div class="back-to-top-wrapper hidden lg:block" data-astro-cid-eymb5ayk> <div id="back-to-top-btn" class="back-to-top-btn hide flex items-center rounded-2xl overflow-hidden transition" onclick="backToTop()" data-astro-cid-eymb5ayk> <button aria-label="Back to Top" class="btn-card h-[3.75rem] w-[3.75rem]" data-astro-cid-eymb5ayk> <svg width="1em" height="1em" class="mx-auto" data-astro-cid-eymb5ayk="true" data-icon="material-symbols:keyboard-arrow-up-rounded">   <symbol id="ai:material-symbols:keyboard-arrow-up-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m12 10.8l-3.9 3.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.6-4.6q.3-.3.7-.3t.7.3l4.6 4.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></symbol><use href="#ai:material-symbols:keyboard-arrow-up-rounded"></use>  </svg> </button> </div> </div>  <script>
+function backToTop() {
+    window.scroll({ top: 0, behavior: 'smooth' });
+}
+</script> </div> </div>  <div class="absolute w-full z-0 hidden 2xl:block"> <div class="relative max-w-[var(--page-width)] mx-auto"> <!-- TOC component --> <div id="toc-wrapper" class="hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center"> <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar"> <div id="toc" class="w-full h-full transition-swup-fade "> <div class="h-8 w-full"></div> <table-of-contents class="group"><a href="#系统工程师的工作位置" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">1</div><div class="transition text-sm text-50">系统工程师的工作位置</div></a><a href="#协作角色" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">协作角色</div></a><a href="#交付物" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">交付物</div></a><a href="#需求分解的基本概念" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">2</div><div class="transition text-sm text-50">需求分解的基本概念</div></a><a href="#需求是什么" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">需求是什么</div></a><a href="#需求分解是什么" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">需求分解是什么</div></a><a href="#需求设计和测试的关系" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">需求、设计和测试的关系</div></a><a href="#分解前的输入材料" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">3</div><div class="transition text-sm text-50">分解前的输入材料</div></a><a href="#功能输入" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">功能输入</div></a><a href="#系统输入" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">系统输入</div></a><a href="#验证输入" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">验证输入</div></a><a href="#分解流程" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">4</div><div class="transition text-sm text-50">分解流程</div></a><a href="#第一步定功能边界" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第一步：定功能边界</div></a><a href="#第二步拆场景" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第二步：拆场景</div></a><a href="#第三步建状态机" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第三步：建状态机</div></a><a href="#第四步拆子能力" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第四步：拆子能力</div></a><a href="#第五步分配责任" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第五步：分配责任</div></a><a href="#第六步写接口" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第六步：写接口</div></a><a href="#第七步补非功能需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第七步：补非功能需求</div></a><a href="#第八步写验证准则" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">第八步：写验证准则</div></a><a href="#需求条目的写法" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">5</div><div class="transition text-sm text-50">需求条目的写法</div></a><a href="#基本结构" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">基本结构</div></a><a href="#弱需求和可用需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">弱需求和可用需求</div></a><a href="#需求编号和追溯" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">需求编号和追溯</div></a><a href="#acc-分解示例" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">6</div><div class="transition text-sm text-50">ACC 分解示例</div></a><a href="#从功能目标开始" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">从功能目标开始</div></a><a href="#系统需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">系统需求</div></a><a href="#子系统需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">子系统需求</div></a><a href="#软件需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">软件需求</div></a><a href="#接口需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">接口需求</div></a><a href="#验证需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">验证需求</div></a><a href="#apo-分解示例" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">7</div><div class="transition text-sm text-50">APO 分解示例</div></a><a href="#功能差异" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">功能差异</div></a><a href="#分解链路" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">分解链路</div></a><a href="#质量检查" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">8</div><div class="transition text-sm text-50">质量检查</div></a><a href="#可验证性" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">可验证性</div></a><a href="#一致性" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">一致性</div></a><a href="#完整性" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">完整性</div></a><a href="#可追溯性" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">可追溯性</div></a><a href="#参考资料" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">9</div><div class="transition text-sm text-50">参考资料</div></a><div id="active-indicator" style="opacity: 0" class="-z-10 absolute bg-[var(--toc-btn-hover)] left-0 right-0 rounded-xl transition-all group-hover:bg-transparent border-2 border-[var(--toc-btn-hover)] group-hover:border-[var(--toc-btn-active)] border-dashed"></div></table-of-contents><script type="module">class l extends HTMLElement{tocEl=null;visibleClass="visible";observer;anchorNavTarget=null;headingIdxMap=new Map;headings=[];sections=[];tocEntries=[];active=[];activeIndicator=null;constructor(){super(),this.observer=new IntersectionObserver(this.markVisibleSection,{threshold:0})}markVisibleSection=t=>{t.forEach(e=>{const i=e.target.children[0]?.getAttribute("id"),s=i?this.headingIdxMap.get(i):void 0;s!=null&&(this.active[s]=e.isIntersecting),e.isIntersecting&&this.anchorNavTarget==e.target.firstChild&&(this.anchorNavTarget=null)}),this.active.includes(!0)||this.fallback(),this.update()};toggleActiveHeading=()=>{let t=this.active.length-1,e=this.active.length-1,i=-1;for(;t>=0&&!this.active[t];)this.tocEntries[t].classList.remove(this.visibleClass),t--;for(;t>=0&&this.active[t];)this.tocEntries[t].classList.add(this.visibleClass),e=Math.min(e,t),i=Math.max(i,t),t--;for(;t>=0;)this.tocEntries[t].classList.remove(this.visibleClass),t--;if(e>i)this.activeIndicator?.setAttribute("style","opacity: 0");else{let s=this.tocEl?.getBoundingClientRect().top||0,n=this.tocEl?.scrollTop||0,o=this.tocEntries[e].getBoundingClientRect().top-s+n,c=this.tocEntries[i].getBoundingClientRect().bottom-s+n;this.activeIndicator?.setAttribute("style",`top: ${o}px; height: ${c-o}px`)}};scrollToActiveHeading=()=>{if(this.anchorNavTarget||!this.tocEl)return;const t=document.querySelectorAll(`#toc .${this.visibleClass}`);if(!t.length)return;const e=t[0],i=t[t.length-1],s=this.tocEl.clientHeight;let n;i.getBoundingClientRect().bottom-e.getBoundingClientRect().top<.9*s?n=e.offsetTop-32:n=i.offsetTop-s*.8,this.tocEl.scrollTo({top:n,left:0,behavior:"smooth"})};update=()=>{requestAnimationFrame(()=>{this.toggleActiveHeading(),this.scrollToActiveHeading()})};fallback=()=>{if(this.sections.length)for(let t=0;t<this.sections.length;t++){let e=this.sections[t].getBoundingClientRect().top,i=this.sections[t].getBoundingClientRect().bottom;if(this.isInRange(e,0,window.innerHeight)||this.isInRange(i,0,window.innerHeight)||e<0&&i>window.innerHeight)this.markActiveHeading(t);else if(e>window.innerHeight)break}};markActiveHeading=t=>{this.active[t]=!0};handleAnchorClick=t=>{const e=t.composedPath().find(i=>i instanceof HTMLAnchorElement);if(e){const i=decodeURIComponent(e.hash?.substring(1)),s=this.headingIdxMap.get(i);s!==void 0?this.anchorNavTarget=this.headings[s]:this.anchorNavTarget=null}};isInRange(t,e,i){return e<t&&t<i}connectedCallback(){const t=document.querySelector(".prose");t?t.addEventListener("animationend",()=>{this.init()},{once:!0}):console.debug("Animation element not found")}init(){if(this.tocEl=document.getElementById("toc-inner-wrapper"),!!this.tocEl&&(this.tocEl.addEventListener("click",this.handleAnchorClick,{capture:!0}),this.activeIndicator=document.getElementById("active-indicator"),this.tocEntries=Array.from(document.querySelectorAll("#toc a[href^='#']")),this.tocEntries.length!==0)){this.sections=new Array(this.tocEntries.length),this.headings=new Array(this.tocEntries.length);for(let t=0;t<this.tocEntries.length;t++){const e=decodeURIComponent(this.tocEntries[t].hash?.substring(1)),i=document.getElementById(e),s=i?.parentElement;i instanceof HTMLElement&&s instanceof HTMLElement&&(this.headings[t]=i,this.sections[t]=s,this.headingIdxMap.set(e,t))}this.active=new Array(this.tocEntries.length).fill(!1),this.sections.forEach(t=>this.observer.observe(t)),this.fallback(),this.update()}}disconnectedCallback(){this.sections.forEach(t=>this.observer.unobserve(t)),this.observer.disconnect(),this.tocEl?.removeEventListener("click",this.handleAnchorClick)}}customElements.get("table-of-contents")||customElements.define("table-of-contents",l);</script> <div class="h-8 w-full"></div> </div> </div> </div> <!-- #toc needs to exist for Swup to work normally -->  </div> </div>  <!-- increase the page height during page transition to prevent the scrolling animation from jumping --> <div id="page-height-extend" class="hidden h-[300vh]" data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"></div>  <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.CkDAorbp.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_1_lang.DAHrxWCB.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_2_lang.CVGuqTLd.js"></script> </body></html>

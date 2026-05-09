@@ -1,0 +1,858 @@
+<!DOCTYPE html><html lang="zh-CN" class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]" data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <head><title>ALC 功能规范 - 小月手记</title><meta charset="UTF-8"><meta name="description" content="本文档面向整车功能定义、ADAS 系统设计、HMI 定义、LKA / LCA / BSD 协同开发、EPS 联调、底盘联调、测试验证和项目管理使用。后续软件需求、标定参数、通信矩阵、诊断规范和测试用例应基于本文档继续分解。"><meta name="author" content="小月"><meta property="og:site_name" content="小月手记"><meta property="og:url" content="https://xiaoyuewhut.github.io/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/alc-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/"><meta property="og:title" content="ALC 功能规范 - 小月手记"><meta property="og:description" content="本文档面向整车功能定义、ADAS 系统设计、HMI 定义、LKA / LCA / BSD 协同开发、EPS 联调、底盘联调、测试验证和项目管理使用。后续软件需求、标定参数、通信矩阵、诊断规范和测试用例应基于本文档继续分解。"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://xiaoyuewhut.github.io/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/alc-%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83/"><meta name="twitter:title" content="ALC 功能规范 - 小月手记"><meta name="twitter:description" content="本文档面向整车功能定义、ADAS 系统设计、HMI 定义、LKA / LCA / BSD 协同开发、EPS 联调、底盘联调、测试验证和项目管理使用。后续软件需求、标定参数、通信矩阵、诊断规范和测试用例应基于本文档继续分解。"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.13.10"><link rel="icon" href="/favicon/favicon-light-32.png" sizes="32x32" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-128.png" sizes="128x128" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-180.png" sizes="180x180" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-light-192.png" sizes="192x192" media="(prefers-color-scheme: light)"><link rel="icon" href="/favicon/favicon-dark-32.png" sizes="32x32" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-128.png" sizes="128x128" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-180.png" sizes="180x180" media="(prefers-color-scheme: dark)"><link rel="icon" href="/favicon/favicon-dark-192.png" sizes="192x192" media="(prefers-color-scheme: dark)"><!-- Set the theme before the page is rendered to avoid a flash --><script>(function(){const DEFAULT_THEME = "light";
+const LIGHT_MODE = "light";
+const DARK_MODE = "dark";
+const AUTO_MODE = "auto";
+const BANNER_HEIGHT_EXTEND = 30;
+const PAGE_WIDTH = 75;
+const configHue = 24;
+const configHueFixed = true;
+
+			// Load the theme from local storage
+			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
+			switch (theme) {
+				case LIGHT_MODE:
+					document.documentElement.classList.remove('dark');
+					break
+				case DARK_MODE:
+					document.documentElement.classList.add('dark');
+					break
+				case AUTO_MODE:
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+			}
+
+			// Use the configured hue when the palette is fixed.
+			if (configHueFixed) {
+				localStorage.removeItem('hue');
+			}
+			const hue = configHueFixed ? configHue : (localStorage.getItem('hue') || configHue);
+			document.documentElement.style.setProperty('--hue', hue);
+
+			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
+			offset = offset - offset % 4;
+			document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+		})();</script><!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"ALC 功能规范","description":"本文档面向整车功能定义、ADAS 系统设计、HMI 定义、LKA / LCA / BSD 协同开发、EPS 联调、底盘联调、测试验证和项目管理使用。后续软件需求、标定参数、通信矩阵、诊断规范和测试用例应基于本文档继续分解。","keywords":["功能规范","ALC","命令变道","L2","辅助驾驶","智能驾驶","行车"],"author":{"@type":"Person","name":"小月","url":"https://xiaoyuewhut.github.io/"},"datePublished":"2026-05-03","inLanguage":"zh-CN"}</script><link rel="alternate" type="application/rss+xml" title="小月" href="https://xiaoyuewhut.github.io/rss.xml"><link rel="stylesheet" href="/_astro/Layout.CKPtf-VR.css">
+<link rel="stylesheet" href="/_astro/Layout.DSulWsr7.css">
+<link rel="stylesheet" href="/_astro/_page_.CzA7YvoV.css">
+<link rel="stylesheet" href="/_astro/_page_.C3Uhk80C.css">
+<link rel="stylesheet" href="/_astro/about.BtniRLn_.css">
+<style>input.svelte-1wah7ro:focus{outline:0}.search-panel.svelte-1wah7ro{max-height:calc(100vh - 100px);overflow-y:auto}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k){-webkit-appearance:none;height:1.5rem;background-image:var(--color-selection-bar);transition:background-image .15s ease-in-out}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;border-width:0;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:active{background:#fff9}
+</style><script type="module" src="/_astro/page.xXXvkYYW.js"></script></head> <body class=" min-h-screen transition " data-overlayscrollbars-initialize data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"> <div id="config-carrier" data-hue="24" data-hue-fixed="true"></div>    <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto"> <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all"> <div id="navbar" class="z-50 onload-animation"> <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--page-bg)] transition"></div> <!-- used for onload animation --> <div class="card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-[1.4rem] mx-auto mt-2 flex items-center justify-between px-4 md:px-5"> <a href="/" class="btn-plain scale-animation rounded-xl h-[3.25rem] px-5 font-bold active:scale-95"> <div class="flex flex-row text-[var(--primary)] items-center text-md tracking-tight"> <svg width="1em" height="1em" class="text-[1.75rem] mb-1 mr-2" data-icon="material-symbols:home-outline-rounded">   <symbol id="ai:material-symbols:home-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75"/></symbol><use href="#ai:material-symbols:home-outline-rounded"></use>  </svg> 小月手记 </div> </a> <div class="hidden md:flex"> <a aria-label="首页" href="/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 首页  </div> </a><a aria-label="时间线" href="/timeline/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 时间线  </div> </a><a aria-label="专题" href="/studies/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 专题  </div> </a><a aria-label="关于" href="/about/" class="btn-plain scale-animation rounded-xl h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> 关于  </div> </a> </div> <div class="flex"> <!--<SearchPanel client:load>--> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1fnFdc" component-url="/_astro/Search.BNBag9ir.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Search&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island>  <astro-island uid="ZXWCws" component-url="/_astro/LightDarkSwitch.CfGE5ug7.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;LightDarkSwitch&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-xl w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch"> <svg width="1em" height="1em" class="text-[1.25rem]" data-icon="material-symbols:menu-rounded">   <symbol id="ai:material-symbols:menu-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:menu-rounded"></use>  </svg> </button> </div> <div id="nav-menu-panel" class="float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2"> <a href="/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 首页 </div> <svg width="1em" height="1em" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <symbol id="ai:material-symbols:chevron-right-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"/></symbol><use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/timeline/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 时间线 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/studies/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 专题 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/about/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 关于 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a> </div> <astro-island uid="Z1I5MKx" component-url="/_astro/DisplaySettings.BoEDqxxf.js" component-export="default" renderer-url="/_astro/client.svelte.B6WgzZZ9.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;DisplaySettings&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> </div> </div> <script type="module">function c(){localStorage.theme==="dark"?(document.documentElement.classList.remove("dark"),localStorage.theme="light"):(document.documentElement.classList.add("dark"),localStorage.theme="dark")}function o(){let t=document.getElementById("scheme-switch");t&&(t.onclick=function(){c()});let n=document.getElementById("display-settings-switch");n&&(n.onclick=function(){let e=document.getElementById("display-setting");e&&e.classList.toggle("float-panel-closed")});let l=document.getElementById("nav-menu-switch");l&&(l.onclick=function(){let e=document.getElementById("nav-menu-panel");e&&e.classList.toggle("float-panel-closed")})}o();</script> <script>(function(){const scriptUrl = "/pagefind/pagefind.js";
+
+async function loadPagefind() {
+    try {
+        const response = await fetch(scriptUrl, { method: 'HEAD' });
+        if (!response.ok) {
+            throw new Error(`Pagefind script not found: ${response.status}`);
+        }
+
+        const pagefind = await import(scriptUrl);
+
+        await pagefind.options({
+            excerptLength: 20
+        });
+
+        window.pagefind = pagefind;
+
+        document.dispatchEvent(new CustomEvent('pagefindready'));
+        console.log('Pagefind loaded and initialized successfully, event dispatched.');
+    } catch (error) {
+        console.error('Failed to load Pagefind:', error);
+        window.pagefind = {
+            search: () => Promise.resolve({ results: [] }),
+            options: () => Promise.resolve(),
+        };
+        document.dispatchEvent(new CustomEvent('pagefindloaderror'));
+        console.log('Pagefind load error, event dispatched.');
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPagefind);
+} else {
+    loadPagefind();
+}
+})();</script> </div> </div>   <div class="absolute w-full z-30 pointer-events-none" style="top: 5.5rem"> <!-- The pointer-events-none here prevent blocking the click event of the TOC --> <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto"> <div id="main-grid" class="transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto]
+    mx-auto gap-4 px-0 md:px-4"> <!-- Banner image credit -->  <div id="sidebar" class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation w-full"> <div class="flex flex-col w-full gap-4 mb-4"> <div class="card-base p-4 md:p-5"> <a aria-label="Go to About Page" href="/about/" class="group block relative mx-auto mt-1 lg:mx-0 lg:mt-0 mb-3
+        max-w-[12rem] lg:max-w-none overflow-hidden rounded-xl active:scale-95"> <div class="absolute transition pointer-events-none group-hover:bg-[rgb(83_63_41_/_0.16)] group-active:bg-[rgb(83_63_41_/_0.24)]
+        w-full h-full z-50 flex items-center justify-center"> <svg width="1.13em" height="1em" class="transition opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 text-white text-5xl" data-icon="fa6-regular:address-card">   <symbol id="ai:fa6-regular:address-card" viewBox="0 0 576 512"><path fill="currentColor" d="M512 80c8.8 0 16 7.2 16 16v320c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V96c0-8.8 7.2-16 16-16zM64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm144 224a64 64 0 1 0 0-128a64 64 0 1 0 0 128m-32 32c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16h192c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80zm200-144c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24z"/></symbol><use href="#ai:fa6-regular:address-card"></use>  </svg> </div> <div class="mx-auto lg:w-full h-full lg:mt-0  overflow-hidden relative"> <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div> <img src="/_astro/demo-avatar.CxcI0ivM_1nbuVe.webp" alt="Profile Image of the Author" style="object-position: center" loading="lazy" decoding="async" fetchpriority="auto" width="512" height="512" class="w-full h-full object-cover">  </div> </a> <div class="px-2"> <div class="font-display font-bold text-2xl text-center mb-1 text-90 transition">小月</div> <div class="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition"></div> <div class="text-center text-75 mb-3 leading-7 transition">记录整车通信、智驾系统、控制与持续学习过程的中文笔记。</div> <div class="flex flex-wrap gap-2 justify-center mb-1"> <a rel="me" aria-label="QQ" href="https://wpa.qq.com/msgrd?v=3&uin=1410419147&site=qq&menu=yes" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="0.88em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:qq">   <symbol id="ai:fa6-brands:qq" viewBox="0 0 448 512"><path fill="currentColor" d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741c0 31.345-16.136 72.247-51.051 101.786c16.842 5.192 54.843 19.167 45.803 34.421c-7.316 12.343-125.51 7.881-159.632 4.037c-34.122 3.844-152.316 8.306-159.632-4.037c-9.045-15.25 28.918-29.214 45.783-34.415c-34.92-29.539-51.059-70.445-51.059-101.792c0 0-33.334 54.134-44.859 52.741c-5.37-.65-12.424-29.644 9.347-99.704c10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963c18.118 45.223 29.912 72.85 40.144 105.778c21.768 70.06 14.716 99.053 9.346 99.704"/></symbol><use href="#ai:fa6-brands:qq"></use>  </svg> </a><a rel="me" aria-label="邮箱" href="mailto:xiaoyue@example.com" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1em" height="1em" class="text-[1.5rem]" data-icon="material-symbols:mail-outline-rounded">   <symbol id="ai:material-symbols:mail-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20zM20 8l-7.475 4.675q-.125.075-.262.113t-.263.037t-.262-.037t-.263-.113L4 8v10h16zm-8 3l8-5H4zM4 8v.25v-1.475v.025V6v.8v-.012V8.25zv10z"/></symbol><use href="#ai:material-symbols:mail-outline-rounded"></use>  </svg> </a><a rel="me" aria-label="微信" href="https://weixin.qq.com/" target="_blank" class="btn-regular rounded-xl h-10 w-10 active:scale-90"> <svg width="1.13em" height="1em" class="text-[1.5rem]" data-icon="fa6-brands:weixin">   <symbol id="ai:fa6-brands:weixin" viewBox="0 0 576 512"><path fill="currentColor" d="M385.2 167.6c6.4 0 12.6.3 18.8 1.1C387.4 90.3 303.3 32 207.7 32C100.5 32 13 104.8 13 197.4c0 53.4 29.3 97.5 77.9 131.6l-19.3 58.6l68-34.1c24.4 4.8 43.8 9.7 68.2 9.7c6.2 0 12.1-.3 18.3-.8c-4-12.9-6.2-26.6-6.2-40.8c-.1-84.9 72.9-154 165.3-154m-104.5-52.9c14.5 0 24.2 9.7 24.2 24.4c0 14.5-9.7 24.2-24.2 24.2c-14.8 0-29.3-9.7-29.3-24.2c.1-14.7 14.6-24.4 29.3-24.4m-136.4 48.6c-14.5 0-29.3-9.7-29.3-24.2c0-14.8 14.8-24.4 29.3-24.4c14.8 0 24.4 9.7 24.4 24.4c0 14.6-9.6 24.2-24.4 24.2M563 319.4c0-77.9-77.9-141.3-165.4-141.3c-92.7 0-165.4 63.4-165.4 141.3S305 460.7 397.6 460.7c19.3 0 38.9-5.1 58.6-9.9l53.4 29.3l-14.8-48.6C534 402.1 563 363.2 563 319.4m-219.1-24.5c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.8 0 24.4 9.7 24.4 19.3c0 10-9.7 19.6-24.4 19.6m107.1 0c-9.7 0-19.3-9.7-19.3-19.6c0-9.7 9.7-19.3 19.3-19.3c14.5 0 24.4 9.7 24.4 19.3c.1 10-9.9 19.6-24.4 19.6"/></symbol><use href="#ai:fa6-brands:weixin"></use>  </svg> </a>  </div> </div> </div> </div> <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4"> <widget-layout data-id="categories" data-is-collapsed="false" class="pb-4 card-base onload-animation" style="animation-delay: 150ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">分类</div> <div id="categories" class="collapse-wrapper px-4 overflow-hidden" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <a href="/timeline/?category=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 2 </div> </div> </button> </a><a href="/timeline/?category=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD" aria-label="View all posts in the 整车通信与诊断 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 整车通信与诊断 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 9 </div> </div> </button> </a><a href="/timeline/?category=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts in the 智驾系统开发 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 智驾系统开发 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 8 </div> </div> </button> </a><a href="/timeline/?category=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts in the 深度学习 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 深度学习 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%A1%AC%E4%BB%B6" aria-label="View all posts in the 硬件 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 硬件 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts in the 端到端自动驾驶 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 端到端自动驾驶 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts in the 运动控制与状态辨识 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 运动控制与状态辨识 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a><a href="/timeline/?category=%E9%A2%84%E6%9C%9F%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts in the 预期功能安全 category"> <button class="
+            w-full
+            h-10
+            rounded-lg
+            bg-none
+            hover:bg-[var(--btn-plain-bg-hover)]
+            active:bg-[var(--btn-plain-bg-active)]
+            transition-all
+            pl-2
+            hover:pl-3
+            
+            text-neutral-700
+            hover:text-[var(--primary)]
+            dark:text-neutral-300
+            dark:hover:text-[var(--primary)]
+        "> <div class="flex items-center justify-between relative mr-2"> <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  "> 预期功能安全 </div> <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg text-sm font-bold
+                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
+                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
+                    flex items-center justify-center"> 1 </div> </div> </button> </a> </div>  </widget-layout>  <script type="module">class d extends HTMLElement{constructor(){if(super(),this.dataset.isCollapsed!=="true")return;const e=this.dataset.id,t=this.querySelector(".expand-btn"),s=this.querySelector(`#${e}`);t.addEventListener("click",()=>{s.classList.remove("collapsed"),t.classList.add("hidden")})}}customElements.get("widget-layout")||customElements.define("widget-layout",d);</script> <widget-layout data-id="tags" data-is-collapsed="true" class="pb-4 card-base onload-animation" style="animation-delay: 200ms; --collapsedHeight: 7.5rem;" data-astro-cid-ucso7hve="true"> <div class="font-display font-bold transition text-lg text-90 relative ml-8 mt-4 mb-2
+        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:left-[-16px] before:top-[5.5px]" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">标签</div> <div id="tags" class="collapse-wrapper px-4 overflow-hidden collapsed" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;">  <div class="flex gap-1.5 flex-wrap"> <a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E7%BD%91%E7%BB%9C" aria-label="View all posts with the 整车网络 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车网络</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E8%AF%8A%E6%96%AD" aria-label="View all posts with the 整车诊断 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车诊断</span>  </a><a href="/timeline/?tag=ECU" aria-label="View all posts with the ECU tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ECU</span>  </a><a href="/timeline/?tag=L2" aria-label="View all posts with the L2 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L2</span>  </a><a href="/timeline/?tag=UDS" aria-label="View all posts with the UDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDS</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83" aria-label="View all posts with the 功能规范 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能规范</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE" aria-label="View all posts with the 智驾 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾</span>  </a><a href="/timeline/?tag=%E8%BE%85%E5%8A%A9%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 辅助驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">辅助驾驶</span>  </a><a href="/timeline/?tag=CAN" aria-label="View all posts with the CAN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN</span>  </a><a href="/timeline/?tag=DoIP" aria-label="View all posts with the DoIP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DoIP</span>  </a><a href="/timeline/?tag=ISO-26262" aria-label="View all posts with the ISO-26262 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-26262</span>  </a><a href="/timeline/?tag=TCP" aria-label="View all posts with the TCP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TCP</span>  </a><a href="/timeline/?tag=UDP" aria-label="View all posts with the UDP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">UDP</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E6%84%9F%E5%99%A8" aria-label="View all posts with the 传感器 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传感器</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8" aria-label="View all posts with the 功能安全 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能安全</span>  </a><a href="/timeline/?tag=%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 智能驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智能驾驶</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts with the 智驾系统开发 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统开发</span>  </a><a href="/timeline/?tag=%E8%A1%8C%E8%BD%A6" aria-label="View all posts with the 行车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">行车</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E4%BB%A5%E5%A4%AA%E7%BD%91" aria-label="View all posts with the 车载以太网 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载以太网</span>  </a><a href="/timeline/?tag=1000BASE-T1" aria-label="View all posts with the 1000BASE-T1 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">1000BASE-T1</span>  </a><a href="/timeline/?tag=100BASE-TX" aria-label="View all posts with the 100BASE-TX tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">100BASE-TX</span>  </a><a href="/timeline/?tag=ADAS" aria-label="View all posts with the ADAS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ADAS</span>  </a><a href="/timeline/?tag=ALC" aria-label="View all posts with the ALC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ALC</span>  </a><a href="/timeline/?tag=APO" aria-label="View all posts with the APO tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">APO</span>  </a><a href="/timeline/?tag=ASIL" aria-label="View all posts with the ASIL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL</span>  </a><a href="/timeline/?tag=ASIL%E5%88%86%E8%A7%A3" aria-label="View all posts with the ASIL分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ASIL分解</span>  </a><a href="/timeline/?tag=AUTOSAR" aria-label="View all posts with the AUTOSAR tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">AUTOSAR</span>  </a><a href="/timeline/?tag=Bootloader" aria-label="View all posts with the Bootloader tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bootloader</span>  </a><a href="/timeline/?tag=Bus-Off" aria-label="View all posts with the Bus-Off tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Bus-Off</span>  </a><a href="/timeline/?tag=CAN-FD" aria-label="View all posts with the CAN-FD tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CAN-FD</span>  </a><a href="/timeline/?tag=CanNm" aria-label="View all posts with the CanNm tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">CanNm</span>  </a><a href="/timeline/?tag=ComM" aria-label="View all posts with the ComM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ComM</span>  </a><a href="/timeline/?tag=DDS" aria-label="View all posts with the DDS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DDS</span>  </a><a href="/timeline/?tag=Diffusion" aria-label="View all posts with the Diffusion tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">Diffusion</span>  </a><a href="/timeline/?tag=DMS" aria-label="View all posts with the DMS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DMS</span>  </a><a href="/timeline/?tag=DTC" aria-label="View all posts with the DTC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">DTC</span>  </a><a href="/timeline/?tag=EOL" aria-label="View all posts with the EOL tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">EOL</span>  </a><a href="/timeline/?tag=HARA" aria-label="View all posts with the HARA tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HARA</span>  </a><a href="/timeline/?tag=HMI" aria-label="View all posts with the HMI tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">HMI</span>  </a><a href="/timeline/?tag=ISO-13400" aria-label="View all posts with the ISO-13400 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-13400</span>  </a><a href="/timeline/?tag=ISO-14229" aria-label="View all posts with the ISO-14229 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">ISO-14229</span>  </a><a href="/timeline/?tag=L3" aria-label="View all posts with the L3 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">L3</span>  </a><a href="/timeline/?tag=LSTM" aria-label="View all posts with the LSTM tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">LSTM</span>  </a><a href="/timeline/?tag=MLP-Mixer" aria-label="View all posts with the MLP-Mixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">MLP-Mixer</span>  </a><a href="/timeline/?tag=REC" aria-label="View all posts with the REC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">REC</span>  </a><a href="/timeline/?tag=RTPS" aria-label="View all posts with the RTPS tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">RTPS</span>  </a><a href="/timeline/?tag=SOME%2FIP" aria-label="View all posts with the SOME/IP tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">SOME/IP</span>  </a><a href="/timeline/?tag=TEC" aria-label="View all posts with the TEC tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TEC</span>  </a><a href="/timeline/?tag=TSMixer" aria-label="View all posts with the TSMixer tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSMixer</span>  </a><a href="/timeline/?tag=TSN" aria-label="View all posts with the TSN tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">TSN</span>  </a><a href="/timeline/?tag=%E4%B8%AD%E9%97%B4%E4%BB%B6" aria-label="View all posts with the 中间件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">中间件</span>  </a><a href="/timeline/?tag=%E4%BC%A0%E8%BE%93%E5%B1%82" aria-label="View all posts with the 传输层 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">传输层</span>  </a><a href="/timeline/?tag=%E4%BF%A1%E5%8F%B7%E7%9F%A9%E9%98%B5" aria-label="View all posts with the 信号矩阵 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">信号矩阵</span>  </a><a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 功能设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">功能设计</span>  </a><a href="/timeline/?tag=%E5%8D%B1%E5%AE%B3%E5%88%86%E6%9E%90" aria-label="View all posts with the 危害分析 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">危害分析</span>  </a><a href="/timeline/?tag=%E5%91%BD%E4%BB%A4%E5%8F%98%E9%81%93" aria-label="View all posts with the 命令变道 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">命令变道</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1" aria-label="View all posts with the 接口设计 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接口设计</span>  </a><a href="/timeline/?tag=%E6%8E%A5%E7%AE%A1" aria-label="View all posts with the 接管 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">接管</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86" aria-label="View all posts with the 故障处理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障处理</span>  </a><a href="/timeline/?tag=%E6%95%85%E9%9A%9C%E7%A0%81" aria-label="View all posts with the 故障码 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">故障码</span>  </a><a href="/timeline/?tag=%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 整车通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">整车通信</span>  </a><a href="/timeline/?tag=%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B" aria-label="View all posts with the 时序预测 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时序预测</span>  </a><a href="/timeline/?tag=%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5" aria-label="View all posts with the 时间同步 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">时间同步</span>  </a><a href="/timeline/?tag=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F" aria-label="View all posts with the 智驾系统 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">智驾系统</span>  </a><a href="/timeline/?tag=%E6%A0%87%E5%AE%9A" aria-label="View all posts with the 标定 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">标定</span>  </a><a href="/timeline/?tag=%E6%B3%8A%E8%BD%A6" aria-label="View all posts with the 泊车 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">泊车</span>  </a><a href="/timeline/?tag=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" aria-label="View all posts with the 深度学习 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">深度学习</span>  </a><a href="/timeline/?tag=%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B" aria-label="View all posts with the 生成模型 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">生成模型</span>  </a><a href="/timeline/?tag=%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 端到端自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">端到端自动驾驶</span>  </a><a href="/timeline/?tag=%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90" aria-label="View all posts with the 系统集成 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">系统集成</span>  </a><a href="/timeline/?tag=%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86" aria-label="View all posts with the 网络管理 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">网络管理</span>  </a><a href="/timeline/?tag=%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 自动驾驶 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自动驾驶</span>  </a><a href="/timeline/?tag=%E8%87%AA%E9%80%82%E5%BA%94%E5%B7%A1%E8%88%AA%E6%8E%A7%E5%88%B6" aria-label="View all posts with the 自适应巡航控制 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">自适应巡航控制</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E5%9F%9F" aria-label="View all posts with the 设计运行域 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行域</span>  </a><a href="/timeline/?tag=%E8%AE%BE%E8%AE%A1%E8%BF%90%E8%A1%8C%E6%9D%A1%E4%BB%B6" aria-label="View all posts with the 设计运行条件 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">设计运行条件</span>  </a><a href="/timeline/?tag=%E8%BD%A6%E8%BD%BD%E9%80%9A%E4%BF%A1" aria-label="View all posts with the 车载通信 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">车载通信</span>  </a><a href="/timeline/?tag=%E8%BD%A8%E8%BF%B9%E8%A7%84%E5%88%92" aria-label="View all posts with the 轨迹规划 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">轨迹规划</span>  </a><a href="/timeline/?tag=%E8%BD%AF%E4%BB%B6%E5%88%B7%E5%86%99" aria-label="View all posts with the 软件刷写 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">软件刷写</span>  </a><a href="/timeline/?tag=%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E8%BE%A8%E8%AF%86" aria-label="View all posts with the 运动控制与状态辨识 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">运动控制与状态辨识</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3" aria-label="View all posts with the 需求分解 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求分解</span>  </a><a href="/timeline/?tag=%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B" aria-label="View all posts with the 需求工程 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">需求工程</span>  </a><a href="/timeline/?tag=%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0" aria-label="View all posts with the 风险评估 tag" class="btn-regular h-8 text-sm px-3 rounded-lg">   <span class="text-xs md:text-sm leading-none">风险评估</span>  </a> </div>  </div> <div class="expand-btn px-4 -mb-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <button class="btn-plain rounded-lg w-full h-9" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <div class="text-[var(--primary)] flex items-center justify-center gap-2 -translate-x-2" data-astro-cid-ucso7hve style="--collapsedHeight: 7.5rem;"> <svg width="1em" height="1em" class="text-[1.75rem]" data-astro-cid-ucso7hve="true" data-icon="material-symbols:more-horiz">   <symbol id="ai:material-symbols:more-horiz" viewBox="0 0 24 24"><path fill="currentColor" d="M6 14q-.825 0-1.412-.587T4 12t.588-1.412T6 10t1.413.588T8 12t-.587 1.413T6 14m6 0q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m6 0q-.825 0-1.412-.587T16 12t.588-1.412T18 10t1.413.588T20 12t-.587 1.413T18 14"/></symbol><use href="#ai:material-symbols:more-horiz"></use>  </svg> 更多 </div> </button> </div> </widget-layout>   </div> </div> <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden"> <div id="content-wrapper" class="onload-animation"> <!-- the overflow-hidden here prevent long text break the layout--> <!-- make id different from windows.swup global property -->   <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4"> <div id="post-container" class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full "> <!-- word count and reading time --> <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation"> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:notes-rounded">   <symbol id="ai:material-symbols:notes-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h10q.425 0 .713.288T15 17t-.288.713T14 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:notes-rounded"></use>  </svg> </div> <div class="text-sm">9080  字</div> </div> <div class="flex flex-row items-center"> <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"> <svg width="1em" height="1em" data-icon="material-symbols:schedule-outline-rounded">   <symbol id="ai:material-symbols:schedule-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M13 11.6V8q0-.425-.288-.712T12 7t-.712.288T11 8v3.975q0 .2.075.388t.225.337l3.3 3.3q.275.275.7.275T16 16t.275-.7t-.275-.7zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.325 0 5.663-2.337T20 12t-2.337-5.663T12 4T6.337 6.338T4 12t2.338 5.663T12 20"/></symbol><use href="#ai:material-symbols:schedule-outline-rounded"></use>  </svg> </div> <div class="text-sm"> 45  分钟 </div> </div> </div> <!-- title --> <div class="relative onload-animation"> <div data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title" class="transition w-full block font-display font-bold mb-3
+                    text-3xl md:text-[2.25rem]/[2.75rem]
+                    text-black/90 dark:text-white/90
+                    md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-[0.75rem] before:left-[-1.125rem]
+                "> ALC 功能规范 </div> </div> <!-- metadata --> <div class="onload-animation"> <div class="flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2 mb-5"> <!-- publish date --> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:calendar-today-outline-rounded">   <symbol id="ai:material-symbols:calendar-today-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V3q0-.425.288-.712T7 2t.713.288T8 3v1h8V3q0-.425.288-.712T17 2t.713.288T18 3v1h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5zM5 8h14V6H5zm0 0V6z"/></symbol><use href="#ai:material-symbols:calendar-today-outline-rounded"></use>  </svg> </div> <span class="text-50 font-medium text-sm">2026-05-03</span> </div> <!-- update date -->  <!-- categories --> <div class="flex items-center"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:book-2-outline-rounded">   <symbol id="ai:material-symbols:book-2-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 15.325q.35-.175.725-.25T7.5 15H8V4h-.5q-.625 0-1.062.438T6 5.5zM10 15h8V4h-8zm-4 .325V4zM7.5 22q-1.45 0-2.475-1.025T4 18.5v-13q0-1.45 1.025-2.475T7.5 2H18q.825 0 1.413.587T20 4v12.525q0 .2-.162.363t-.588.362q-.35.175-.55.5t-.2.75t.2.763t.55.487t.55.413t.2.562v.25q0 .425-.288.725T19 22zm0-2h9.325q-.15-.35-.237-.712T16.5 18.5q0-.4.075-.775t.25-.725H7.5q-.65 0-1.075.438T6 18.5q0 .65.425 1.075T7.5 20"/></symbol><use href="#ai:material-symbols:book-2-outline-rounded"></use>  </svg> </div> <div class="flex flex-row flex-nowrap items-center"> <a href="/timeline/?category=%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91" aria-label="View all posts in the 智驾系统开发 category" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 智驾系统开发 </a> </div> </div> <!-- tags --> <div class="items-center flex"> <div class="meta-icon"> <svg width="1em" height="1em" class="text-xl" data-icon="material-symbols:tag-rounded">   <symbol id="ai:material-symbols:tag-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m9 16l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T6.3 18.8L7 16H4.275q-.5 0-.8-.387T3.3 14.75q.075-.35.35-.55t.625-.2H7.5l1-4H5.775q-.5 0-.8-.387T4.8 8.75q.075-.35.35-.55t.625-.2H9l.825-3.275Q9.9 4.4 10.15 4.2t.6-.2q.475 0 .775.375t.175.825L11 8h4l.825-3.275q.075-.325.325-.525t.6-.2q.475 0 .775.375t.175.825L17 8h2.725q.5 0 .8.387t.175.863q-.075.35-.35.55t-.625.2H16.5l-1 4h2.725q.5 0 .8.388t.175.862q-.075.35-.35.55t-.625.2H15l-.825 3.275q-.075.325-.325.525t-.6.2q-.475 0-.775-.375T12.3 18.8L13 16zm.5-2h4l1-4h-4z"/></symbol><use href="#ai:material-symbols:tag-rounded"></use>  </svg> </div> <div class="flex flex-row flex-nowrap items-center"> <div class="hidden mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E5%8A%9F%E8%83%BD%E8%A7%84%E8%8C%83" aria-label="View all posts with the 功能规范 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 功能规范 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=ALC" aria-label="View all posts with the ALC tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> ALC </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E5%91%BD%E4%BB%A4%E5%8F%98%E9%81%93" aria-label="View all posts with the 命令变道 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 命令变道 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=L2" aria-label="View all posts with the L2 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> L2 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E8%BE%85%E5%8A%A9%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 辅助驾驶 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 辅助驾驶 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6" aria-label="View all posts with the 智能驾驶 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 智能驾驶 </a><div class="mx-1.5 text-[var(--meta-divider)] text-sm">/</div>
+                <a href="/timeline/?tag=%E8%A1%8C%E8%BD%A6" aria-label="View all posts with the 行车 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> 行车 </a>  </div> </div> </div> <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div> </div> <!-- always show cover as long as it has one -->  <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mb-6 markdown-content onload-animation"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">-->  <p>本文档定义乘用车高级驾驶辅助系统中的命令变道功能。ALC 是 Automated Lane Change 或 Assisted Lane Change 的工程缩写，在本文中指驾驶员通过转向灯提出变道意图后，系统在车道线、周边目标、车辆状态和执行器状态满足条件时，辅助车辆完成横向变道控制的 L2 辅助驾驶功能。</p>
+<p>本文档面向整车功能定义、ADAS 系统设计、HMI 定义、LKA / LCA / BSD 协同开发、EPS 联调、底盘联调、测试验证和项目管理使用。后续软件需求、标定参数、通信矩阵、诊断规范和测试用例应基于本文档继续分解。</p>
+<p>本文档不单独定义以下内容：</p>
+<ul>
+<li>LKA 车道保持功能的完整功能规范。</li>
+<li>LCA / BSD 并线辅助和盲区监测的完整功能规范。</li>
+<li>摄像头、后角毫米波雷达、EPS、ESP、BCM、HMI 的底层算法和驱动实现。</li>
+<li>全量通信矩阵、诊断服务、刷写流程和 BootLoader 实现。</li>
+<li>法规认证文本。</li>
+</ul>
+<section><h1 id="1-系统目标与边界">1. 系统目标与边界<a class="anchor" href="#1-系统目标与边界"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="11-系统目标">1.1 系统目标<a class="anchor" href="#11-系统目标"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 的系统目标包括以下三类：</p><ul>
+<li>驾驶辅助目标：在 LKA 已开启且车辆处于适合变道的行驶条件下，识别驾驶员通过转向灯表达的变道意图，并在目标侧条件满足时辅助车辆平顺完成横向变道。</li>
+<li>安全目标：持续判断本车车道线、目标侧车道、后向来车、盲区目标、车辆状态和执行器状态。当变道条件不满足、驾驶员接管、关键传感器故障或系统无法处理紧急状况时，停止变道控制并进入安全状态。</li>
+<li>系统协同目标：与 LKA、前视摄像头、后角毫米波雷达、BSD / LCA、EPS、ESP、BCM、HU / IPC 建立一致的状态、接口和提示语义。</li>
+</ul></section><section><h2 id="12-系统边界">1.2 系统边界<a class="anchor" href="#12-系统边界"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 的系统链路覆盖驾驶员意图识别、车道线感知、后向目标感知、路径规划、横向执行和 HMI 交互。</p><div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.4fsv9.css"><script type="module" src="/_astro/ec.g1fg5.js"></script><figure class="frame"><figcaption class="header"></figcaption><pre data-language="mermaid" class="wrap" style="--ecMaxLine:49ch"><code><div class="ec-line"><div class="gutter"><div class="ln" aria-hidden="true">1</div></div><div class="code"><span style="--0:#E1E4E8;--1:#E1E4E8">flowchart LR</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">2</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">A[驾驶员输入&#x3C;br/>转向灯 / 方向盘 / 制动踏板] --> B[ADAS 控制器]</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">3</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">C[LKA 状态&#x3C;br/>车道保持可用 / 激活] --> B</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">4</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">D[前视摄像头&#x3C;br/>本车道与目标侧车道线] --> B</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">5</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">E[后角毫米波雷达&#x3C;br/>BSD / LCA 报警] --> B</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">6</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">F[整车状态&#x3C;br/>BCM / ESP / EPS / HU] --> B</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">7</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">B --> G[EPS 横向控制请求]</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">8</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">G --> H[转向执行]</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">9</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">B --> I[HU / IPC&#x3C;br/>状态 / 告警 / 退出原因]</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">10</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">B --> J[转向灯与车身协同]</span></div></div></code><button class="copy-btn" aria-label="Copy code"><div class="copy-btn-icon"><svg viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" class="copy-btn-icon copy-icon"><path d="M368.37-237.37q-34.48 0-58.74-24.26-24.26-24.26-24.26-58.74v-474.26q0-34.48 24.26-58.74 24.26-24.26 58.74-24.26h378.26q34.48 0 58.74 24.26 24.26 24.26 24.26 58.74v474.26q0 34.48-24.26 58.74-24.26 24.26-58.74 24.26H368.37Zm0-83h378.26v-474.26H368.37v474.26Zm-155 238q-34.48 0-58.74-24.26-24.26-24.26-24.26-58.74v-515.76q0-17.45 11.96-29.48 11.97-12.02 29.33-12.02t29.54 12.02q12.17 12.03 12.17 29.48v515.76h419.76q17.45 0 29.48 11.96 12.02 11.97 12.02 29.33t-12.02 29.54q-12.03 12.17-29.48 12.17H213.37Zm155-238v-474.26 474.26Z"></path></svg><svg viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" class="copy-btn-icon success-icon"><path d="m389-377.13 294.7-294.7q12.58-12.67 29.52-12.67 16.93 0 29.61 12.67 12.67 12.68 12.67 29.53 0 16.86-12.28 29.14L419.07-288.41q-12.59 12.67-29.52 12.67-16.94 0-29.62-12.67L217.41-430.93q-12.67-12.68-12.79-29.45-.12-16.77 12.55-29.45 12.68-12.67 29.62-12.67 16.93 0 29.28 12.67L389-377.13Z"></path></svg></div></button></pre></figure></div><p>系统边界内包含以下内容：</p><ul>
+<li>驾驶员转向灯意图识别。</li>
+<li>ALC 开关和 LKA 状态判断。</li>
+<li>目标侧车道线可用性判断。</li>
+<li>BSD / LCA 安全约束判断。</li>
+<li>变道等待、执行、完成、接管和故障状态管理。</li>
+<li>横向轨迹或目标转角请求生成。</li>
+<li>HMI 状态、等待、退出、接管和故障提示。</li>
+</ul><p>系统边界外但与功能成败强相关的内容包括：</p><ul>
+<li>LKA 对本车道居中控制的稳定性。</li>
+<li>前视摄像头对车道线类型、位置和置信度的识别质量。</li>
+<li>后角毫米波雷达对相邻车道后向来车、盲区目标和高速接近目标的识别质量。</li>
+<li>EPS 对目标转角或横向控制请求的执行质量。</li>
+<li>ESP 对车速、稳定性状态和制动干预状态的上报质量。</li>
+<li>HU / IPC 对功能状态和退出原因的显示一致性。</li>
+</ul></section><section><h2 id="13-外部依赖系统">1.3 外部依赖系统<a class="anchor" href="#13-外部依赖系统"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 的主要外部依赖系统如下。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>外部系统</th><th>向 ALC 提供</th><th>ALC 向其输出</th><th>系统角色</th></tr></thead><tbody><tr><td>LKA</td><td>LKA 开启状态、车道保持激活状态、车道居中能力</td><td>变道请求、功能协同状态</td><td>ALC 基础能力前提</td></tr><tr><td>前视摄像头</td><td>本车道线、目标侧车道线、车道线类型、置信度、曲率</td><td>无</td><td>车道环境感知</td></tr><tr><td>后角毫米波雷达</td><td>BSD / LCA 报警、目标侧后向车辆、盲区目标、相对速度</td><td>无</td><td>目标侧安全约束</td></tr><tr><td>EPS</td><td>横向控制可用性、故障状态、方向盘角、驾驶员转向力矩</td><td>目标转角、横向控制请求、退出请求</td><td>横向执行</td></tr><tr><td>ESP</td><td>车速、车辆稳定性状态、制动踏板状态、故障状态</td><td>无或横向协同状态</td><td>车辆动态状态</td></tr><tr><td>BCM</td><td>转向灯、四门两盖、安全带等车身状态</td><td>无</td><td>驾驶员意图和车身状态</td></tr><tr><td>HU / IPC</td><td>ALC 开关、驾驶员设置、显示通道</td><td>ALC 状态、等待原因、接管请求、故障提示</td><td>人机交互</td></tr></tbody></table></section></section>
+<section><h1 id="2-运行前提与场景边界">2. 运行前提与场景边界<a class="anchor" href="#2-运行前提与场景边界"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="21-功能前提">2.1 功能前提<a class="anchor" href="#21-功能前提"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 只允许在满足以下前提时进入待命或可触发状态：</p><ul>
+<li>LKA 功能已开启并处于可用状态。</li>
+<li>HU 中 ALC 设置开关开启。</li>
+<li>表显车速满足 <code>45 km/h &#x3C; v_display &#x3C; 135 km/h</code>。</li>
+<li>车辆实际车速满足 <code>40.78 km/h &#x3C; v_actual &#x3C; 128.16 km/h</code>。</li>
+<li>ADAS 控制器无故障。</li>
+<li>前视摄像头无故障且无遮挡。</li>
+<li>后角毫米波雷达无故障。</li>
+<li>EPS、ESP 等关联执行部件无故障。</li>
+<li>车辆处于稳定行驶状态，驾驶员未踩制动踏板。</li>
+<li>驾驶员未主动打方向盘介入。</li>
+<li>车门、前舱盖、后尾门处于关闭或锁止状态。</li>
+<li>驾驶员安全带处于系紧状态。</li>
+</ul><p>任一前提不满足时，系统不得进入 ALC 待命或执行状态。若在 ALC 执行过程中失效，系统应按照等待、退出、接管请求或故障流程处理。</p></section><section><h2 id="22-触发条件">2.2 触发条件<a class="anchor" href="#22-触发条件"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>驾驶员通过目标侧转向灯提出 ALC 触发请求。转向灯信号作为候选变道意图输入，系统收到请求后，还需要完成意图确认、目标侧车道线判断、目标侧 BSD / LCA 判断和车辆状态判断，全部满足后才允许进入变道执行。转向灯短时闪烁或误碰不得直接触发变道。</p><p>进入变道执行至少需要满足以下条件：</p><ul>
+<li>驾驶员打开左侧或右侧转向灯。</li>
+<li>转向灯方向与目标变道方向一致。</li>
+<li>当前车道目标侧车道线为虚线或项目允许跨越的车道线类型。</li>
+<li>目标侧 BSD / LCA 无报警。</li>
+<li>LKA 仍处于可用或激活状态。</li>
+<li>车速仍处于 ALC 允许范围。</li>
+<li>EPS 横向控制能力可用。</li>
+</ul><p>若驾驶员发出变道请求，但目标侧车道线为实线或 BSD / LCA 报警，系统不得立即执行变道，应进入等待逻辑或保持 Standby，具体取决于当前状态。</p></section><section><h2 id="23-适用场景">2.3 适用场景<a class="anchor" href="#23-适用场景"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 的目标场景是驾驶员监督下的车道变更辅助，适用场景包括：</p><ul>
+<li>LKA 开启后，驾驶员拨动左侧或右侧转向灯，希望系统辅助完成相应方向变道。</li>
+<li>本车以中高速稳定行驶，目标侧车道线为虚线，目标侧无盲区报警和快速接近风险。</li>
+<li>变道触发瞬间条件暂不满足，系统在短时间内等待目标侧条件恢复。</li>
+<li>变道执行过程中尚未压线，目标侧条件短时不满足，系统保持当前车道等待。</li>
+</ul><p>ALC 不适用于以下场景：</p><ul>
+<li>驾驶员脱手或无监督驾驶。</li>
+<li>城市复杂路口、匝道汇入汇出、施工区、收费站、环岛等强交互场景。</li>
+<li>实线、禁变车道线、无有效车道线或车道线置信度不足场景。</li>
+<li>目标侧存在 BSD / LCA 报警或后向高速接近目标场景。</li>
+<li>车辆横摆稳定性、制动稳定性或转向执行状态异常场景。</li>
+</ul></section><section><h2 id="24-能力边界">2.4 能力边界<a class="anchor" href="#24-能力边界"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 的能力边界至少包括：</p><ul>
+<li>系统只在 L2 监督驾驶责任框架下工作，驾驶员始终承担监控和接管责任。</li>
+<li>变道触发来自驾驶员转向灯输入，系统不主动发起无驾驶员意图的自主变道。</li>
+<li>系统应同时依据转向灯、目标侧车道线类型和后向目标判断变道可执行性。</li>
+<li>变道过程中若系统无法处理紧急状况，应进入接管请求或退出流程。</li>
+<li>等待时间上限采用 <code>10 s</code> 作为当前工程口径，最终量产值需要通过标定冻结。</li>
+</ul></section><section><h2 id="25-关键判定口径">2.5 关键判定口径<a class="anchor" href="#25-关键判定口径"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>以下判定口径用于全文统一理解：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>术语</th><th>判定口径</th><th>说明</th></tr></thead><tbody><tr><td>转向灯有效</td><td>BCM 去抖后的左侧或右侧转向灯状态持续有效，且方向唯一</td><td>单次闪烁、短拨或左右同时有效都不算有效请求</td></tr><tr><td>车道线可跨越</td><td>目标侧边界线为虚线或项目冻结的允许跨越线型</td><td>以感知输出和项目规则共同判定</td></tr><tr><td>有效报警</td><td>BSD / LCA 报警经过去抖后仍持续有效</td><td>单个采样点报警不算有效约束</td></tr><tr><td>压线</td><td>任一车轮越过当前车道边界线</td><td>若项目采用车身中心点判定，应在参数表冻结</td></tr><tr><td>切入阶段</td><td>车辆已压线，但车身中心尚未完全进入目标车道</td><td>属于变道执行的中间态</td></tr><tr><td>不可逆阶段</td><td>从首次压线到车辆完全进入目标车道的阶段</td><td>该阶段内取消转向灯不应简单理解为中止变道</td></tr><tr><td>变道完成</td><td>车辆完全进入目标车道，且横向控制回收稳定</td><td>与 HMI 变道完成提示对应</td></tr><tr><td>主动转向介入</td><td>方向盘力矩或 EPS 接管信号持续超过阈值</td><td>单次力矩脉冲不算接管</td></tr></tbody></table><p>例如，驾驶员左转向灯只闪一下就拨回中位，且车辆还没有压线，本次输入按短拨处理，ALC 应保持 <code>Standby</code> 或撤销请求。若左转向灯已经满足确认窗口，车辆也已经开始切入左侧车道，后续拨回中位只表示驾驶员撤回后续变道意图，系统仍按既定安全轨迹完成当前变道。此时若同时出现制动、主动转向介入或目标侧风险升高，系统进入接管或退出流程。</p></section></section>
+<section><h1 id="3-功能定义与系统行为">3. 功能定义与系统行为<a class="anchor" href="#3-功能定义与系统行为"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="31-功能概述">3.1 功能概述<a class="anchor" href="#31-功能概述"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 在系统层面的作用，是在 LKA 已开启的前提下，把驾驶员转向灯意图转化为受约束的横向变道控制。系统需要先判断目标侧是否允许变道，再决定执行、等待、退出或请求接管。</p><p>ALC 行为按以下阶段组织：</p><ul>
+<li>触发判断：识别转向灯方向，并确认目标侧车道线、BSD / LCA、车辆状态和系统状态。</li>
+<li>变道执行：生成横向轨迹或目标转角请求，控制车辆由当前车道进入目标车道。</li>
+<li>完成与恢复：确认车辆完成变道后，退出 ALC 执行态，回到 LKA / Standby 等后续状态。</li>
+</ul></section><section><h2 id="32-功能子能力分解">3.2 功能子能力分解<a class="anchor" href="#32-功能子能力分解"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 可划分为以下子能力模块。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>子能力</th><th>功能说明</th><th>关键输入</th><th>关键输出</th></tr></thead><tbody><tr><td>可用性判断</td><td>判断 ALC 是否具备待命条件</td><td>LKA 状态、车速、HU 开关、故障状态</td><td>ALC 可用 / 不可用</td></tr><tr><td>驾驶员意图识别</td><td>识别转向灯方向和变道请求</td><td>左右转向灯、驾驶员操作状态</td><td>目标变道方向</td></tr><tr><td>目标侧车道判断</td><td>判断目标侧车道线是否允许跨越</td><td>车道线类型、车道线置信度、曲率</td><td>目标侧可变道 / 不可变道</td></tr><tr><td>目标侧安全判断</td><td>判断 BSD / LCA 是否存在报警</td><td>后角雷达目标、盲区报警、接近速度</td><td>安全 / 等待 / 禁止</td></tr><tr><td>等待管理</td><td>在条件短时不满足时维持当前车道等待</td><td>等待计时、车道线、BSD / LCA 状态</td><td>Waiting 状态、退出原因</td></tr><tr><td>变道控制</td><td>生成横向控制请求并完成车道变更</td><td>自车状态、车道线、目标方向</td><td>EPS 控制请求、目标轨迹</td></tr><tr><td>接管管理</td><td>识别驾驶员制动、转向介入和系统不可控场景</td><td>制动踏板、方向盘力矩、系统风险状态</td><td>Takeover / Exit</td></tr><tr><td>HMI 管理</td><td>提示待命、执行、等待、接管、故障</td><td>ALC 状态、等待原因、退出原因</td><td>图标、文本、声音</td></tr></tbody></table></section><section><h2 id="33-变道触发行为">3.3 变道触发行为<a class="anchor" href="#33-变道触发行为"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 在 <code>Standby</code> 状态下监听驾驶员转向灯输入。驾驶员打开目标侧转向灯后，系统应读取目标侧车道线和 BSD / LCA 状态。</p><p>当目标侧车道线为虚线且 BSD / LCA 无报警时，ALC 可以进入 <code>Active_Lane_Changing</code> 状态并开始变道。变道方向应与转向灯方向一致，系统不得将左转向灯解释为右侧变道，也不得在转向灯取消后继续启动新的变道动作。</p><p>若转向灯触发时条件不满足，系统应进入等待逻辑。等待期间车辆仍应维持在当前车道内，不得提前压线或向目标侧明显偏移。</p></section><section><h2 id="34-等待行为">3.4 等待行为<a class="anchor" href="#34-等待行为"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 等待行为分为两类：</p><ul>
+<li>触发前等待：驾驶员打开转向灯时，目标侧车道线为实线或 BSD / LCA 报警，系统进入 <code>Waiting</code>。等待时间未超过 <code>10 s</code> 且条件恢复时，系统可继续执行变道；超过等待时间后，系统应退出等待并回到 <code>Standby</code> 或 <code>Init</code>。</li>
+<li>变道过程等待：车辆尚未压线时，若目标侧车道线变为不允许跨越，或 BSD / LCA 出现有效报警，系统应维持当前车道等待。条件在等待窗口内恢复时，系统继续执行变道；条件持续不满足时，系统退出 ALC。</li>
+</ul><p>若车辆已经压线或处于目标车道切入阶段，转向灯取消只表示驾驶员撤回后续变道意图。该阶段内应优先保持轨迹连续性，是否允许回退当前车道、是否切换 <code>Takeover</code>、是否继续完成变道，由项目安全策略冻结。</p></section><section><h2 id="35-变道执行行为">3.5 变道执行行为<a class="anchor" href="#35-变道执行行为"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 进入变道执行状态后，应基于当前车道线、目标侧车道线、自车横向位置、航向角和车速生成平顺横向控制请求。变道轨迹应满足以下要求：</p><ul>
+<li>横向位移方向与驾驶员转向灯方向一致。</li>
+<li>横向加速度和横向加加速度应满足舒适性约束。</li>
+<li>变道过程中车辆不得越过非目标侧车道边界。</li>
+<li>若目标侧车道线丢失，系统应停止继续推进变道，并进入接管请求或退出流程。</li>
+<li>变道完成后，车辆应稳定进入目标车道，并恢复到车道保持或待命状态。</li>
+</ul></section><section><h2 id="36-接管与退出行为">3.6 接管与退出行为<a class="anchor" href="#36-接管与退出行为"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 执行过程中，驾驶员制动、主动打方向盘介入、目标侧风险升高、系统无法处理紧急状况或关键传感器故障时，系统应退出变道控制或请求驾驶员接管。</p><p>ALC 属于 L2 辅助驾驶功能。进入 <code>Takeover</code> 后，系统不再主导控车，HMI 应提示驾驶员接管，横向控制请求应按安全策略退出或降级。</p></section></section>
+<section><h1 id="4-状态机定义">4. 状态机定义<a class="anchor" href="#4-状态机定义"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="41-状态集合">4.1 状态集合<a class="anchor" href="#41-状态集合"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 状态机采用以下状态集合：</p><ul>
+<li><code>Init</code>：系统初始化或不可用状态。</li>
+<li><code>Standby</code>：ALC 前提满足，等待驾驶员通过转向灯触发。</li>
+<li><code>Waiting</code>：驾驶员已提出变道意图，但目标侧条件暂不满足，系统维持当前车道等待。</li>
+<li><code>Active_Lane_Changing</code>：系统正在执行自动变道。</li>
+<li><code>Takeover</code>：系统无法继续安全执行，提示驾驶员接管，系统停止主导控车。</li>
+<li><code>Fault</code>：关键传感器、控制器或执行器故障，ALC 不可用。</li>
+</ul></section><section><h2 id="42-状态机主流程">4.2 状态机主流程<a class="anchor" href="#42-状态机主流程"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="mermaid" class="wrap" style="--ecMaxLine:51ch"><code><div class="ec-line"><div class="gutter"><div class="ln" aria-hidden="true">1</div></div><div class="code"><span style="--0:#E1E4E8;--1:#E1E4E8">stateDiagram-v2</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">2</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">[*] --> Init</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">3</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Init --> Standby: T0 可用条件满足</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">4</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Standby --> Active_Lane_Changing: T1 触发且条件满足</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">5</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Active_Lane_Changing --> Standby: T2 变道完成</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">6</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Active_Lane_Changing --> Waiting: T3 压线前条件短时不满足</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">7</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Waiting --> Active_Lane_Changing: T4 等待窗口内条件恢复</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">8</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Active_Lane_Changing --> Takeover: T5 系统无法安全处理</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">9</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Waiting --> Standby: T6 等待超时</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">10</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Standby --> Waiting: T7 触发后条件暂不满足</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">11</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Active_Lane_Changing --> Fault: T8 故障</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">12</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Takeover --> Fault: T8 故障</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">13</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Fault --> Init: T9 故障恢复</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">14</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Active_Lane_Changing --> Init: T10 驾驶员制动或转向介入</span></div></div><div class="ec-line" style="--ecIndent:4ch"><div class="gutter"><div class="ln" aria-hidden="true">15</div></div><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#E1E4E8">    </span></span><span style="--0:#E1E4E8;--1:#E1E4E8">Takeover --> Init: T11 接管请求计时结束</span></div></div></code><button class="copy-btn" aria-label="Copy code"><div class="copy-btn-icon"><svg viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" class="copy-btn-icon copy-icon"><path d="M368.37-237.37q-34.48 0-58.74-24.26-24.26-24.26-24.26-58.74v-474.26q0-34.48 24.26-58.74 24.26-24.26 58.74-24.26h378.26q34.48 0 58.74 24.26 24.26 24.26 24.26 58.74v474.26q0 34.48-24.26 58.74-24.26 24.26-58.74 24.26H368.37Zm0-83h378.26v-474.26H368.37v474.26Zm-155 238q-34.48 0-58.74-24.26-24.26-24.26-24.26-58.74v-515.76q0-17.45 11.96-29.48 11.97-12.02 29.33-12.02t29.54 12.02q12.17 12.03 12.17 29.48v515.76h419.76q17.45 0 29.48 11.96 12.02 11.97 12.02 29.33t-12.02 29.54q-12.03 12.17-29.48 12.17H213.37Zm155-238v-474.26 474.26Z"></path></svg><svg viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" class="copy-btn-icon success-icon"><path d="m389-377.13 294.7-294.7q12.58-12.67 29.52-12.67 16.93 0 29.61 12.67 12.67 12.68 12.67 29.53 0 16.86-12.28 29.14L419.07-288.41q-12.59 12.67-29.52 12.67-16.94 0-29.62-12.67L217.41-430.93q-12.67-12.68-12.79-29.45-.12-16.77 12.55-29.45 12.68-12.67 29.62-12.67 16.93 0 29.28 12.67L389-377.13Z"></path></svg></div></button></pre></figure></div></section><section><h2 id="43-状态转移条件">4.3 状态转移条件<a class="anchor" href="#43-状态转移条件"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="t0init-到-standby">T0：Init 到 Standby<a class="anchor" href="#t0init-到-standby"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Init -> Standby</code> 应在以下条件全部满足时触发：</p><ul>
+<li>LKA 功能开启。</li>
+<li>表显车速满足 <code>45 km/h &#x3C; v_display &#x3C; 135 km/h</code>。</li>
+<li>实际车速满足 <code>40.78 km/h &#x3C; v_actual &#x3C; 128.16 km/h</code>。</li>
+<li>HU 中 ALC 设置开关开启。</li>
+<li>ADAS 控制器、摄像头、后角毫米波雷达、ESP、EPS 无影响 ALC 的故障。</li>
+<li>车门、前舱盖、后尾门和驾驶员安全带状态满足功能前提。</li>
+</ul></section><section><h3 id="t1standby-到-active_lane_changing">T1：Standby 到 Active_Lane_Changing<a class="anchor" href="#t1standby-到-active_lane_changing"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Standby -> Active_Lane_Changing</code> 应在以下条件全部满足时触发：</p><ul>
+<li>驾驶员开启左侧或右侧转向灯。</li>
+<li>转向灯请求通过意图确认，未被判定为短时误触发。</li>
+<li>转向灯方向对应的目标侧车道线为虚线。</li>
+<li>目标侧 BSD / LCA 无报警。</li>
+<li>LKA 仍处于可用或激活状态。</li>
+<li>驾驶员未踩制动踏板。</li>
+<li>驾驶员未主动打方向盘介入。</li>
+</ul><p>转向灯请求应先经历确认窗口，再进入执行态。若驾驶员在车辆尚未压线前取消转向灯，系统应撤销本次变道请求。</p></section><section><h3 id="t2active_lane_changing-到-standby">T2：Active_Lane_Changing 到 Standby<a class="anchor" href="#t2active_lane_changing-到-standby"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Active_Lane_Changing -> Standby</code> 应在变道动作完成后触发。变道完成判据至少包括：</p><ul>
+<li>车辆横向位置已经进入目标车道。</li>
+<li>车辆航向角与目标车道方向收敛。</li>
+<li>目标车道线识别稳定。</li>
+<li>横向控制可平顺回到车道保持或待命控制。</li>
+</ul></section><section><h3 id="t3active_lane_changing-到-waiting">T3：Active_Lane_Changing 到 Waiting<a class="anchor" href="#t3active_lane_changing-到-waiting"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Active_Lane_Changing -> Waiting</code> 应在以下条件任一满足时触发：</p><ul>
+<li>车辆尚未压线，目标侧车道线变为实线或不可跨越类型。</li>
+<li>车辆尚未压线，目标侧 BSD / LCA 出现有效报警。</li>
+</ul></section><section><h3 id="t4waiting-到-active_lane_changing">T4：Waiting 到 Active_Lane_Changing<a class="anchor" href="#t4waiting-到-active_lane_changing"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Waiting -> Active_Lane_Changing</code> 应在以下条件全部满足时触发：</p><ul>
+<li><code>Waiting</code> 持续时长小于 <code>10 s</code>，该值量产前需要冻结。</li>
+<li>目标侧车道线恢复为虚线或项目允许跨越类型。</li>
+<li>目标侧 BSD / LCA 无报警。</li>
+<li>驾驶员仍保持与目标方向一致的变道意图。</li>
+</ul></section><section><h3 id="t5active_lane_changing-到-takeover">T5：Active_Lane_Changing 到 Takeover<a class="anchor" href="#t5active_lane_changing-到-takeover"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Active_Lane_Changing -> Takeover</code> 应在以下条件任一满足时触发：</p><ul>
+<li>车道线丢失且无法确认安全边界。</li>
+<li>目标侧车辆或障碍物快速逼近，继续变道会放大碰撞风险。</li>
+<li>驾驶员制动或主动转向介入，系统不再适合主导横向控制。</li>
+<li>EPS、ESP 或其他横向相关部件出现影响控制能力的故障。</li>
+<li>横向控制能力不足以保证车辆留在安全边界内。</li>
+</ul><p>进入 <code>Takeover</code> 后，系统不再主导控车。若仅退出 ALC 且 LKA 不退出，<code>ADAS_ALCWarning</code> 可采用 <code>0x7: other reason</code> 或项目定义的等效退出原因。</p></section><section><h3 id="t6waiting-到-standby">T6：Waiting 到 Standby<a class="anchor" href="#t6waiting-到-standby"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Waiting -> Standby</code> 应在等待超过 <code>10 s</code> 后触发。系统应取消本次变道请求，并通过 HMI 提示变道条件不满足或变道取消。</p></section><section><h3 id="t7standby-到-waiting">T7：Standby 到 Waiting<a class="anchor" href="#t7standby-到-waiting"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Standby -> Waiting</code> 应在以下条件任一满足时触发：</p><ul>
+<li>驾驶员开启转向灯后，目标侧车道线为实线或不可跨越类型。</li>
+<li>驾驶员开启转向灯后，目标侧 BSD / LCA 报警。</li>
+</ul><p>转向灯短时闪烁且未达到意图确认窗口时，系统应保持 <code>Standby</code>，不得进入 <code>Waiting</code>。</p></section><section><h3 id="t8运行态到-fault">T8：运行态到 Fault<a class="anchor" href="#t8运行态到-fault"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Active_Lane_Changing / Takeover -> Fault</code> 应在以下条件任一满足时触发：</p><ul>
+<li>摄像头故障或摄像头被遮挡。</li>
+<li>ADAS 控制器故障。</li>
+<li>后角毫米波雷达故障。</li>
+<li>ESP、EPS 等关联执行部件故障。</li>
+</ul></section><section><h3 id="t9fault-到-init">T9：Fault 到 Init<a class="anchor" href="#t9fault-到-init"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Fault -> Init</code> 应在以下条件全部满足时触发：</p><ul>
+<li>摄像头感知恢复正常。</li>
+<li>ADAS 控制器无故障。</li>
+<li>后角毫米波雷达无故障。</li>
+<li>ESP、EPS 等关联部件恢复正常。</li>
+</ul></section><section><h3 id="t10active_lane_changing-到-init">T10：Active_Lane_Changing 到 Init<a class="anchor" href="#t10active_lane_changing-到-init"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Active_Lane_Changing -> Init</code> 应在以下条件任一满足时触发：</p><ul>
+<li>驾驶员踩制动踏板达到制动有效阈值。</li>
+<li>驾驶员主动打方向盘介入并持续超过接管阈值。</li>
+</ul></section><section><h3 id="t11takeover-到-init">T11：Takeover 到 Init<a class="anchor" href="#t11takeover-到-init"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p><code>Takeover -> Init</code> 应在接管请求持续 <code>Ts</code> 后触发。<code>Ts</code> 为项目标定参数，需要在系统参数表中冻结。</p></section></section></section>
+<section><h1 id="5-详细功能需求">5. 详细功能需求<a class="anchor" href="#5-详细功能需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="51-功能开启与关闭">5.1 功能开启与关闭<a class="anchor" href="#51-功能开启与关闭"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="alc-sys-001-功能开关">ALC-SYS-001 功能开关<a class="anchor" href="#alc-sys-001-功能开关"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 应受 HU 中 ALC 设置开关控制。开关关闭时，ALC 不得进入 <code>Standby</code> 或 <code>Active_Lane_Changing</code>。</p></section><section><h3 id="alc-sys-002-lka-前提">ALC-SYS-002 LKA 前提<a class="anchor" href="#alc-sys-002-lka-前提"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 只能在 LKA 功能开启且可用时工作。LKA 不可用、未开启或处于故障状态时，ALC 应保持不可用。</p></section><section><h3 id="alc-sys-003-车速范围">ALC-SYS-003 车速范围<a class="anchor" href="#alc-sys-003-车速范围"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 的工作车速应满足原始文档给出的速度口径：表显车速 <code>45 km/h ~ 135 km/h</code> 区间内，实际车速 <code>40.78 km/h ~ 128.16 km/h</code> 区间内。边界是否采用开区间或闭区间，应在量产标定参数表中冻结。</p></section></section><section><h2 id="52-变道请求识别">5.2 变道请求识别<a class="anchor" href="#52-变道请求识别"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="alc-sys-004-转向灯触发">ALC-SYS-004 转向灯触发<a class="anchor" href="#alc-sys-004-转向灯触发"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 应以驾驶员打开目标侧转向灯作为变道意图的输入信号。转向灯方向应决定目标变道方向，但系统<strong>不得仅凭转向灯瞬时有效就直接进入变道执行</strong>。</p><p>系统应对转向灯请求做意图确认，约束包括：</p><ul>
+<li>转向灯信号需要持续有效超过最小确认时间 <code>T_indicator_confirm</code>。</li>
+<li>转向灯信号在确认窗口内不得出现左右方向跳变。</li>
+<li>驾驶员在确认窗口内不得踩制动踏板或主动打方向盘介入。</li>
+<li>ALC 开关、LKA 状态、车速、车道线和 BSD / LCA 条件需要同时满足。</li>
+<li>若转向灯信号只短时闪烁，持续时间小于 <code>T_indicator_confirm</code>，系统应按误触发处理，不进入 <code>Active_Lane_Changing</code>。</li>
+</ul><p><code>T_indicator_confirm</code> 属于标定参数。参数过短会增加短拨或误碰转向灯触发 ALC 的概率；参数过长会带来响应迟滞。该参数应与可取消窗口配套定义，驾驶员在车辆压线前把转向灯拨回中位时，系统应取消本次请求。</p></section><section><h3 id="alc-sys-005-转向灯取消">ALC-SYS-005 转向灯取消<a class="anchor" href="#alc-sys-005-转向灯取消"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>转向灯取消应按变道阶段分开处理。</p><ul>
+<li>在系统尚未进入不可逆变道阶段前，驾驶员取消转向灯时，ALC 应取消本次变道请求并回到 <code>Standby</code> 或 LKA 控制。</li>
+<li>在车辆已经压线、横向轨迹已经建立，或者已经进入目标车道切入阶段时，转向灯取消只表示驾驶员撤回后续变道意图，系统继续按既定变道轨迹执行。</li>
+<li>若中途同时出现驾驶员制动、主动转向介入、目标侧风险升高或关键传感器故障，系统应优先进入 <code>Takeover</code> 或退出流程，由安全策略决定最终动作。</li>
+</ul><p>不可逆阶段的定义应在安全策略中冻结，通常以车轮是否越过车道边界、横向控制是否已进入稳定切入段作为分界。</p></section><section><h3 id="alc-sys-006-方向一致性">ALC-SYS-006 方向一致性<a class="anchor" href="#alc-sys-006-方向一致性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>系统不得在无转向灯请求或转向灯方向不明确时执行自动变道。左右转向灯异常同时有效时，ALC 应判定输入无效并禁止变道。</p></section></section><section><h2 id="53-目标侧条件判断">5.3 目标侧条件判断<a class="anchor" href="#53-目标侧条件判断"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="alc-sys-007-车道线类型">ALC-SYS-007 车道线类型<a class="anchor" href="#alc-sys-007-车道线类型"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 仅允许在目标侧车道线为虚线或项目定义的可跨越车道线时执行变道。目标侧车道线为实线、双实线、车道线丢失或置信度不足时，系统不得执行变道。</p></section><section><h3 id="alc-sys-008-bsd--lca-约束">ALC-SYS-008 BSD / LCA 约束<a class="anchor" href="#alc-sys-008-bsd--lca-约束"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>目标侧 BSD / LCA 有效报警时，ALC 不得执行变道。若报警发生在车辆尚未压线阶段，系统应进入 <code>Waiting</code> 或退出；若报警发生在压线后阶段，应根据安全策略进入接管请求、继续完成或退出。</p></section><section><h3 id="alc-sys-009-等待窗口">ALC-SYS-009 等待窗口<a class="anchor" href="#alc-sys-009-等待窗口"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>当驾驶员已提出变道意图，但目标侧车道线或 BSD / LCA 条件暂不满足时，ALC 可进入等待。等待窗口采用 <code>10 s</code> 作为当前工程口径。等待窗口内条件恢复时，系统可继续执行变道；等待超时后，应取消本次变道请求。</p></section></section><section><h2 id="54-横向控制需求">5.4 横向控制需求<a class="anchor" href="#54-横向控制需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="alc-sys-010-变道轨迹">ALC-SYS-010 变道轨迹<a class="anchor" href="#alc-sys-010-变道轨迹"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 应生成连续、平顺、方向明确的横向变道轨迹。轨迹应避免横向加速度和横向加加速度突变，并应满足车辆稳定性约束。</p></section><section><h3 id="alc-sys-011-eps-控制请求">ALC-SYS-011 EPS 控制请求<a class="anchor" href="#alc-sys-011-eps-控制请求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 应向 EPS 输出横向控制请求或目标转角请求。请求值应与车辆当前车速、横向偏差、车道线曲率和目标车道中心线一致。</p></section><section><h3 id="alc-sys-012-变道完成判据">ALC-SYS-012 变道完成判据<a class="anchor" href="#alc-sys-012-变道完成判据"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 应定义变道完成判据。完成判据至少应包含车辆进入目标车道、目标车道线稳定、车辆横向偏差收敛和横向控制请求平顺回收。</p></section></section><section><h2 id="55-驾驶员接管需求">5.5 驾驶员接管需求<a class="anchor" href="#55-驾驶员接管需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="alc-sys-013-制动接管">ALC-SYS-013 制动接管<a class="anchor" href="#alc-sys-013-制动接管"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>驾驶员踩制动踏板达到制动有效阈值时，ALC 应退出变道控制并回到 <code>Init</code> 或项目定义的安全状态。</p></section><section><h3 id="alc-sys-014-转向接管">ALC-SYS-014 转向接管<a class="anchor" href="#alc-sys-014-转向接管"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>驾驶员主动打方向盘介入时，ALC 应退出变道控制。转向介入判定可基于方向盘力矩、方向盘角速度或 EPS 驾驶员接管信号，具体阈值应在标定参数中冻结。单次方向盘力矩脉冲不计为接管事件。</p></section><section><h3 id="alc-sys-015-接管请求">ALC-SYS-015 接管请求<a class="anchor" href="#alc-sys-015-接管请求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>当系统无法继续安全执行变道时，ALC 应进入 <code>Takeover</code>，通过 HMI 请求驾驶员接管，并停止继续主导横向控制。</p></section></section><section><h2 id="56-hmi-需求">5.6 HMI 需求<a class="anchor" href="#56-hmi-需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="alc-sys-016-显示状态">ALC-SYS-016 显示状态<a class="anchor" href="#alc-sys-016-显示状态"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC HMI 至少应区分以下状态：</p><ul>
+<li>ALC 可用。</li>
+<li>ALC 正在等待变道条件满足。</li>
+<li>ALC 正在执行变道。</li>
+<li>ALC 变道完成。</li>
+<li>ALC 变道取消。</li>
+<li>ALC 请求接管。</li>
+<li>ALC 故障或不可用。</li>
+</ul></section><section><h3 id="alc-sys-017-等待原因提示">ALC-SYS-017 等待原因提示<a class="anchor" href="#alc-sys-017-等待原因提示"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 进入 <code>Waiting</code> 时，应向驾驶员提示等待原因。原因类型包括目标侧车道线不可跨越、目标侧 BSD / LCA 报警、系统暂不满足变道条件。</p></section><section><h3 id="alc-sys-018-退出原因提示">ALC-SYS-018 退出原因提示<a class="anchor" href="#alc-sys-018-退出原因提示"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>ALC 退出或取消时，应向驾驶员提示明确原因。原因类型包括驾驶员制动、驾驶员转向介入、等待超时、车道线丢失、后向目标风险、系统故障。</p></section><section><h3 id="alc-sys-019-hmi-一致性">ALC-SYS-019 HMI 一致性<a class="anchor" href="#alc-sys-019-hmi-一致性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>HMI 显示状态必须与 ALC 状态机保持一致。不得出现界面显示正在变道，但横向控制已经退出；也不得出现系统请求接管但 HMI 无提示的状态不一致问题。</p></section></section><section><h2 id="57-故障处理需求">5.7 故障处理需求<a class="anchor" href="#57-故障处理需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><section><h3 id="alc-sys-020-摄像头故障">ALC-SYS-020 摄像头故障<a class="anchor" href="#alc-sys-020-摄像头故障"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>摄像头故障、遮挡或车道线感知不可用时，ALC 应进入 <code>Fault</code> 或不可用状态，不得继续执行变道。</p></section><section><h3 id="alc-sys-021-后角毫米波雷达故障">ALC-SYS-021 后角毫米波雷达故障<a class="anchor" href="#alc-sys-021-后角毫米波雷达故障"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>后角毫米波雷达故障时，ALC 无法可靠判断目标侧盲区和后向高速接近风险，应禁止进入变道执行。</p></section><section><h3 id="alc-sys-022-eps--esp-故障">ALC-SYS-022 EPS / ESP 故障<a class="anchor" href="#alc-sys-022-eps--esp-故障"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>EPS 故障、ESP 故障或车辆稳定性状态异常时，ALC 应退出或保持不可用。执行器故障恢复前，不得重新进入 ALC。</p></section><section><h3 id="alc-sys-023-故障恢复">ALC-SYS-023 故障恢复<a class="anchor" href="#alc-sys-023-故障恢复"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h3><p>故障恢复后，ALC 应先回到 <code>Init</code>，重新执行可用性判断。系统不得因为单个故障标志恢复就直接跳入变道执行态。</p></section></section></section>
+<section><h1 id="6-系统接口需求">6. 系统接口需求<a class="anchor" href="#6-系统接口需求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="61-输入信号分组">6.1 输入信号分组<a class="anchor" href="#61-输入信号分组"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 输入信号可按以下类别组织。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>信号类别</th><th>主要信号</th><th>用途</th></tr></thead><tbody><tr><td>驾驶员输入</td><td>左右转向灯、制动踏板、方向盘力矩</td><td>变道触发、接管判断</td></tr><tr><td>LKA 状态</td><td>LKA 开关、LKA 激活、LKA 故障</td><td>ALC 基础前提</td></tr><tr><td>车道感知</td><td>目标侧车道线类型、车道线置信度、车道曲率</td><td>目标侧可变道判断</td></tr><tr><td>后向目标</td><td>BSD 报警、LCA 报警、后向目标相对速度</td><td>目标侧安全判断</td></tr><tr><td>车辆状态</td><td>车速、档位、横摆稳定性、ESP 状态</td><td>运行边界判断</td></tr><tr><td>车身状态</td><td>四门两盖、安全带</td><td>可用性判断</td></tr><tr><td>故障状态</td><td>摄像头、雷达、ADAS 控制器、EPS、ESP 故障</td><td>故障降级</td></tr></tbody></table></section><section><h2 id="62-bcm-交互">6.2 BCM 交互<a class="anchor" href="#62-bcm-交互"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ADAS 需要 BCM 提供以下信息，用于 ALC 功能逻辑判断：</p><ul>
+<li>整车四门两盖状态。</li>
+<li><code>BCM_HoodAjaStatus</code>。</li>
+<li><code>PLG_RearLatchPosition</code>。</li>
+<li><code>BCM_FLDoorStatus</code>。</li>
+<li><code>BCM_FRDoorStatus</code>。</li>
+<li><code>BCM_RLDoorStatus</code>。</li>
+<li><code>BCM_RRDoorStatus</code>。</li>
+<li>驾驶员安全带佩戴状态。</li>
+<li><code>BCM_DriverSBRStatus</code>。</li>
+</ul></section><section><h2 id="63-输出信号分组">6.3 输出信号分组<a class="anchor" href="#63-输出信号分组"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 输出信号可按以下类别组织。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>信号类别</th><th>主要信号</th><th>用途</th></tr></thead><tbody><tr><td>横向控制</td><td>ALC 控制请求、目标转角、目标曲率</td><td>EPS 执行</td></tr><tr><td>功能状态</td><td>ALC Standby、Waiting、Active、Fault</td><td>HMI 和其他功能协同</td></tr><tr><td>HMI 提示</td><td>等待原因、取消原因、接管请求、故障提示</td><td>驾驶员交互</td></tr><tr><td>协同状态</td><td>LKA 协同状态、LCA / BSD 约束状态</td><td>功能互斥和降级</td></tr></tbody></table></section><section><h2 id="64-通信约束">6.4 通信约束<a class="anchor" href="#64-通信约束"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 相关信号必须满足以下约束：</p><ul>
+<li>ALC、LKA、LCA / BSD、EPS、ESP、BCM、HMI 信号应在同一通信矩阵版本中冻结。</li>
+<li>信号单位、取值范围、初始值、无效值、超时策略和故障值应在 ICD 中明确。</li>
+<li>关键控制信号应定义超时处理和 E2E / rolling counter / checksum 等保护要求。</li>
+<li>状态信号和 HMI 信号应保持语义一致，避免一个状态对应多个互相冲突的显示结果。</li>
+</ul></section></section>
+<section><h1 id="7-性能要求">7. 性能要求<a class="anchor" href="#7-性能要求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="71-变道触发性能">7.1 变道触发性能<a class="anchor" href="#71-变道触发性能"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 在收到驾驶员转向灯请求后，应在规定时间内完成可变道条件判断。若条件满足，系统应平顺进入变道执行；若条件不满足，系统应进入等待或提示不可用。具体响应时间需要在项目性能参数表中冻结。</p></section><section><h2 id="72-变道执行性能">7.2 变道执行性能<a class="anchor" href="#72-变道执行性能"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 变道执行应满足以下要求：</p><ul>
+<li>变道过程应平顺，避免明显横向冲击。</li>
+<li>变道时间应处于可接受范围，具体值需结合车速和道路条件标定。</li>
+<li>横向偏差和航向角应在变道完成后收敛。</li>
+<li>目标车道进入后，系统应稳定回到车道保持控制。</li>
+</ul></section><section><h2 id="73-等待性能">7.3 等待性能<a class="anchor" href="#73-等待性能"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 等待窗口采用 <code>10 s</code> 当前工程口径。等待期间系统应保持车辆在当前车道内，不得提前向目标侧明显偏移。等待超时后，应取消本次变道请求并提示驾驶员。</p></section><section><h2 id="74-感知与安全性能">7.4 感知与安全性能<a class="anchor" href="#74-感知与安全性能"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 应依赖目标侧车道线和 BSD / LCA 报警共同判断变道安全。车道线识别置信度不足、目标侧报警或传感器故障时，系统不得继续执行变道。</p></section></section>
+<section><h1 id="8-失效降级与局限性">8. 失效、降级与局限性<a class="anchor" href="#8-失效降级与局限性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="81-失效分类">8.1 失效分类<a class="anchor" href="#81-失效分类"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 失效可分为以下几类：</p><ul>
+<li>前提不满足类：LKA 未开启、ALC 开关关闭、车速越界、车身状态不满足。</li>
+<li>环境不满足类：目标侧实线、车道线丢失、BSD / LCA 报警、目标侧风险过高。</li>
+<li>驾驶员接管类：制动、主动转向介入、取消转向灯或其他项目定义的取消动作。</li>
+<li>关键故障类：摄像头、后角毫米波雷达、ADAS 控制器、EPS、ESP 故障。</li>
+<li>性能受限类：恶劣天气、车道线磨损、施工改道、强曲率道路、复杂交通交互。</li>
+</ul></section><section><h2 id="82-主要局限性">8.2 主要局限性<a class="anchor" href="#82-主要局限性"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 在以下场景下可能无法正常工作或性能显著下降：</p><ul>
+<li>车道线不清晰、车道线类型识别错误或车道线置信度不足。</li>
+<li>目标侧相邻车道车辆高速接近。</li>
+<li>目标侧有摩托车、非机动车、异形障碍物或传感器难以稳定识别的目标。</li>
+<li>雨雪雾、强光、逆光、积水、积雪、施工区等环境导致感知性能下降。</li>
+<li>道路曲率过大、车道宽度异常或车道线拓扑复杂。</li>
+<li>驾驶员在系统执行过程中频繁干预转向、制动或转向灯。</li>
+</ul></section><section><h2 id="83-驾驶员责任">8.3 驾驶员责任<a class="anchor" href="#83-驾驶员责任"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 属于 L2 辅助驾驶功能。驾驶员必须持续关注道路、周边交通和车辆状态，并随时准备接管。系统显示正在变道或等待变道时，驾驶员仍需承担动态驾驶监督责任。</p></section></section>
+<section><h1 id="9-验证与测试要求">9. 验证与测试要求<a class="anchor" href="#9-验证与测试要求"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="91-测试环境约束">9.1 测试环境约束<a class="anchor" href="#91-测试环境约束"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 测试场地和环境至少应满足以下条件：</p><ul>
+<li>测试道路具备清晰车道线，支持左、右变道测试。</li>
+<li>测试场地可布置目标侧车辆、后向接近车辆和盲区目标。</li>
+<li>测试车辆状态、传感器状态和底盘执行状态可记录。</li>
+<li>CAN / Ethernet 数据、HMI 显示、摄像头目标、雷达目标和 EPS 执行状态可同步采集。</li>
+<li>天气、光照、路面附着和车道线质量应满足测试规程要求。</li>
+</ul></section><section><h2 id="92-测试项组织建议">9.2 测试项组织建议<a class="anchor" href="#92-测试项组织建议"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 验证建议按以下维度组织：</p><ul>
+<li>功能前提和开关测试。</li>
+<li>车速边界测试。</li>
+<li>转向灯触发测试。</li>
+<li>左侧和右侧变道测试。</li>
+<li>目标侧虚线和实线判断测试。</li>
+<li>BSD / LCA 报警抑制变道测试。</li>
+<li>Waiting 等待和超时测试。</li>
+<li>变道完成判定测试。</li>
+<li>驾驶员制动接管测试。</li>
+<li>驾驶员转向介入测试。</li>
+<li>摄像头、后角雷达、EPS、ESP 故障注入测试。</li>
+<li>HMI 状态和退出原因一致性测试。</li>
+</ul></section><section><h2 id="93-关键验证场景">9.3 关键验证场景<a class="anchor" href="#93-关键验证场景"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>关键验证场景至少包括：</p><ul>
+<li>LKA 开启、ALC 开关开启、车速在范围内，左转向灯触发左侧变道。</li>
+<li>LKA 开启、ALC 开关开启、车速在范围内，右转向灯触发右侧变道。</li>
+<li>转向灯触发时目标侧为实线，系统进入等待或禁止变道。</li>
+<li>转向灯触发时目标侧 BSD / LCA 报警，系统进入等待或禁止变道。</li>
+<li>等待窗口内条件恢复，系统继续执行变道。</li>
+<li>等待超过 <code>10 s</code>，系统取消本次变道。</li>
+<li>变道过程中尚未压线时目标侧条件失效，系统进入等待。</li>
+<li>变道过程中车道线丢失，系统请求接管或退出。</li>
+<li>驾驶员踩制动，系统退出 ALC。</li>
+<li>驾驶员主动打方向盘，系统退出 ALC。</li>
+<li>摄像头遮挡、后角毫米波雷达故障、EPS 故障、ESP 故障，系统进入不可用或 Fault。</li>
+</ul></section></section>
+<section><h1 id="10-待统一项与工程建议">10. 待统一项与工程建议<a class="anchor" href="#10-待统一项与工程建议"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><section><h2 id="101-待统一项">10.1 待统一项<a class="anchor" href="#101-待统一项"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>半成品文档中仍有以下内容需要项目后续冻结：</p><ul>
+<li>ALC 中文名称、英文缩写和产品定义是否统一为命令变道。</li>
+<li><code>Waiting</code> 等待时间 <code>10 s</code> 是否为最终量产值。</li>
+<li><code>Takeover</code> 持续时间 <code>Ts</code> 的具体标定值。</li>
+<li>压线后目标侧条件失效时的安全策略。</li>
+<li>ALC 与 LKA、LCA / BSD、HMI 之间的状态信号命名。</li>
+<li><code>ADAS_ALCWarning == 0x7: other reason</code> 的退出原因映射表。</li>
+<li>表显车速和实际车速边界的取值来源及闭开区间定义。</li>
+<li>变道完成判据、横向舒适性指标和最大变道时间。</li>
+</ul></section><section><h2 id="102-工程建议">10.2 工程建议<a class="anchor" href="#102-工程建议"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>为降低联调和测试歧义，后续建议补齐以下工程产物：</p><ul>
+<li>ALC 状态机与 HMI 显示对照表。</li>
+<li>ALC 退出原因和提示文案映射表。</li>
+<li>ALC 与 LKA / LCA / BSD 协同状态矩阵。</li>
+<li>ALC 输入输出信号 ICD。</li>
+<li>ALC 参数表，包括车速边界、等待时间、接管时间、横向控制舒适性阈值。</li>
+<li>ALC 系统需求到测试用例的双向追踪矩阵。</li>
+</ul></section><section><h2 id="103-基线使用建议">10.3 基线使用建议<a class="anchor" href="#103-基线使用建议"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>ALC 的工程难点集中在变道意图、目标侧安全、车道线合法性、等待策略、驾驶员接管和 HMI 语义的一致性。本文档适合作为系统层功能基线使用，后续软件需求、接口定义、标定参数和测试用例应在不改变状态机语义和安全边界的前提下继续细化。</p></section></section>
+<section><h1 id="参考来源">参考来源<a class="anchor" href="#参考来源"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><ul>
+<li><code>重要文献/ALC功能规范.docx</code>：M01B 命令变道功能规范半成品。</li>
+<li><code>学习笔记/智驾系统开发/ACC 功能规范.md</code>：系统功能规范结构参考。</li>
+<li><code>学习笔记/智驾系统开发/APO 功能规范.md</code>：状态机、接口和测试章节结构参考。</li>
+</ul></section>  </div> <script type="module">document.addEventListener("click",function(s){const t=s.target;if(t&&t.classList.contains("copy-btn")){const c=t.closest("pre")?.querySelector("code"),i=Array.from(c?.querySelectorAll(".code:not(summary *)")??[]).map(e=>e.textContent).map(e=>e===`
+`?"":e).join(`
+`);navigator.clipboard.writeText(i);const o=t.getAttribute("data-timeout-id");o&&clearTimeout(parseInt(o)),t.classList.add("success");const n=setTimeout(()=>{t.classList.remove("success")},1e3);t.setAttribute("data-timeout-id",n.toString())}});</script> <div class="relative transition overflow-hidden bg-[var(--license-block-bg)] py-5 px-6 mb-6 rounded-xl license-container onload-animation"> <div class="transition font-bold text-black/75 dark:text-white/75"> ALC 功能规范 </div> <a href="https://xiaoyuewhut.github.io/posts/智驾系统开发/alc-功能规范/" class="link text-[var(--primary)]"> https://xiaoyuewhut.github.io/posts/智驾系统开发/alc-功能规范/ </a> <div class="flex gap-6 mt-2"> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">作者</div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2">小月</div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">发布于</div> <div class="transition text-black/75 dark:text-white/75 line-clamp-2">2026-05-03</div> </div> <div> <div class="transition text-black/30 dark:text-white/30 text-sm">许可协议</div> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="link text-[var(--primary)] line-clamp-2">CC BY-NC-SA 4.0</a> </div> </div> <svg width="0.97em" height="1em" class="transition text-[15rem] absolute pointer-events-none right-6 top-1/2 -translate-y-1/2 text-black/5 dark:text-white/5" data-icon="fa6-brands:creative-commons">   <symbol id="ai:fa6-brands:creative-commons" viewBox="0 0 496 512"><path fill="currentColor" d="m245.83 214.87l-33.22 17.28c-9.43-19.58-25.24-19.93-27.46-19.93c-22.13 0-33.22 14.61-33.22 43.84c0 23.57 9.21 43.84 33.22 43.84c14.47 0 24.65-7.09 30.57-21.26l30.55 15.5c-6.17 11.51-25.69 38.98-65.1 38.98c-22.6 0-73.96-10.32-73.96-77.05c0-58.69 43-77.06 72.63-77.06c30.72-.01 52.7 11.95 65.99 35.86m143.05 0l-32.78 17.28c-9.5-19.77-25.72-19.93-27.9-19.93c-22.14 0-33.22 14.61-33.22 43.84c0 23.55 9.23 43.84 33.22 43.84c14.45 0 24.65-7.09 30.54-21.26l31 15.5c-2.1 3.75-21.39 38.98-65.09 38.98c-22.69 0-73.96-9.87-73.96-77.05c0-58.67 42.97-77.06 72.63-77.06c30.71-.01 52.58 11.95 65.56 35.86M247.56 8.05C104.74 8.05 0 123.11 0 256.05c0 138.49 113.6 248 247.56 248c129.93 0 248.44-100.87 248.44-248c0-137.87-106.62-248-248.44-248m.87 450.81c-112.54 0-203.7-93.04-203.7-202.81c0-105.42 85.43-203.27 203.72-203.27c112.53 0 202.82 89.46 202.82 203.26c-.01 121.69-99.68 202.82-202.84 202.82"/></symbol><use href="#ai:fa6-brands:creative-commons"></use>  </svg> </div> </div> </div> <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full"> <a href="/posts/整车通信与诊断/doip/" class="w-full font-bold overflow-hidden active:scale-95"> <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4"> <svg width="1em" height="1em" class="text-[2rem] text-[var(--primary)]" data-icon="material-symbols:chevron-left-rounded">   <symbol id="ai:material-symbols:chevron-left-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m10.8 12l3.9 3.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-4.6-4.6q-.15-.15-.212-.325T8.425 12t.063-.375t.212-.325l4.6-4.6q.275-.275.7-.275t.7.275t.275.7t-.275.7z"/></symbol><use href="#ai:material-symbols:chevron-left-rounded"></use>  </svg> <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75"> DoIP 诊断协议 </div> </div> </a> <a href="/posts/整车通信与诊断/can-bus-off-详解/" class="w-full font-bold overflow-hidden active:scale-95"> <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4"> <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75"> CAN Bus-Off 详解 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="text-[2rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg> </div> </a> </div>  <div class="footer col-span-2 onload-animation hidden lg:block"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> </main> <div class="footer col-span-2 onload-animation block lg:hidden"> <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">--><div class="transition border-t border-[var(--line-divider)] my-10 border-dashed mx-32"></div> <!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">--> <div class="card-base transition rounded-2xl mb-12 flex flex-col items-center justify-center px-6 py-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright-year">2026</span> 小月. All Rights Reserved. /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br>
+Powered by
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
+<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> <!-- There can't be a filter on parent element, or it will break `fixed` --><div class="back-to-top-wrapper hidden lg:block" data-astro-cid-eymb5ayk> <div id="back-to-top-btn" class="back-to-top-btn hide flex items-center rounded-2xl overflow-hidden transition" onclick="backToTop()" data-astro-cid-eymb5ayk> <button aria-label="Back to Top" class="btn-card h-[3.75rem] w-[3.75rem]" data-astro-cid-eymb5ayk> <svg width="1em" height="1em" class="mx-auto" data-astro-cid-eymb5ayk="true" data-icon="material-symbols:keyboard-arrow-up-rounded">   <symbol id="ai:material-symbols:keyboard-arrow-up-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="m12 10.8l-3.9 3.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.6-4.6q.3-.3.7-.3t.7.3l4.6 4.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></symbol><use href="#ai:material-symbols:keyboard-arrow-up-rounded"></use>  </svg> </button> </div> </div>  <script>
+function backToTop() {
+    window.scroll({ top: 0, behavior: 'smooth' });
+}
+</script> </div> </div>  <div class="absolute w-full z-0 hidden 2xl:block"> <div class="relative max-w-[var(--page-width)] mx-auto"> <!-- TOC component --> <div id="toc-wrapper" class="hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center"> <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar"> <div id="toc" class="w-full h-full transition-swup-fade "> <div class="h-8 w-full"></div> <table-of-contents class="group"><a href="#1-系统目标与边界" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">1</div><div class="transition text-sm text-50">1. 系统目标与边界</div></a><a href="#11-系统目标" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">1.1 系统目标</div></a><a href="#12-系统边界" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">1.2 系统边界</div></a><a href="#13-外部依赖系统" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">1.3 外部依赖系统</div></a><a href="#2-运行前提与场景边界" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">2</div><div class="transition text-sm text-50">2. 运行前提与场景边界</div></a><a href="#21-功能前提" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">2.1 功能前提</div></a><a href="#22-触发条件" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">2.2 触发条件</div></a><a href="#23-适用场景" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">2.3 适用场景</div></a><a href="#24-能力边界" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">2.4 能力边界</div></a><a href="#25-关键判定口径" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">2.5 关键判定口径</div></a><a href="#3-功能定义与系统行为" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">3</div><div class="transition text-sm text-50">3. 功能定义与系统行为</div></a><a href="#31-功能概述" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">3.1 功能概述</div></a><a href="#32-功能子能力分解" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">3.2 功能子能力分解</div></a><a href="#33-变道触发行为" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">3.3 变道触发行为</div></a><a href="#34-等待行为" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">3.4 等待行为</div></a><a href="#35-变道执行行为" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">3.5 变道执行行为</div></a><a href="#36-接管与退出行为" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">3.6 接管与退出行为</div></a><a href="#4-状态机定义" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">4</div><div class="transition text-sm text-50">4. 状态机定义</div></a><a href="#41-状态集合" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">4.1 状态集合</div></a><a href="#42-状态机主流程" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">4.2 状态机主流程</div></a><a href="#43-状态转移条件" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">4.3 状态转移条件</div></a><a href="#5-详细功能需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">5</div><div class="transition text-sm text-50">5. 详细功能需求</div></a><a href="#51-功能开启与关闭" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">5.1 功能开启与关闭</div></a><a href="#52-变道请求识别" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">5.2 变道请求识别</div></a><a href="#53-目标侧条件判断" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">5.3 目标侧条件判断</div></a><a href="#54-横向控制需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">5.4 横向控制需求</div></a><a href="#55-驾驶员接管需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">5.5 驾驶员接管需求</div></a><a href="#56-hmi-需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">5.6 HMI 需求</div></a><a href="#57-故障处理需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">5.7 故障处理需求</div></a><a href="#6-系统接口需求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">6</div><div class="transition text-sm text-50">6. 系统接口需求</div></a><a href="#61-输入信号分组" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">6.1 输入信号分组</div></a><a href="#62-bcm-交互" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">6.2 BCM 交互</div></a><a href="#63-输出信号分组" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">6.3 输出信号分组</div></a><a href="#64-通信约束" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">6.4 通信约束</div></a><a href="#7-性能要求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">7</div><div class="transition text-sm text-50">7. 性能要求</div></a><a href="#71-变道触发性能" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">7.1 变道触发性能</div></a><a href="#72-变道执行性能" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">7.2 变道执行性能</div></a><a href="#73-等待性能" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">7.3 等待性能</div></a><a href="#74-感知与安全性能" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">7.4 感知与安全性能</div></a><a href="#8-失效降级与局限性" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">8</div><div class="transition text-sm text-50">8. 失效、降级与局限性</div></a><a href="#81-失效分类" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">8.1 失效分类</div></a><a href="#82-主要局限性" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">8.2 主要局限性</div></a><a href="#83-驾驶员责任" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">8.3 驾驶员责任</div></a><a href="#9-验证与测试要求" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">9</div><div class="transition text-sm text-50">9. 验证与测试要求</div></a><a href="#91-测试环境约束" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">9.1 测试环境约束</div></a><a href="#92-测试项组织建议" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">9.2 测试项组织建议</div></a><a href="#93-关键验证场景" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">9.3 关键验证场景</div></a><a href="#10-待统一项与工程建议" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">10</div><div class="transition text-sm text-50">10. 待统一项与工程建议</div></a><a href="#101-待统一项" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">10.1 待统一项</div></a><a href="#102-工程建议" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">10.2 工程建议</div></a><a href="#103-基线使用建议" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ml-4"><div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div></div><div class="transition text-sm text-50">10.3 基线使用建议</div></a><a href="#参考来源" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
+        hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
+    "><div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold bg-[var(--toc-badge-bg)] text-[var(--btn-content)]">11</div><div class="transition text-sm text-50">参考来源</div></a><div id="active-indicator" style="opacity: 0" class="-z-10 absolute bg-[var(--toc-btn-hover)] left-0 right-0 rounded-xl transition-all group-hover:bg-transparent border-2 border-[var(--toc-btn-hover)] group-hover:border-[var(--toc-btn-active)] border-dashed"></div></table-of-contents><script type="module">class l extends HTMLElement{tocEl=null;visibleClass="visible";observer;anchorNavTarget=null;headingIdxMap=new Map;headings=[];sections=[];tocEntries=[];active=[];activeIndicator=null;constructor(){super(),this.observer=new IntersectionObserver(this.markVisibleSection,{threshold:0})}markVisibleSection=t=>{t.forEach(e=>{const i=e.target.children[0]?.getAttribute("id"),s=i?this.headingIdxMap.get(i):void 0;s!=null&&(this.active[s]=e.isIntersecting),e.isIntersecting&&this.anchorNavTarget==e.target.firstChild&&(this.anchorNavTarget=null)}),this.active.includes(!0)||this.fallback(),this.update()};toggleActiveHeading=()=>{let t=this.active.length-1,e=this.active.length-1,i=-1;for(;t>=0&&!this.active[t];)this.tocEntries[t].classList.remove(this.visibleClass),t--;for(;t>=0&&this.active[t];)this.tocEntries[t].classList.add(this.visibleClass),e=Math.min(e,t),i=Math.max(i,t),t--;for(;t>=0;)this.tocEntries[t].classList.remove(this.visibleClass),t--;if(e>i)this.activeIndicator?.setAttribute("style","opacity: 0");else{let s=this.tocEl?.getBoundingClientRect().top||0,n=this.tocEl?.scrollTop||0,o=this.tocEntries[e].getBoundingClientRect().top-s+n,c=this.tocEntries[i].getBoundingClientRect().bottom-s+n;this.activeIndicator?.setAttribute("style",`top: ${o}px; height: ${c-o}px`)}};scrollToActiveHeading=()=>{if(this.anchorNavTarget||!this.tocEl)return;const t=document.querySelectorAll(`#toc .${this.visibleClass}`);if(!t.length)return;const e=t[0],i=t[t.length-1],s=this.tocEl.clientHeight;let n;i.getBoundingClientRect().bottom-e.getBoundingClientRect().top<.9*s?n=e.offsetTop-32:n=i.offsetTop-s*.8,this.tocEl.scrollTo({top:n,left:0,behavior:"smooth"})};update=()=>{requestAnimationFrame(()=>{this.toggleActiveHeading(),this.scrollToActiveHeading()})};fallback=()=>{if(this.sections.length)for(let t=0;t<this.sections.length;t++){let e=this.sections[t].getBoundingClientRect().top,i=this.sections[t].getBoundingClientRect().bottom;if(this.isInRange(e,0,window.innerHeight)||this.isInRange(i,0,window.innerHeight)||e<0&&i>window.innerHeight)this.markActiveHeading(t);else if(e>window.innerHeight)break}};markActiveHeading=t=>{this.active[t]=!0};handleAnchorClick=t=>{const e=t.composedPath().find(i=>i instanceof HTMLAnchorElement);if(e){const i=decodeURIComponent(e.hash?.substring(1)),s=this.headingIdxMap.get(i);s!==void 0?this.anchorNavTarget=this.headings[s]:this.anchorNavTarget=null}};isInRange(t,e,i){return e<t&&t<i}connectedCallback(){const t=document.querySelector(".prose");t?t.addEventListener("animationend",()=>{this.init()},{once:!0}):console.debug("Animation element not found")}init(){if(this.tocEl=document.getElementById("toc-inner-wrapper"),!!this.tocEl&&(this.tocEl.addEventListener("click",this.handleAnchorClick,{capture:!0}),this.activeIndicator=document.getElementById("active-indicator"),this.tocEntries=Array.from(document.querySelectorAll("#toc a[href^='#']")),this.tocEntries.length!==0)){this.sections=new Array(this.tocEntries.length),this.headings=new Array(this.tocEntries.length);for(let t=0;t<this.tocEntries.length;t++){const e=decodeURIComponent(this.tocEntries[t].hash?.substring(1)),i=document.getElementById(e),s=i?.parentElement;i instanceof HTMLElement&&s instanceof HTMLElement&&(this.headings[t]=i,this.sections[t]=s,this.headingIdxMap.set(e,t))}this.active=new Array(this.tocEntries.length).fill(!1),this.sections.forEach(t=>this.observer.observe(t)),this.fallback(),this.update()}}disconnectedCallback(){this.sections.forEach(t=>this.observer.unobserve(t)),this.observer.disconnect(),this.tocEl?.removeEventListener("click",this.handleAnchorClick)}}customElements.get("table-of-contents")||customElements.define("table-of-contents",l);</script> <div class="h-8 w-full"></div> </div> </div> </div> <!-- #toc needs to exist for Swup to work normally -->  </div> </div>  <!-- increase the page height during page transition to prevent the scrolling animation from jumping --> <div id="page-height-extend" class="hidden h-[300vh]" data-astro-cid-sckkx6r4 style="--bannerOffset: 15vh;--banner-height-home: 65vh;--banner-height: 35vh;--configHue: 24;--page-width: 75rem;"></div>  <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.CkDAorbp.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_1_lang.DAHrxWCB.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_2_lang.CVGuqTLd.js"></script> </body></html>

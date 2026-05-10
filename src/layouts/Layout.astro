@@ -1,6 +1,6 @@
 ---
-import "@fontsource-variable/inter";
 import "@fontsource/source-serif-4/400.css";
+import "@fontsource/source-serif-4/500.css";
 import "@fontsource/source-serif-4/600.css";
 import "@fontsource/source-serif-4/700.css";
 
@@ -576,6 +576,8 @@ function getMermaidTheme() {
 	return document.documentElement.classList.contains("dark") ? "dark" : "default"
 }
 
+let mermaidPageViewHookBound = false
+
 function getMermaidSource(pre: HTMLPreElement) {
 	const codeLines = Array.from(pre.querySelectorAll(".code"))
 	return codeLines.map(line => line.textContent?.replace(/\u200b/g, "") || "").join("\n").trim()
@@ -626,18 +628,29 @@ async function renderMermaidDiagrams() {
 	}
 }
 
-const setup = () => {
-	renderMermaidDiagrams()
+function runMermaidRender() {
+	void renderMermaidDiagrams()
+}
+
+function bindMermaidPageViewHook() {
+	if (!window.swup?.hooks || mermaidPageViewHookBound) {
+		return
+	}
+
+	mermaidPageViewHookBound = true
 	window.swup.hooks.on("page:view", () => {
-		renderMermaidDiagrams()
+		runMermaidRender()
 	})
 }
 
-if (window.swup) {
-	setup()
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", runMermaidRender, { once: true })
 } else {
-	document.addEventListener("swup:enable", setup)
+	runMermaidRender()
 }
+
+bindMermaidPageViewHook()
+document.addEventListener("swup:enable", bindMermaidPageViewHook, { once: true })
 </script>
 
 <style is:global>

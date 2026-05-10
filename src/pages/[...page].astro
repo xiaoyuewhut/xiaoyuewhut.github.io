@@ -19,7 +19,7 @@ const len = page.data.length;
 const isHomeFirstPage = page.currentPage === 1;
 ---
 
-<MainGridLayout showHero={isHomeFirstPage}>
+<MainGridLayout showHero={isHomeFirstPage} showSidebar={isHomeFirstPage}>
     {isHomeFirstPage && <HomePrelude slot="hero" />}
     <div id="home-posts">
         <PostPage page={page}></PostPage>

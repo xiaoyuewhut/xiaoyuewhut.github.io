@@ -1,7 +1,7 @@
 ---
+import StudiesPanel from "@components/StudiesPanel.svelte";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getCategoryList, getSortedPosts } from "@utils/content-utils";
-import { getPostUrlBySlug } from "@utils/url-utils";
 
 const categories = await getCategoryList();
 const posts = await getSortedPosts();
@@ -9,53 +9,29 @@ const posts = await getSortedPosts();
 const postsByCategory = new Map();
 
 for (const post of posts) {
-    const category = post.data.category?.trim() || "未分类";
-    const list = postsByCategory.get(category) || [];
-    list.push(post);
-    postsByCategory.set(category, list);
+	const category = post.data.category?.trim() || "未分类";
+	const list = postsByCategory.get(category) || [];
+	list.push(post);
+	postsByCategory.set(category, list);
 }
+
+const sections = categories.map((category, index) => {
+	const relatedPosts = postsByCategory.get(category.name) || [];
+
+	return {
+		id: `study-${index + 1}`,
+		name: category.name,
+		url: category.url,
+		count: category.count,
+		posts: relatedPosts.map((post) => ({
+			slug: post.slug,
+			title: post.data.title,
+			description: post.data.description || "",
+		})),
+	};
+});
 ---
 
 <MainGridLayout title="专题" description="按专题浏览学习笔记。">
-    <div class="card-base px-6 py-6 md:px-8 md:py-8 flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
-            <div class="text-sm uppercase tracking-[0.2em] text-black/35 dark:text-white/35">Studies</div>
-            <h1 class="text-3xl md:text-4xl font-bold text-90">专题</h1>
-            <p class="text-50 leading-7">按主题查看笔记，所有内容都会随着 `学习笔记/` 的同步结果自动更新。</p>
-        </div>
-
-        <div class="grid grid-cols-1 gap-4 md:gap-5">
-            {categories.map((category) => {
-                const relatedPosts = postsByCategory.get(category.name) || [];
-
-                return (
-                    <section class="rounded-[1.25rem] border border-black/10 dark:border-white/10 bg-[var(--btn-plain-bg-hover)] px-5 py-5 md:px-6 md:py-6">
-                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-6">
-                            <div class="flex-1 min-w-0">
-                                <a href={category.url} class="inline-flex items-center gap-2 text-xl md:text-2xl font-bold text-90 hover:text-[var(--primary)] transition">
-                                    {category.name}
-                                </a>
-                                <div class="mt-1 text-sm text-black/45 dark:text-white/45">{category.count} 篇笔记</div>
-                            </div>
-                            <a href={category.url} class="btn-regular rounded-lg px-4 h-10 whitespace-nowrap active:scale-95">进入时间线</a>
-                        </div>
-
-                        {relatedPosts.length > 0 && (
-                            <div class="mt-5 flex flex-col gap-3">
-                                {relatedPosts.slice(0, 4).map((post) => (
-                                    <a href={getPostUrlBySlug(post.slug)} class="group flex items-start justify-between gap-4 rounded-xl px-3 py-3 hover:bg-[var(--card-bg)] transition">
-                                        <div class="min-w-0">
-                                            <div class="font-medium text-75 group-hover:text-[var(--primary)] transition line-clamp-1">{post.data.title}</div>
-                                            <div class="mt-1 text-sm text-black/35 dark:text-white/35 line-clamp-2">{post.data.description}</div>
-                                        </div>
-                                        <div class="text-xs text-black/30 dark:text-white/30 whitespace-nowrap">{post.data.published.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}</div>
-                                    </a>
-                                ))}
-                            </div>
-                        )}
-                    </section>
-                );
-            })}
-        </div>
-    </div>
+	<StudiesPanel sections={sections} client:load />
 </MainGridLayout>

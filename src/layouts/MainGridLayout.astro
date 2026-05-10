@@ -23,6 +23,7 @@ interface Props {
 	setOGTypeArticle?: boolean;
 	headings?: MarkdownHeading[];
 	showHero?: boolean;
+	showSidebar?: boolean;
 }
 
 const {
@@ -33,6 +34,7 @@ const {
 	setOGTypeArticle,
 	headings = [],
 	showHero = false,
+	showSidebar = false,
 } = Astro.props;
 const hasBannerCredit =
 	siteConfig.banner.enable && siteConfig.banner.credit.enable;
@@ -71,8 +73,12 @@ const mainPanelTop = siteConfig.banner.enable
             </div>
         )}
         <div class="relative max-w-[var(--page-width)] mx-auto">
-            <div id="main-grid" class="transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto]
-    mx-auto gap-4 px-0 md:px-4"
+            <div
+                id="main-grid"
+                class:list={[
+                    "transition duration-700 w-full left-0 right-0 grid grid-rows-[auto_1fr_auto] lg:grid-rows-[auto] mx-auto gap-4 px-0 md:px-4",
+                    showSidebar ? "grid-cols-[17.5rem_auto]" : "grid-cols-1",
+                ]}
             >
                 <!-- Banner image credit -->
                 {hasBannerCredit && <a href={siteConfig.banner.credit.url} id="banner-credit" target="_blank" rel="noopener" aria-label="Visit image source"
@@ -87,21 +93,22 @@ const mainPanelTop = siteConfig.banner.enable
                     </Icon>
                 </a>}
 
+                {showSidebar && (
+                    <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
+                )}
 
-                <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
-
-                <div class="col-span-2 lg:col-span-1 overflow-hidden">
+                <div class:list={["overflow-hidden", showSidebar ? "col-span-2 lg:col-span-1" : "col-span-1"]}>
                     <div id="content-wrapper" class="onload-animation">
                         <!-- the overflow-hidden here prevent long text break the layout-->
                         <!-- make id different from windows.swup global property -->
                         <slot></slot>
-                        <div class="footer col-span-2 onload-animation hidden lg:block">
+                        <div class:list={["footer onload-animation hidden lg:block", showSidebar ? "col-span-2" : "col-span-1"]}>
                             <Footer></Footer>
                         </div>
                     </div>
                 </div>
 
-                <div class="footer col-span-2 onload-animation block lg:hidden">
+                <div class:list={["footer onload-animation block lg:hidden", showSidebar ? "col-span-2" : "col-span-1"]}>
                     <Footer></Footer>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 @tailwind components;
 
 :root {
-    --font-ui: "Inter Variable", "Inter", "SF Pro Text", "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+    --font-ui: "Source Serif 4", "Source Han Serif SC", "Songti SC", "STSong", serif;
     --font-display: "Source Serif 4", "Source Han Serif SC", "Songti SC", "STSong", serif;
 }
 
@@ -13,6 +13,7 @@ html {
 
 body {
     font-family: var(--font-ui);
+    font-weight: 400;
     color: var(--deep-text);
     background-color: var(--page-bg);
     background-image: radial-gradient(circle at top, var(--page-bg-soft) 0, transparent 38%);

@@ -12,7 +12,7 @@ import { url } from "../../utils/url-utils";
     <div class="home-prelude__mist"></div>
     <div class="home-prelude__grain"></div>
 
-    <div class="relative z-10 w-full max-w-[72rem] mx-auto px-4 md:px-8 text-center -translate-y-[7vh] md:-translate-y-[9vh]">
+    <div class="relative z-10 w-full max-w-[72rem] mx-auto px-4 md:px-8 text-center -translate-y-[3vh] md:-translate-y-[5vh]">
         <div
             class="home-prelude__verse font-display relative isolate text-[1.72rem] leading-[1.5] md:text-[2.45rem] md:leading-[1.42] lg:text-[2.9rem] lg:leading-[1.36] text-black/82 dark:text-white/80"
             data-typewriter-verse
@@ -617,9 +617,9 @@ async function runPreludeTypewriter(prelude) {
     cursor.setAttribute("aria-hidden", "true");
 
     const getTypeDelay = (char) => {
-        if ("。！？".includes(char)) return 260;
-        if ("，、；".includes(char)) return 145;
-        return 82;
+        if ("。！？".includes(char)) return 170;
+        if ("，、；".includes(char)) return 92;
+        return 54;
     };
 
     for (const line of lines) {
@@ -641,10 +641,10 @@ async function runPreludeTypewriter(prelude) {
 
         line.classList.remove("is-active");
         line.classList.add("is-complete");
-        await wait(120);
+        await wait(72);
     }
 
-    await wait(1200);
+    await wait(900);
     cursor.remove();
     prelude.classList.add("home-prelude--typed");
     prelude.dataset.typingState = "done";

@@ -7,16 +7,11 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          "Inter Variable",
-          "Inter",
-          "SF Pro Text",
-          "SF Pro Display",
-          "PingFang SC",
-          "Hiragino Sans GB",
-          "Microsoft YaHei",
-          "Noto Sans CJK SC",
-          "Source Han Sans SC",
-          "sans-serif",
+          "Source Serif 4",
+          "Source Han Serif SC",
+          "Songti SC",
+          "STSong",
+          "serif",
           ...defaultTheme.fontFamily.sans,
         ],
         serif: [

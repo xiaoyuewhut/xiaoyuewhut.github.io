@@ -134,14 +134,14 @@ if (document.readyState === 'loading') {
                 <a href="/timeline/?tag=L3" aria-label="View all posts with the L3 tag" class="link-lg transition text-50 font-medium hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap text-sm"> L3 </a>  </div> </div> </div> <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div> </div> <!-- always show cover as long as it has one -->  <div data-pagefind-body class="prose dark:prose-invert prose-base !max-w-none custom-md mb-6 markdown-content onload-animation"> <!--<div class="prose dark:prose-invert max-w-none custom-md">--> <!--<div class="max-w-none custom-md">-->  <p>DMS 如何判断驾驶员状态、TOR 如何组织控制权交接，以及 HMI 为什么必须采用多模态提示？</p>
 <section><h1 id="dms-设计">DMS 设计<a class="anchor" href="#dms-设计"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><p>DMS 设计本质上是一个基于视觉感知、状态估计与分级决策的闭环系统，是判断驾驶员是否具备接管能力、并触发 TOR 的核心前置传感器。</p><section><h2 id="硬件采集">硬件采集<a class="anchor" href="#硬件采集"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>通常是一颗安装在方向盘转向柱、仪表盘上方或 A 柱的近红外 <code>NIR</code> 摄像头，波长通常为 <code>850 nm</code> 或 <code>940 nm</code>，并配合红外 <code>LED</code> 补光灯。
 必须使用红外光，一方面是为了尽量穿透大部分墨镜获取眼部特征，另一方面是为了在夜间、进出隧道等光线剧烈变化的场景下保证成像鲁棒性，同时避免对驾驶员造成视觉干扰。</p></section><section><h2 id="特征提取与状态估计">特征提取与状态估计<a class="anchor" href="#特征提取与状态估计"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>这一层会把像素级图像转化为结构化数据，通常通过深度学习模型完成多个维度的追踪与估计。
-<img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141616.png" alt="Pasted image 20260416141616">
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141616.png" alt="Pasted image 20260416141616">
 主要包括以下几类核心特征：</p><ol>
 <li><strong>面部特征点追踪</strong>：识别面部关键特征点，常见为 <code>68</code> 点或 <code>106</code> 点模型，并据此构建面部 <code>3D</code> 网格。</li>
 <li><strong>头部姿态估计</strong>：基于特征点计算头部的 <code>Pitch</code>、<code>Yaw</code>、<code>Roll</code> 三个方向欧拉角。</li>
 <li><strong>视线追踪</strong>：通过瞳孔中心和角膜反射光斑的相对位置，计算视线 <code>3D</code> 向量，判断视线落在车内还是车外的特定区域，也就是 <code>Gaze Zone</code>。</li>
 <li><strong>眼睑闭合度 <code>PERCLOS</code></strong>：计算单位时间内眼睛闭合程度超过阈值的时间比例。这是学术界和工业界都高度认可的疲劳量化指标。</li>
 <li><strong>其他补充特征</strong>：例如打哈欠、嘴部开合、持物检测，以及双手是否长时间脱离方向盘等。
-<img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141636.png" alt="Pasted image 20260416141636">
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141636.png" alt="Pasted image 20260416141636">
 </li>
 </ol></section><section><h2 id="状态机与阈值判定">状态机与阈值判定<a class="anchor" href="#状态机与阈值判定"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h2><p>提取出物理特征后，系统还需要过滤瞬态噪声，例如正常眨眼或快速扫视后视镜，再去判断驾驶员的真实宏观状态。这里通常采用状态机结合时间窗口缓冲 <code>Time Window Buffer</code> 的逻辑。</p><ul>
 <li><strong>视觉分心</strong>：系统会设定前方安全视野区。如果头部偏航角 <code>Yaw</code> 或视线角度超出该区域并持续超过设定时间，系统就会判定为分心。</li>

@@ -19,7 +19,7 @@
 &lt;/ul&gt;
 &lt;h1&gt;分层结构&lt;/h1&gt;
 &lt;p&gt;DoIP 不是一个独立的底层帧格式，它是在标准以太网上承载的诊断应用。阅读这一层时，统一按插图里的顺序理解：&lt;code&gt;Ethernet Header&lt;/code&gt;、&lt;code&gt;IP Header&lt;/code&gt;、&lt;code&gt;TCP / UDP Header&lt;/code&gt;、&lt;code&gt;DoIP Header&lt;/code&gt;、&lt;code&gt;DoIP Payload&lt;/code&gt;。
-&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260504193409.png&quot; alt=&quot;Pasted image 20260504193409&quot; /&amp;gt;&lt;/p&gt;
+&amp;lt;img src=&quot;/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260504193409.png&quot; alt=&quot;Pasted image 20260504193409&quot; /&amp;gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;未带 802.1Q VLAN Tag 时:
 Byte 0-6: Preamble
 Byte 7: SFD
@@ -151,7 +151,7 @@ Byte 8+: Payload
 &lt;li&gt;&lt;code&gt;0x04&lt;/code&gt;：payload 长度对该类型不合法。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这一类报文停在通用头检查阶段，还没有进入业务处理。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111436.png&quot; alt=&quot;Pasted image 20260505111436&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111436.png&quot; alt=&quot;Pasted image 20260505111436&quot; /&amp;gt;&lt;/p&gt;
 &lt;h3&gt;0x0001 Vehicle Identification Request&lt;/h3&gt;
 &lt;p&gt;这三类识别请求是互斥的，不是一次性连续发送的三个报文。测试仪会根据自己掌握的目标信息，选择其中一种来做发现。&lt;/p&gt;
 &lt;p&gt;这是最基础的车辆识别请求，通常通过 &lt;code&gt;UDP&lt;/code&gt; 发到 &lt;code&gt;13400&lt;/code&gt; 端口，payload 为空，常配合广播使用。&lt;/p&gt;
@@ -167,7 +167,7 @@ Byte 8+: Payload
 &lt;/ul&gt;
 &lt;h3&gt;0x0004 Vehicle Announcement / Vehicle Identification Response&lt;/h3&gt;
 &lt;p&gt;这是识别阶段的响应报文，通常通过 &lt;code&gt;UDP&lt;/code&gt; 发出。payload 一般按这个顺序组织：&lt;code&gt;VIN&lt;/code&gt; 17 字节，&lt;code&gt;Logical Address&lt;/code&gt; 2 字节，&lt;code&gt;EID&lt;/code&gt; 6 字节，&lt;code&gt;GID&lt;/code&gt; 6 字节，&lt;code&gt;Further action&lt;/code&gt; 1 字节，后面还可能带 &lt;code&gt;VIN/GID Status&lt;/code&gt; 1 字节。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111527.png&quot; alt=&quot;Pasted image 20260505111527&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111527.png&quot; alt=&quot;Pasted image 20260505111527&quot; /&amp;gt;&lt;/p&gt;
 &lt;p&gt;这条报文不承载诊断业务，主要提供实体身份、逻辑地址和当前状态。&lt;/p&gt;
 &lt;h3&gt;0x0005 Routing Activation Request&lt;/h3&gt;
 &lt;p&gt;这是路由激活请求，必须走 &lt;code&gt;TCP&lt;/code&gt;。payload 通常包含 &lt;code&gt;Source Address&lt;/code&gt; 2 字节、&lt;code&gt;Activation Type&lt;/code&gt; 1 字节、&lt;code&gt;Reserved&lt;/code&gt; 4 字节，以及可选的 &lt;code&gt;OEM specific&lt;/code&gt; 4 字节。&lt;/p&gt;
@@ -217,7 +217,7 @@ UDS payload
 &lt;/ul&gt;
 &lt;p&gt;排障时需要把这两类错误分开处理。&lt;/p&gt;
 &lt;p&gt;按用途看，常见 payload 可以分成 &lt;code&gt;发现&lt;/code&gt;、&lt;code&gt;路由与保活&lt;/code&gt;、&lt;code&gt;状态查询&lt;/code&gt;、&lt;code&gt;诊断承载&lt;/code&gt; 四组。抓包时先判断它属于哪一组，再继续看里面的字段。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260505101100.png&quot; alt=&quot;Pasted image 20260505101100&quot; width=&quot;642&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505101100.png&quot; alt=&quot;Pasted image 20260505101100&quot; width=&quot;642&quot; /&amp;gt;&lt;/p&gt;
 &lt;p&gt;这一节更重要的是把阶段分开：&amp;lt;font color=&quot;#00b050&quot;&amp;gt;发现阶段&amp;lt;/font&amp;gt;、&amp;lt;font color=&quot;#00b050&quot;&amp;gt;激活阶段&amp;lt;/font&amp;gt;、&amp;lt;font color=&quot;#00b050&quot;&amp;gt;诊断阶段&amp;lt;/font&amp;gt;。大部分报文都落在这三段里。&lt;/p&gt;
 &lt;h1&gt;DoIP 典型流程&lt;/h1&gt;
 &lt;h2&gt;发现与激活&lt;/h2&gt;
@@ -1322,7 +1322,7 @@ UDS payload
 &lt;/ul&gt;
 </content:encoded></item><item><title>需求分解</title><link>https://xiaoyuewhut.github.io/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3/</link><guid isPermaLink="true">https://xiaoyuewhut.github.io/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%9C%80%E6%B1%82%E5%88%86%E8%A7%A3/</guid><description>需求分解要解决的问题很具体：把模糊愿望变成可设计、可实现、可验证、可追溯的工程条目。比如 ACC 要能跟车只能表达方向。进入项目后，还要回答更多问题：什么时候允许开启，前车怎样定义，跟车距离按什么规则算，谁负责发制动请求，ESP 执行失败怎么办，驾驶员踩刹车以后系统怎样退出，测试</description><pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;需求分解是系统工程师最重要的工作之一。它把一句功能目标拆成项目里不同角色能执行的内容：架构工程师据此分配系统责任，软件工程师据此写逻辑，硬件和底盘工程师据此确认能力边界，测试工程师据此设计测试用例，项目管理据此判断工作量和风险。&lt;/p&gt;
 &lt;p&gt;需求分解要解决的问题很具体：把模糊愿望变成可设计、可实现、可验证、可追溯的工程条目。比如 ACC 要能跟车只能表达方向。进入项目后，还要回答更多问题：什么时候允许开启，前车怎样定义，跟车距离按什么规则算，谁负责发制动请求，ESP 执行失败怎么办，驾驶员踩刹车以后系统怎样退出，测试时怎样判定通过。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260427175152.png&quot; alt=&quot;Pasted image 20260427175152&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260427175152.png&quot; alt=&quot;Pasted image 20260427175152&quot; /&amp;gt;&lt;/p&gt;
 &lt;h1&gt;系统工程师的工作位置&lt;/h1&gt;
 &lt;h2&gt;协作角色&lt;/h2&gt;
 &lt;p&gt;系统工程师处在功能、架构、软件、硬件、测试和项目之间。这个岗位不一定亲自写算法代码，也不一定亲自调底盘执行器，但要把整条功能链路想清楚，并把各方责任写成可以执行的需求。&lt;/p&gt;
@@ -2231,7 +2231,7 @@ UDS payload
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;这三个对象的边界会影响后面的故障判断。仲裁、CRC、ACK 和 Bus-Off 属于控制器层面的协议行为；波形质量、显隐性判决、总线保护更多取决于收发器、端接和线束；软件决定节点发送哪些报文、发送周期怎样配置、接收内容怎样交给上层模块。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260426140646.png&quot; alt=&quot;Pasted image 20260426140646&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260426140646.png&quot; alt=&quot;Pasted image 20260426140646&quot; /&amp;gt;&lt;/p&gt;
 &lt;h2&gt;物理层前提&lt;/h2&gt;
 &lt;p&gt;CAN 物理层通常使用 &lt;code&gt;CAN_H&lt;/code&gt; 和 &lt;code&gt;CAN_L&lt;/code&gt; 两根差分线。控制器最终关心的是总线当前呈现出的逻辑状态，而单根线对地电压只是形成这个状态的电气表现。这个状态可以分成两种：&lt;/p&gt;
 &lt;ol&gt;
@@ -6055,7 +6055,7 @@ $$&lt;/p&gt;
 必须使用红外光，一方面是为了尽量穿透大部分墨镜获取眼部特征，另一方面是为了在夜间、进出隧道等光线剧烈变化的场景下保证成像鲁棒性，同时避免对驾驶员造成视觉干扰。&lt;/p&gt;
 &lt;h2&gt;特征提取与状态估计&lt;/h2&gt;
 &lt;p&gt;这一层会把像素级图像转化为结构化数据，通常通过深度学习模型完成多个维度的追踪与估计。
-&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141616.png&quot; alt=&quot;Pasted image 20260416141616&quot; /&amp;gt;
+&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141616.png&quot; alt=&quot;Pasted image 20260416141616&quot; /&amp;gt;
 主要包括以下几类核心特征：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;面部特征点追踪&lt;/strong&gt;：识别面部关键特征点，常见为 &lt;code&gt;68&lt;/code&gt; 点或 &lt;code&gt;106&lt;/code&gt; 点模型，并据此构建面部 &lt;code&gt;3D&lt;/code&gt; 网格。&lt;/li&gt;
@@ -6063,7 +6063,7 @@ $$&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;视线追踪&lt;/strong&gt;：通过瞳孔中心和角膜反射光斑的相对位置，计算视线 &lt;code&gt;3D&lt;/code&gt; 向量，判断视线落在车内还是车外的特定区域，也就是 &lt;code&gt;Gaze Zone&lt;/code&gt;。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;眼睑闭合度 &lt;code&gt;PERCLOS&lt;/code&gt;&lt;/strong&gt;：计算单位时间内眼睛闭合程度超过阈值的时间比例。这是学术界和工业界都高度认可的疲劳量化指标。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;其他补充特征&lt;/strong&gt;：例如打哈欠、嘴部开合、持物检测，以及双手是否长时间脱离方向盘等。
-&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141636.png&quot; alt=&quot;Pasted image 20260416141636&quot; /&amp;gt;&lt;/li&gt;
+&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416141636.png&quot; alt=&quot;Pasted image 20260416141636&quot; /&amp;gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2&gt;状态机与阈值判定&lt;/h2&gt;
 &lt;p&gt;提取出物理特征后，系统还需要过滤瞬态噪声，例如正常眨眼或快速扫视后视镜，再去判断驾驶员的真实宏观状态。这里通常采用状态机结合时间窗口缓冲 &lt;code&gt;Time Window Buffer&lt;/code&gt; 的逻辑。&lt;/p&gt;
@@ -6139,7 +6139,7 @@ $$&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;这就是 diffusion 模型最核心的思路。&lt;/p&gt;
 &lt;p&gt;下面这张图把最直观的过程画出来了。左边是一条结构清晰的未来轨迹，中间是逐步加噪后的带噪轨迹，最右侧接近纯高斯噪声。训练时模型真正学的是反向过程，也就是如何从这些不同噪声级别的状态一步步往更有结构的轨迹方向推回去。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135252.png&quot; alt=&quot;Pasted image 20260416135252&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135252.png&quot; alt=&quot;Pasted image 20260416135252&quot; /&amp;gt;&lt;/p&gt;
 &lt;h2&gt;前向扩散过程&lt;/h2&gt;
 &lt;p&gt;前向扩散过程的目标很简单：从真实样本出发，不断加一点点噪声，直到最后变成几乎纯噪声。&lt;/p&gt;
 &lt;p&gt;如果把原始数据记作 $\textbf{x}&lt;em&gt;0$，那么一步前向加噪可以写成：
@@ -6199,7 +6199,7 @@ $$&lt;/p&gt;
 &lt;p&gt;自动驾驶规划最麻烦的一点，是同一个场景往往不只有一种合理未来。直接做回归时，模型很容易把多种合理行为平均掉，得到一条谁都不像的均值轨迹。比如左绕和右绕都可行时，平均出来的轨迹可能反而撞上障碍物。&lt;/p&gt;
 &lt;p&gt;扩散模型的优势在于，它不是一开始就被迫输出单个确定结果，而是通过逐步去噪在复杂分布上采样。只要条件建模得好，它就更有机会表达多种可行未来。&lt;/p&gt;
 &lt;p&gt;下面这张图可以把多峰这件事讲得更具体一些。上绕和下绕都是合理规划，但如果模型只能输出一个均值结果，最后反而可能落到障碍物中心附近。扩散模型的价值之一，就是避免把这种多解场景粗暴平均掉。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135307.png&quot; alt=&quot;Pasted image 20260416135307&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135307.png&quot; alt=&quot;Pasted image 20260416135307&quot; /&amp;gt;&lt;/p&gt;
 &lt;h2&gt;规划质量不只是拟合历史轨迹&lt;/h2&gt;
 &lt;p&gt;行为克隆式规划最常见的问题，是模型容易学到数据集里的平均动作，却不一定真正学会怎样在复杂场景里平衡安全、效率和舒适性。&lt;/p&gt;
 &lt;p&gt;扩散规划的一大吸引力，在于它允许你把轨迹生成视作一个分布建模问题，而不是单步动作回归问题。&lt;/p&gt;
@@ -6339,7 +6339,7 @@ xT = torch.cat([all_gt[:, :, :1, :], xT], dim=2)
 &lt;p&gt;这一步非常关键。它意味着无论扩散采样走到哪一步，时间轴第一个状态都会被重置为真实当前状态。这样做的目的，是防止模型在反向采样过程中连当前状态一起漂移。&lt;/p&gt;
 &lt;p&gt;从规划角度看，这相当于在生成过程中显式施加一个边界条件：规划必须从真实当前状态出发。&lt;/p&gt;
 &lt;p&gt;如果只看代码，这个约束很容易被忽略。下面这张图把它单独画出来了。每一步采样时，模型只对未来时域做去噪修正，当前状态点始终被强制钉在真实值上，所以扩散生成的不是整段可以随意漂移的轨迹，而是从真实当前状态出发的未来轨迹。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135336.png&quot; alt=&quot;Pasted image 20260416135336&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135336.png&quot; alt=&quot;Pasted image 20260416135336&quot; /&amp;gt;&lt;/p&gt;
 &lt;h2&gt;用 DPM-Solver 做快速采样&lt;/h2&gt;
 &lt;p&gt;官方代码推理时通过 &lt;code&gt;dpm_sampler(...)&lt;/code&gt; 进行反向采样。README 里提到 fast inference around 20Hz，本质上依赖的就是比最朴素逐步采样更高效的数值解法。你可以把 DPM-Solver 理解成一种更快的扩散 ODE / SDE 求解器，它减少了达到可用结果所需的采样步数。&lt;/p&gt;
 &lt;p&gt;对自动驾驶来说，这一点很重要。因为规划是在线闭环任务，不能像离线图像生成那样慢慢采很多步。如果生成一条轨迹要几百步、每步都很慢，那它很难真正进入车载闭环系统。&lt;/p&gt;
@@ -6582,7 +6582,7 @@ $$&lt;/p&gt;
 &lt;p&gt;在车辆售出后的日常行驶中，系统会不断利用高速公路上的笔直车道线、路灯杆等特征，进行动态在线标定。因为由于车辆负载变化，前视的 Pitch 角必须时刻自动修正。&lt;/p&gt;
 &lt;h1&gt;毫米波雷达的外参标定&lt;/h1&gt;
 &lt;h2&gt;角反射器 Corner Reflector&lt;/h2&gt;
-&lt;p&gt;&amp;lt;img src=&quot;%E9%99%84%E4%BB%B6/Pasted%20image%2020260416134128.png&quot; alt=&quot;Pasted image 20260416134128&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E7%A1%AC%E4%BB%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416134128.png&quot; alt=&quot;Pasted image 20260416134128&quot; /&amp;gt;&lt;/p&gt;
 &lt;p&gt;这个带有三个相互垂直金属面的锥体，就是角反射器。&lt;/p&gt;
 &lt;p&gt;角反射器的三个垂直面（三面直角锥）具有一个极其特殊的物理性质——无论电磁波从哪个角度射入，经过三次反射后，都会沿着原路绝对平行地反射回去。&lt;/p&gt;
 &lt;p&gt;这就好比你在黑夜里用手电筒照一面极其聚光的镜子。在雷达的感知世界里，周围的墙壁、甚至车间里的其他金属架，回波强度可能只有 10 dBsm，而这个小小的角反射器，能爆发出 100 dBsm 甚至更高的极强雷达散射截面峰值。它就像灯塔一样，在雷达的噪波海洋中提供了唯一且绝对精确的三维坐标参照物。&lt;/p&gt;
@@ -7981,7 +7981,7 @@ $$&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;这个框架的特点是强调分层分类。每一类下面还可以继续细分子类，并尽量用允许 / 不允许的清单形式表达。对于系统开发来说，这种写法的价值在于它很适合落到需求表、配置表和测试覆盖矩阵中。&lt;/p&gt;
 &lt;p&gt;下面这张图展示了 NHTSA 的 ODD 分类思路。
-&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125814.png&quot; alt=&quot;Pasted image 20260416125814&quot; /&amp;gt;&lt;/p&gt;
+&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125814.png&quot; alt=&quot;Pasted image 20260416125814&quot; /&amp;gt;&lt;/p&gt;
 &lt;h3&gt;SAE AVSC ODD 框架&lt;/h3&gt;
 &lt;p&gt;SAE AVSC 将 ODD 主要划分为以下 7 个维度：&lt;/p&gt;
 &lt;ol&gt;
@@ -7995,7 +7995,7 @@ $$&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;这个框架比 NHTSA 更强调道路参与者、道路表面和连接性等细分类别，对于面向量产功能的 ODD 细化很有帮助，因为这些条件通常都会直接影响感知能力、制动距离、规划策略和可用车速上限。&lt;/p&gt;
 &lt;p&gt;下图对应 SAE AVSC 的 ODD 框架。
-&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125832.png&quot; alt=&quot;Pasted image 20260416125832&quot; /&amp;gt;&lt;/p&gt;
+&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125832.png&quot; alt=&quot;Pasted image 20260416125832&quot; /&amp;gt;&lt;/p&gt;
 &lt;h3&gt;《智能网联汽车预期功能安全场景库建设报告》中的 ODD 框架&lt;/h3&gt;
 &lt;p&gt;这一版框架把 ODD 拆成以下 7 个层面：&lt;/p&gt;
 &lt;ol&gt;
@@ -8017,7 +8017,7 @@ $$&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;这个分法更抽象，但也更适合做上层归类。它的优点是结构清晰，缺点是落到具体系统需求时，通常还需要继续往下拆到更细的工程属性。&lt;/p&gt;
 &lt;p&gt;下图展示了 BSI ODD 的基本框架。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125844.png&quot; alt=&quot;Pasted image 20260416125844&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125844.png&quot; alt=&quot;Pasted image 20260416125844&quot; /&amp;gt;&lt;/p&gt;
 &lt;h1&gt;ODC 的定义与工程边界&lt;/h1&gt;
 &lt;h2&gt;ODC 对系统开发意味着什么&lt;/h2&gt;
 &lt;p&gt;单独看 ODD，还只能说明环境允许不允许。真正进入系统开发后，工程上更常见的问题是：环境明明满足了，但系统此刻仍然不应该启动，或者不应该继续保持当前自动化等级。这部分边界，通常就由 ODC 来约束。&lt;/p&gt;
@@ -8031,8 +8031,8 @@ $$&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;所以，ODC 不是 ODD 的重复表述，而是把系统责任进一步细化到了可启动、可持续运行、可安全退出这几个层面。&lt;/p&gt;
 &lt;p&gt;下面两张图给出了文档中的 ODC 相关示意。&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125913.png&quot; alt=&quot;Pasted image 20260416125913&quot; /&amp;gt;&lt;/p&gt;
-&lt;p&gt;&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125934.png&quot; alt=&quot;Pasted image 20260416125934&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125913.png&quot; alt=&quot;Pasted image 20260416125913&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125934.png&quot; alt=&quot;Pasted image 20260416125934&quot; /&amp;gt;&lt;/p&gt;
 &lt;h2&gt;ODC 与自动驾驶等级&lt;/h2&gt;
 &lt;p&gt;从 SAE J3016 的责任划分看，自动驾驶等级的底层问题可以概括为：
 $$
@@ -8047,16 +8047,16 @@ $$&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;从这个角度看，L3 以上系统是否站得住，核心不在于宣传口径，而在于能否把 ODC 划清楚，并证明系统在边界内的能力、边界处的识别和边界外的退出都足够可靠。&lt;/p&gt;
 &lt;p&gt;下图对应 ODC 与自动驾驶等级关系的示意。
-&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130221.png&quot; alt=&quot;Pasted image 20260416130221&quot; /&amp;gt;&lt;/p&gt;
+&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130221.png&quot; alt=&quot;Pasted image 20260416130221&quot; /&amp;gt;&lt;/p&gt;
 &lt;h1&gt;场景化理解&lt;/h1&gt;
 &lt;h2&gt;高速 NOA&lt;/h2&gt;
 &lt;p&gt;高速 NOA 是 ODD / ODC 边界定义比较典型的例子。它通常只在高速或高架等受控道路上启用，并依赖清晰车道线、稳定定位、可用地图以及较完整的传感器能力。因此，它的功能表现不是单纯由规划算法决定，而是由道路条件、交通复杂度、地图质量、驾驶员状态和系统健康状态共同限定。&lt;/p&gt;
 &lt;p&gt;下面这张图给出了高速 NOA 的一个示例。
-&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130158.png&quot; alt=&quot;Pasted image 20260416130158&quot; /&amp;gt;&lt;/p&gt;
+&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130158.png&quot; alt=&quot;Pasted image 20260416130158&quot; /&amp;gt;&lt;/p&gt;
 &lt;h2&gt;HPP&lt;/h2&gt;
 &lt;p&gt;HPP 场景通常比高速 NOA 更收敛，环境结构更固定，因此 ODD 往往更容易被限定得足够清晰。但这不意味着开发难度更低，因为它往往对低速精确控制、泊车空间理解、障碍物识别和人机交互状态有更细的 ODC 约束。&lt;/p&gt;
 &lt;p&gt;下图给出了 HPP 的示例。
-&amp;lt;img src=&quot;../%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130136.png&quot; alt=&quot;Pasted image 20260416130136&quot; /&amp;gt;&lt;/p&gt;
+&amp;lt;img src=&quot;/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130136.png&quot; alt=&quot;Pasted image 20260416130136&quot; /&amp;gt;&lt;/p&gt;
 &lt;h1&gt;小结&lt;/h1&gt;
 &lt;p&gt;ODD 定义的是系统对哪些外部条件负责，ODC 定义的是在这些外部条件满足后，系统还需要在哪些内部条件下才真正具备可运行性。对智驾系统开发来说，这两个概念的价值不在于术语本身，而在于它们把功能责任边界、验证边界和退出边界统一了起来。&lt;/p&gt;
 &lt;p&gt;如果一个功能的 ODD 和 ODC 说不清楚，那么需求会变得模糊，测试覆盖会失去抓手，安全论证也很难成立。反过来，只要边界定义清楚，功能激活、在线监控、降级策略、最小风险动作和场景验证就都有了可落地的工程起点。&lt;/p&gt;

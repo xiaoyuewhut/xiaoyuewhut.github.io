@@ -1,0 +1,680 @@
+---
+import { Icon } from "astro-icon/components";
+import { url } from "../../utils/url-utils";
+---
+
+<section class="home-prelude relative overflow-hidden w-full px-0 py-10 md:py-14 mb-6 min-h-[78vh] flex items-center">
+    <div class="home-prelude__wash"></div>
+    <div class="home-prelude__ink-field"></div>
+    <div class="home-prelude__ink home-prelude__ink--one"></div>
+    <div class="home-prelude__ink home-prelude__ink--two"></div>
+    <div class="home-prelude__ink home-prelude__ink--three"></div>
+    <div class="home-prelude__mist"></div>
+    <div class="home-prelude__grain"></div>
+
+    <div class="relative z-10 w-full max-w-[72rem] mx-auto px-4 md:px-8 text-center -translate-y-[7vh] md:-translate-y-[9vh]">
+        <div
+            class="home-prelude__verse font-display relative isolate text-[1.72rem] leading-[1.5] md:text-[2.45rem] md:leading-[1.42] lg:text-[2.9rem] lg:leading-[1.36] text-black/82 dark:text-white/80"
+            data-typewriter-verse
+            aria-label="寒水依痕，春意渐回，沙际烟阔。溪梅晴照生香，冷蕊数枝争发。天涯旧恨，试看几许消魂？长亭门外山重叠。不尽眼中青，是愁来时节。情切，画楼深闭，想见东风，暗销肌雪。孤负枕前云雨，尊前花月。心期切处，更有多少凄凉，殷勤留与归时说。到得再相逢，恰经年离别。"
+        >
+            <span class="home-prelude__line block" data-text="寒水依痕，春意渐回，沙际烟阔。" aria-hidden="true"></span>
+            <span class="home-prelude__line block" data-text="溪梅晴照生香，冷蕊数枝争发。" aria-hidden="true"></span>
+            <span class="home-prelude__line block" data-text="天涯旧恨，试看几许消魂？" aria-hidden="true"></span>
+            <span class="home-prelude__line block" data-text="长亭门外山重叠。不尽眼中青，是愁来时节。" aria-hidden="true"></span>
+            <span class="home-prelude__line home-prelude__line--stanza block" data-text="情切，画楼深闭，想见东风，暗销肌雪。" aria-hidden="true"></span>
+            <span class="home-prelude__line block" data-text="孤负枕前云雨，尊前花月。" aria-hidden="true"></span>
+            <span class="home-prelude__line block" data-text="心期切处，更有多少凄凉，" aria-hidden="true"></span>
+            <span class="home-prelude__line block" data-text="殷勤留与归时说。到得再相逢，恰经年离别。" aria-hidden="true"></span>
+        </div>
+
+        <div class="home-prelude__meta mt-6 text-sm tracking-[0.3em] text-black/34 dark:text-white/30">
+            张元干《石州慢》
+        </div>
+
+        <div class="home-prelude__actions mt-10 md:mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+                    href={url('/studies/')}
+                    class="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold text-white transition duration-300 active:scale-95
+                    bg-[var(--primary)] shadow-[0_14px_32px_rgba(165,90,70,0.28)] hover:brightness-105"
+            >
+                浏览文章
+                <Icon name="material-symbols:arrow-forward-rounded" class="text-[1.15rem]"></Icon>
+            </a>
+
+            <a
+                    href={url('/about/')}
+                    class="inline-flex items-center gap-3 rounded-full border border-[rgba(165,90,70,0.18)] bg-white/35 px-6 py-3 text-sm font-medium text-black/62 transition duration-300 hover:bg-white/55 active:scale-95 dark:bg-white/5 dark:text-white/62 dark:hover:bg-white/8"
+            >
+                关于我
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .home-prelude {
+        background: transparent;
+        isolation: isolate;
+        mask-image: radial-gradient(circle at center, black 62%, transparent 100%);
+        -webkit-mask-image: radial-gradient(circle at center, black 62%, transparent 100%);
+    }
+
+    .home-prelude__wash {
+        position: absolute;
+        inset: -16% -10%;
+        background:
+            radial-gradient(circle at 18% 16%, rgba(173, 111, 92, 0.1), transparent 28%),
+            radial-gradient(circle at 82% 22%, rgba(125, 98, 75, 0.08), transparent 25%),
+            linear-gradient(140deg, rgba(255, 251, 245, 0.34), rgba(246, 238, 228, 0.18) 48%, rgba(244, 239, 233, 0.1)),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 24%, transparent 78%, rgba(74, 49, 33, 0.03)),
+            radial-gradient(circle at 30% 72%, rgba(186, 154, 116, 0.1), transparent 24%);
+        pointer-events: none;
+        animation: prelude-paper 18s ease-in-out infinite alternate;
+        opacity: 0.94;
+    }
+
+    .home-prelude__ink-field,
+    .home-prelude__ink,
+    .home-prelude__mist,
+    .home-prelude__grain {
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .home-prelude__ink-field {
+        inset: -14% -12%;
+        opacity: 0.5;
+        filter: blur(42px);
+        mix-blend-mode: multiply;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(88, 63, 50, 0.3), transparent 22%),
+            radial-gradient(ellipse at 32% 52%, rgba(124, 88, 68, 0.26), transparent 26%),
+            radial-gradient(ellipse at 52% 48%, rgba(110, 79, 61, 0.18), transparent 18%),
+            radial-gradient(ellipse at 66% 34%, rgba(122, 87, 67, 0.22), transparent 24%),
+            radial-gradient(ellipse at 80% 70%, rgba(156, 118, 91, 0.24), transparent 26%),
+            radial-gradient(ellipse at 92% 22%, rgba(193, 160, 126, 0.16), transparent 20%);
+        animation: prelude-ink-field 24s ease-in-out infinite alternate;
+    }
+
+    .home-prelude__ink {
+        border-radius: 999px;
+        filter: blur(38px);
+        opacity: 0.62;
+        mix-blend-mode: multiply;
+        animation: prelude-ink-drift 18s ease-in-out infinite;
+        transform-origin: center;
+    }
+
+    .home-prelude__ink--one {
+        top: -8%;
+        left: -8%;
+        width: 42rem;
+        height: 27rem;
+        background:
+            radial-gradient(circle at 28% 38%, rgba(78, 56, 45, 0.38), transparent 30%),
+            radial-gradient(circle at 48% 48%, rgba(108, 75, 58, 0.32), transparent 42%),
+            radial-gradient(circle at 70% 58%, rgba(164, 110, 84, 0.22), transparent 54%);
+        animation-delay: -2s;
+    }
+
+    .home-prelude__ink--two {
+        right: -10%;
+        bottom: -10%;
+        width: 46rem;
+        height: 29rem;
+        background:
+            radial-gradient(circle at 22% 42%, rgba(92, 68, 53, 0.34), transparent 30%),
+            radial-gradient(circle at 48% 52%, rgba(128, 94, 71, 0.28), transparent 40%),
+            radial-gradient(circle at 80% 58%, rgba(188, 155, 117, 0.22), transparent 50%);
+        animation-delay: -9s;
+    }
+
+    .home-prelude__ink--three {
+        top: 22%;
+        left: 26%;
+        width: 34rem;
+        height: 20rem;
+        background:
+            radial-gradient(circle at 40% 48%, rgba(118, 85, 65, 0.28), transparent 28%),
+            radial-gradient(circle at 54% 54%, rgba(150, 109, 83, 0.22), transparent 38%),
+            radial-gradient(circle at 68% 58%, rgba(196, 152, 116, 0.18), transparent 46%);
+        animation-delay: -13s;
+        opacity: 0.5;
+        filter: blur(34px);
+    }
+
+    .home-prelude__ink::before,
+    .home-prelude__ink::after {
+        content: "";
+        position: absolute;
+        inset: 8%;
+        border-radius: 999px;
+        pointer-events: none;
+        filter: blur(24px);
+    }
+
+    .home-prelude__ink::before {
+        background:
+            radial-gradient(circle at 40% 44%, rgba(86, 62, 50, 0.34), transparent 26%),
+            radial-gradient(circle at 62% 54%, rgba(164, 110, 84, 0.22), transparent 42%);
+        animation: prelude-ink-bloom 12s ease-in-out infinite;
+    }
+
+    .home-prelude__ink::after {
+        inset: 18%;
+        background:
+            radial-gradient(circle at 48% 50%, rgba(231, 212, 188, 0.1), transparent 24%),
+            radial-gradient(circle at 58% 62%, rgba(136, 98, 76, 0.2), transparent 34%);
+        animation: prelude-ink-pulse 8.5s ease-in-out infinite;
+    }
+
+    .home-prelude__mist {
+        inset: auto -4% -6% -4%;
+        height: 48%;
+        opacity: 0.44;
+        background:
+            radial-gradient(ellipse at 18% 78%, rgba(255, 255, 255, 0.32), transparent 38%),
+            radial-gradient(ellipse at 52% 88%, rgba(244, 237, 229, 0.46), transparent 34%),
+            radial-gradient(ellipse at 82% 74%, rgba(255, 255, 255, 0.24), transparent 30%);
+        filter: blur(18px);
+        animation: prelude-mist 24s ease-in-out infinite alternate;
+    }
+
+    .home-prelude__mist::before,
+    .home-prelude__mist::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: 999px;
+        filter: blur(22px);
+    }
+
+    .home-prelude__mist::before {
+        background:
+            radial-gradient(ellipse at 32% 82%, rgba(255, 255, 255, 0.28), transparent 26%),
+            radial-gradient(ellipse at 68% 76%, rgba(232, 214, 192, 0.24), transparent 22%);
+        animation: prelude-mist-layer-one 15s ease-in-out infinite alternate;
+    }
+
+    .home-prelude__mist::after {
+        background:
+            radial-gradient(ellipse at 22% 70%, rgba(252, 248, 243, 0.18), transparent 20%),
+            radial-gradient(ellipse at 78% 86%, rgba(255, 255, 255, 0.22), transparent 24%);
+        animation: prelude-mist-layer-two 19s ease-in-out infinite alternate;
+    }
+
+    .home-prelude__grain {
+        inset: -8% -6%;
+        opacity: 0.12;
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(109, 83, 58, 0.03) 1px, transparent 1px);
+        background-size: 100% 3px, 4px 100%;
+        mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+        -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+    }
+
+    .home-prelude__verse {
+        text-wrap: balance;
+        text-shadow: 0 12px 30px rgba(255, 251, 247, 0.12), 0 6px 18px rgba(93, 66, 47, 0.08);
+    }
+
+    .home-prelude__verse::after {
+        content: "";
+        position: absolute;
+        inset: -8% -5%;
+        background:
+            linear-gradient(110deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 28%,
+            rgba(255, 250, 243, 0.12) 44%,
+            rgba(191, 146, 110, 0.18) 50%,
+            rgba(255, 248, 240, 0.1) 56%,
+            transparent 72%);
+        opacity: 0;
+        filter: blur(12px);
+        mix-blend-mode: screen;
+        transform: translateX(-58%) skewX(-16deg);
+        animation: prelude-sheen 8.5s ease-in-out 2.2s infinite;
+        pointer-events: none;
+    }
+
+    .home-prelude__line {
+        display: block;
+        min-height: 1.24em;
+        opacity: 0.96;
+    }
+
+    .home-prelude__line + .home-prelude__line {
+        margin-top: 0.08em;
+    }
+
+    .home-prelude__line--stanza {
+        margin-top: 0.42em !important;
+    }
+
+    .home-prelude__line.is-active,
+    .home-prelude__line.is-complete {
+        opacity: 1;
+    }
+
+    .home-prelude__cursor {
+        display: inline-block;
+        width: 0.08em;
+        height: 0.86em;
+        margin-left: 0.08em;
+        border-radius: 999px;
+        background: currentColor;
+        vertical-align: -0.08em;
+        animation: prelude-caret 0.9s step-end infinite;
+    }
+
+    .home-prelude__meta {
+        opacity: 0;
+        transform: translateY(0.9rem);
+        transition:
+            opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .home-prelude__actions {
+        opacity: 0;
+        transform: translateY(0.9rem);
+        transition:
+            opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .home-prelude__actions a {
+        box-shadow: 0 14px 32px rgba(165, 90, 70, 0.12);
+    }
+
+    .home-prelude--typed .home-prelude__meta {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 120ms;
+        animation: prelude-meta-breathe 7.5s ease-in-out 1s infinite;
+    }
+
+    .home-prelude--typed .home-prelude__actions {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 260ms;
+    }
+
+    .home-prelude--typed .home-prelude__actions a:first-child {
+        animation: prelude-cta-breathe 6.8s ease-in-out 2.6s infinite;
+    }
+
+    .home-prelude__actions a:hover {
+        transform: translateY(-2px);
+    }
+
+    :root.dark .home-prelude__ink {
+        mix-blend-mode: screen;
+        opacity: 0.46;
+    }
+
+    :root.dark .home-prelude {
+        mask-image: radial-gradient(circle at center, black 58%, transparent 100%);
+        -webkit-mask-image: radial-gradient(circle at center, black 58%, transparent 100%);
+    }
+
+    :root.dark .home-prelude__wash {
+        background:
+            radial-gradient(circle at 18% 16%, rgba(145, 82, 66, 0.14), transparent 28%),
+            radial-gradient(circle at 82% 22%, rgba(148, 126, 102, 0.08), transparent 25%),
+            linear-gradient(140deg, rgba(45, 35, 31, 0.2), rgba(31, 26, 23, 0.12) 48%, rgba(31, 27, 24, 0.08)),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 24%, transparent 78%, rgba(0, 0, 0, 0.04)),
+            radial-gradient(circle at 30% 72%, rgba(150, 121, 97, 0.08), transparent 24%);
+    }
+
+    :root.dark .home-prelude__ink-field {
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(150, 109, 88, 0.24), transparent 22%),
+            radial-gradient(ellipse at 32% 52%, rgba(170, 126, 101, 0.2), transparent 26%),
+            radial-gradient(ellipse at 52% 48%, rgba(143, 108, 86, 0.14), transparent 18%),
+            radial-gradient(ellipse at 66% 34%, rgba(164, 122, 97, 0.18), transparent 24%),
+            radial-gradient(ellipse at 80% 70%, rgba(192, 152, 121, 0.18), transparent 26%),
+            radial-gradient(ellipse at 92% 22%, rgba(214, 184, 148, 0.12), transparent 20%);
+    }
+
+    :root.dark .home-prelude__ink--one {
+        background:
+            radial-gradient(circle at 28% 38%, rgba(172, 118, 99, 0.32), transparent 30%),
+            radial-gradient(circle at 48% 48%, rgba(193, 140, 111, 0.26), transparent 42%),
+            radial-gradient(circle at 70% 58%, rgba(211, 171, 136, 0.16), transparent 54%);
+    }
+
+    :root.dark .home-prelude__ink--two {
+        background:
+            radial-gradient(circle at 22% 42%, rgba(166, 124, 99, 0.28), transparent 30%),
+            radial-gradient(circle at 48% 52%, rgba(186, 142, 110, 0.24), transparent 40%),
+            radial-gradient(circle at 80% 58%, rgba(215, 183, 144, 0.16), transparent 50%);
+    }
+
+    :root.dark .home-prelude__ink--three {
+        background:
+            radial-gradient(circle at 40% 48%, rgba(178, 136, 109, 0.24), transparent 28%),
+            radial-gradient(circle at 54% 54%, rgba(194, 151, 121, 0.2), transparent 38%),
+            radial-gradient(circle at 68% 58%, rgba(212, 176, 139, 0.16), transparent 46%);
+    }
+
+    :root.dark .home-prelude__ink::before {
+        background:
+            radial-gradient(circle at 42% 46%, rgba(173, 126, 103, 0.16), transparent 28%),
+            radial-gradient(circle at 64% 56%, rgba(200, 160, 126, 0.12), transparent 44%);
+    }
+
+    :root.dark .home-prelude__ink::after {
+        background:
+            radial-gradient(circle at 48% 50%, rgba(216, 190, 160, 0.08), transparent 26%),
+            radial-gradient(circle at 58% 62%, rgba(167, 126, 101, 0.12), transparent 38%);
+    }
+
+    :root.dark .home-prelude__mist {
+        background:
+            radial-gradient(ellipse at 18% 78%, rgba(138, 108, 84, 0.12), transparent 38%),
+            radial-gradient(ellipse at 52% 88%, rgba(112, 90, 71, 0.16), transparent 34%),
+            radial-gradient(ellipse at 82% 74%, rgba(154, 129, 105, 0.1), transparent 30%);
+        opacity: 0.4;
+    }
+
+    :root.dark .home-prelude__mist::before {
+        background:
+            radial-gradient(ellipse at 32% 82%, rgba(149, 120, 93, 0.12), transparent 26%),
+            radial-gradient(ellipse at 68% 76%, rgba(123, 103, 85, 0.16), transparent 22%);
+    }
+
+    :root.dark .home-prelude__mist::after {
+        background:
+            radial-gradient(ellipse at 22% 70%, rgba(121, 100, 82, 0.1), transparent 20%),
+            radial-gradient(ellipse at 78% 86%, rgba(157, 130, 104, 0.12), transparent 24%);
+    }
+
+    :root.dark .home-prelude__verse::after {
+        background:
+            linear-gradient(110deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 30%,
+            rgba(169, 134, 104, 0.1) 44%,
+            rgba(205, 168, 129, 0.14) 50%,
+            rgba(155, 121, 95, 0.08) 56%,
+            transparent 72%);
+        mix-blend-mode: lighten;
+        opacity: 0.7;
+    }
+
+    @keyframes prelude-caret {
+        0%, 45% {
+            opacity: 1;
+        }
+        46%, 100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes prelude-ink-drift {
+        0% {
+            transform: translate3d(0, 0, 0) scale(0.88) rotate(-6deg);
+        }
+        50% {
+            transform: translate3d(1.6rem, -1rem, 0) scale(1.16) rotate(-1deg);
+        }
+        100% {
+            transform: translate3d(-1.4rem, 1.1rem, 0) scale(0.9) rotate(4deg);
+        }
+    }
+
+    @keyframes prelude-ink-field {
+        0% {
+            transform: scale(0.96) translate3d(0, 0, 0);
+            opacity: 0.34;
+        }
+        50% {
+            transform: scale(1.04) translate3d(0.8rem, -0.5rem, 0);
+            opacity: 0.48;
+        }
+        100% {
+            transform: scale(1) translate3d(-0.7rem, 0.6rem, 0);
+            opacity: 0.38;
+        }
+    }
+
+    @keyframes prelude-ink-bloom {
+        0%, 100% {
+            opacity: 0.48;
+            transform: scale(0.82);
+        }
+        50% {
+            opacity: 0.96;
+            transform: scale(1.28);
+        }
+    }
+
+    @keyframes prelude-ink-pulse {
+        0%, 100% {
+            opacity: 0.22;
+            transform: scale(0.9);
+        }
+        50% {
+            opacity: 0.6;
+            transform: scale(1.34);
+        }
+    }
+
+    @keyframes prelude-paper {
+        0% {
+            opacity: 0.76;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-0.3rem);
+        }
+    }
+
+    @keyframes prelude-mist {
+        0% {
+            transform: translate3d(-1%, 0, 0) scale(1);
+            opacity: 0.52;
+        }
+        100% {
+            transform: translate3d(1.5%, -1.5%, 0) scale(1.04);
+            opacity: 0.72;
+        }
+    }
+
+    @keyframes prelude-mist-layer-one {
+        0% {
+            transform: translate3d(-2.5%, 0.4rem, 0) scale(0.98);
+            opacity: 0.42;
+        }
+        100% {
+            transform: translate3d(2%, -0.5rem, 0) scale(1.04);
+            opacity: 0.74;
+        }
+    }
+
+    @keyframes prelude-mist-layer-two {
+        0% {
+            transform: translate3d(1.8%, 0, 0) scale(1.02);
+            opacity: 0.28;
+        }
+        100% {
+            transform: translate3d(-2.2%, -0.7rem, 0) scale(0.98);
+            opacity: 0.56;
+        }
+    }
+
+    @keyframes prelude-sheen {
+        0% {
+            opacity: 0;
+            transform: translateX(-60%) skewX(-16deg);
+        }
+        12% {
+            opacity: 0.9;
+        }
+        34% {
+            opacity: 0.32;
+            transform: translateX(56%) skewX(-16deg);
+        }
+        42% {
+            opacity: 0;
+            transform: translateX(64%) skewX(-16deg);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(64%) skewX(-16deg);
+        }
+    }
+
+    @keyframes prelude-meta-breathe {
+        0%, 100% {
+            letter-spacing: 0.3em;
+            opacity: 1;
+        }
+        50% {
+            letter-spacing: 0.34em;
+            opacity: 0.76;
+        }
+    }
+
+    @keyframes prelude-cta-breathe {
+        0%, 100% {
+            box-shadow: 0 14px 32px rgba(165, 90, 70, 0.18);
+        }
+        50% {
+            box-shadow: 0 18px 40px rgba(165, 90, 70, 0.28);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .home-prelude__wash,
+        .home-prelude__ink-field,
+        .home-prelude__ink,
+        .home-prelude__mist,
+        .home-prelude__mist::before,
+        .home-prelude__mist::after,
+        .home-prelude__ink::before,
+        .home-prelude__ink::after,
+        .home-prelude__verse::after,
+        .home-prelude__meta,
+        .home-prelude__actions,
+        .home-prelude__actions a:first-child {
+            animation: none;
+            opacity: 1;
+            transform: none;
+            filter: none;
+        }
+
+        .home-prelude__actions a:hover {
+            transform: none;
+        }
+    }
+</style>
+
+<script>
+function wait(ms) {
+    return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+async function runPreludeTypewriter(prelude) {
+    if (!(prelude instanceof HTMLElement) || prelude.dataset.typingState === "running") {
+        return;
+    }
+
+    const verse = prelude.querySelector("[data-typewriter-verse]");
+    if (!(verse instanceof HTMLElement)) {
+        return;
+    }
+
+    const lines = Array.from(verse.querySelectorAll("[data-text]"));
+    if (lines.length === 0) {
+        return;
+    }
+
+    prelude.dataset.typingState = "running";
+    prelude.classList.remove("home-prelude--typed");
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+        lines.forEach((line) => {
+            if (line instanceof HTMLElement) {
+                line.textContent = line.dataset.text || "";
+                line.classList.add("is-complete");
+            }
+        });
+        prelude.classList.add("home-prelude--typed");
+        prelude.dataset.typingState = "done";
+        return;
+    }
+
+    const cursor = document.createElement("span");
+    cursor.className = "home-prelude__cursor";
+    cursor.setAttribute("aria-hidden", "true");
+
+    const getTypeDelay = (char) => {
+        if ("。！？".includes(char)) return 260;
+        if ("，、；".includes(char)) return 145;
+        return 82;
+    };
+
+    for (const line of lines) {
+        if (!(line instanceof HTMLElement)) {
+            continue;
+        }
+
+        const text = line.dataset.text || "";
+        line.textContent = "";
+        line.classList.remove("is-complete");
+        line.classList.add("is-active");
+        line.appendChild(cursor);
+
+        for (const char of text) {
+            line.textContent += char;
+            line.appendChild(cursor);
+            await wait(getTypeDelay(char));
+        }
+
+        line.classList.remove("is-active");
+        line.classList.add("is-complete");
+        await wait(120);
+    }
+
+    await wait(1200);
+    cursor.remove();
+    prelude.classList.add("home-prelude--typed");
+    prelude.dataset.typingState = "done";
+}
+
+function initPreludeTypewriter() {
+    const prelude = document.querySelector(".home-prelude");
+    if (!(prelude instanceof HTMLElement)) {
+        return;
+    }
+    runPreludeTypewriter(prelude);
+}
+
+function setupPreludeTypewriter() {
+    initPreludeTypewriter();
+
+    const boundWindow = window;
+    if (boundWindow.__homePreludeTypewriterBound || !window.swup?.hooks) {
+        return;
+    }
+
+    boundWindow.__homePreludeTypewriterBound = true;
+    window.swup.hooks.on("page:view", () => {
+        initPreludeTypewriter();
+    });
+}
+
+if (window.swup) {
+    setupPreludeTypewriter();
+} else {
+    document.addEventListener("swup:enable", setupPreludeTypewriter, { once: true });
+}
+</script>

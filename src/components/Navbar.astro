@@ -24,7 +24,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--page-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-[1.4rem] mx-auto mt-2 flex items-center justify-between px-4 md:px-5"]}>
+        "navbar-shell !overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto mt-2 flex items-center justify-between px-4 md:px-5"]}>
         <a href={url('/')} class="btn-plain scale-animation rounded-xl h-[3.25rem] px-5 font-bold active:scale-95">
             <div class="flex flex-row text-[var(--primary)] items-center text-md tracking-tight">
                 <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
@@ -103,6 +103,23 @@ function loadButtonScript() {
 
 loadButtonScript();
 </script>
+
+<style>
+    .navbar-shell {
+        border: 1px solid color-mix(in oklab, var(--card-border) 70%, transparent);
+        border-radius: 1.15rem;
+        background: color-mix(in oklab, var(--page-bg) 82%, var(--card-bg) 18%);
+        box-shadow: 0 10px 26px -24px var(--card-shadow);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
+
+    :root.dark .navbar-shell {
+        border-color: color-mix(in oklab, var(--card-border) 78%, transparent);
+        background: color-mix(in oklab, var(--page-bg) 74%, var(--card-bg) 26%);
+        box-shadow: 0 12px 30px -26px var(--card-shadow);
+    }
+ </style>
 
 {import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>
 async function loadPagefind() {

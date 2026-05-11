@@ -92,17 +92,26 @@
 				</div>
 
 				<div class="studies-posts">
-					{#each activeSection.posts as post}
-						<a href={getPostUrlBySlug(post.slug)} class="studies-post">
-							<div class="studies-post__body">
-								<div class="studies-post__title">{post.title}</div>
-								{#if post.description}
-									<div class="studies-post__description">{post.description}</div>
-								{/if}
-							</div>
-						</a>
-					{/each}
-				</div>
+					{#if activeSection.posts.length > 0}
+						{#each activeSection.posts as post}
+							<a href={getPostUrlBySlug(post.slug)} class="studies-post">
+								<div class="studies-post__body">
+									<div class="studies-post__title">{post.title}</div>
+									{#if post.description}
+										<div class="studies-post__description">{post.description}</div>
+									{/if}
+								</div>
+							</a>
+						{/each}
+					{:else}
+						<div class="studies-empty">
+							<div class="studies-empty__title">这个专题还没有文章</div>
+						<div class="studies-empty__description">
+								后面补充内容后，这里会自动出现对应文章。
+						</div>
+					</div>
+				{/if}
+			</div>
 			{/if}
 		</section>
 	</div>
@@ -113,6 +122,9 @@
 		background:
 			radial-gradient(circle at top left, rgba(168, 113, 94, 0.08), transparent 24%),
 			linear-gradient(180deg, rgba(255, 252, 248, 0.72), rgba(255, 255, 255, 0.3));
+		transition:
+			background 0.42s ease-out,
+			box-shadow 0.42s ease-out;
 	}
 
 	.studies-layout {
@@ -127,6 +139,10 @@
 		border: 1px solid rgba(73, 46, 33, 0.08);
 		background: rgba(255, 255, 255, 0.58);
 		backdrop-filter: blur(10px);
+		transition:
+			background 0.38s ease-out,
+			border-color 0.38s ease-out,
+			box-shadow 0.42s ease-out;
 	}
 
 	.studies-sidebar__inner {
@@ -140,6 +156,7 @@
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
 		color: rgba(151, 83, 65, 0.72);
+		transition: color 0.38s ease-out;
 	}
 
 	.studies-nav {
@@ -193,6 +210,9 @@
 		font-size: 0.78rem;
 		text-align: center;
 		color: rgba(73, 46, 33, 0.62);
+		transition:
+			background-color 0.38s ease-out,
+			color 0.38s ease-out;
 	}
 
 	.studies-main {
@@ -202,6 +222,7 @@
 	.studies-main__header {
 		padding: 0.3rem 0.2rem 1rem;
 		border-bottom: 1px solid rgba(73, 46, 33, 0.08);
+		transition: border-color 0.38s ease-out;
 	}
 
 	.studies-main__title-row {
@@ -221,6 +242,37 @@
 		grid-template-columns: repeat(1, minmax(0, 1fr));
 		gap: 0.9rem;
 		margin-top: 1rem;
+	}
+
+	.studies-empty {
+		min-height: 17rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 1.5rem 1.35rem;
+		border-radius: 0.7rem;
+		border: 1px dashed rgba(98, 67, 51, 0.22);
+		background: rgba(250, 244, 236, 0.72);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+		transition:
+			background-color 0.38s ease-out,
+			border-color 0.38s ease-out,
+			box-shadow 0.42s ease-out;
+	}
+
+	.studies-empty__title {
+		font-size: 1rem;
+		font-weight: 700;
+		color: rgba(27, 21, 18, 0.88);
+		transition: color 0.38s ease-out;
+	}
+
+	.studies-empty__description {
+		margin-top: 0.6rem;
+		font-size: 0.92rem;
+		line-height: 1.9;
+		color: rgba(27, 21, 18, 0.56);
+		transition: color 0.38s ease-out;
 	}
 
 	.studies-post {

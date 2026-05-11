@@ -466,6 +466,9 @@ onMount(() => {
 		background:
 			radial-gradient(circle at top left, rgba(168, 113, 94, 0.1), transparent 28%),
 			linear-gradient(180deg, rgba(255, 252, 248, 0.7), rgba(255, 255, 255, 0.28));
+		transition:
+			background 0.42s ease-out,
+			box-shadow 0.42s ease-out;
 	}
 
 	.timeline-calendar-kicker {
@@ -474,12 +477,14 @@ onMount(() => {
 		letter-spacing: 0.28em;
 		text-transform: uppercase;
 		color: color-mix(in srgb, var(--primary) 62%, transparent);
+		transition: color 0.38s ease-out;
 	}
 
 	.timeline-calendar-year--stacked {
 		margin-top: 2rem;
 		padding-top: 2rem;
 		border-top: 1px dashed color-mix(in srgb, var(--line-color) 72%, transparent);
+		transition: border-color 0.38s ease-out;
 	}
 
 	.timeline-calendar-legend {
@@ -493,6 +498,10 @@ onMount(() => {
 		border: 1px solid color-mix(in srgb, var(--line-color) 78%, transparent);
 		font-size: 0.76rem;
 		color: color-mix(in srgb, var(--text-color) 52%, transparent);
+		transition:
+			background-color 0.38s ease-out,
+			border-color 0.38s ease-out,
+			color 0.38s ease-out;
 	}
 
 	.timeline-calendar-scroll {
@@ -538,6 +547,7 @@ onMount(() => {
 		line-height: 1;
 		white-space: nowrap;
 		color: color-mix(in srgb, var(--text-color) 42%, transparent);
+		transition: color 0.38s ease-out;
 	}
 
 	.timeline-calendar-weekdays,
@@ -553,6 +563,7 @@ onMount(() => {
 		justify-content: flex-end;
 		font-size: 0.72rem;
 		color: color-mix(in srgb, var(--text-color) 34%, transparent);
+		transition: color 0.38s ease-out;
 	}
 
 	.timeline-calendar-cell {

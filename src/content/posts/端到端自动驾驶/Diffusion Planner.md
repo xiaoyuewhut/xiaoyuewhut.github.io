@@ -30,7 +30,7 @@ draft: false
 
 下面这张图把最直观的过程画出来了。左边是一条结构清晰的未来轨迹，中间是逐步加噪后的带噪轨迹，最右侧接近纯高斯噪声。训练时模型真正学的是反向过程，也就是如何从这些不同噪声级别的状态一步步往更有结构的轨迹方向推回去。
 
-<img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135252.png" alt="Pasted image 20260416135252" />
+<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135252.png" alt="Pasted image 20260416135252" />
 
 ## 前向扩散过程
 前向扩散过程的目标很简单：从真实样本出发，不断加一点点噪声，直到最后变成几乎纯噪声。
@@ -112,7 +112,7 @@ Diffusion Planner 的官方代码里就同时支持 `score` 和 `x_start` 两种
 
 下面这张图可以把多峰这件事讲得更具体一些。上绕和下绕都是合理规划，但如果模型只能输出一个均值结果，最后反而可能落到障碍物中心附近。扩散模型的价值之一，就是避免把这种多解场景粗暴平均掉。
 
-<img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135307.png" alt="Pasted image 20260416135307" />
+<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135307.png" alt="Pasted image 20260416135307" />
 
 ## 规划质量不只是拟合历史轨迹
 行为克隆式规划最常见的问题，是模型容易学到数据集里的平均动作，却不一定真正学会怎样在复杂场景里平衡安全、效率和舒适性。
@@ -293,7 +293,7 @@ def initial_state_constraint(xt, t, step):
 
 如果只看代码，这个约束很容易被忽略。下面这张图把它单独画出来了。每一步采样时，模型只对未来时域做去噪修正，当前状态点始终被强制钉在真实值上，所以扩散生成的不是整段可以随意漂移的轨迹，而是从真实当前状态出发的未来轨迹。
 
-<img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135336.png" alt="Pasted image 20260416135336" />
+<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135336.png" alt="Pasted image 20260416135336" />
 
 ## 用 DPM-Solver 做快速采样
 官方代码推理时通过 `dpm_sampler(...)` 进行反向采样。README 里提到 fast inference around 20Hz，本质上依赖的就是比最朴素逐步采样更高效的数值解法。你可以把 DPM-Solver 理解成一种更快的扩散 ODE / SDE 求解器，它减少了达到可用结果所需的采样步数。

@@ -6,6 +6,7 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "..");
 const SOURCE_DIR = path.join(ROOT_DIR, "学习笔记");
 const POSTS_DIR = path.join(ROOT_DIR, "src", "content", "posts");
+const PUBLIC_NOTE_ASSETS_DIR = path.join(ROOT_DIR, "public", "note-assets");
 
 function ensureDir(dirPath) {
   mkdirSync(dirPath, { recursive: true });
@@ -185,6 +186,11 @@ function resolveAssetTarget(target, noteDir, attachmentIndex) {
   return matches[0] || null;
 }
 
+function buildPublicAssetUrl(assetPath) {
+  const relPath = path.relative(SOURCE_DIR, assetPath);
+  return `/${encodePathSegments("note-assets", ...relPath.split(path.sep))}`;
+}
+
 function replaceObsidianEmbeds(markdown, context) {
   return markdown.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, target, option = "") => {
     const assetPath = resolveAssetTarget(target, context.noteDir, context.attachmentIndex);
@@ -193,8 +199,7 @@ function replaceObsidianEmbeds(markdown, context) {
       return `> 图片缺失：${target}`;
     }
 
-    const outputPath = path.join(POSTS_DIR, path.relative(SOURCE_DIR, assetPath));
-    const src = encodeURI(path.relative(path.dirname(context.outputPath), outputPath).split(path.sep).join("/"));
+    const src = buildPublicAssetUrl(assetPath);
     const width = /^\d+$/.test(option.trim()) ? ` width="${option.trim()}"` : "";
     const alt = path.basename(target).replace(/\.[^.]+$/, "");
     return `<img src="${src}" alt="${alt}"${width} />`;
@@ -287,6 +292,8 @@ function main() {
 
   rmSync(POSTS_DIR, { recursive: true, force: true });
   ensureDir(POSTS_DIR);
+  rmSync(PUBLIC_NOTE_ASSETS_DIR, { recursive: true, force: true });
+  ensureDir(PUBLIC_NOTE_ASSETS_DIR);
 
   const attachmentIndex = new Map();
   for (const assetPath of collectAssetFiles(SOURCE_DIR)) {
@@ -296,8 +303,11 @@ function main() {
     attachmentIndex.set(fileName, current);
 
     const outputPath = path.join(POSTS_DIR, path.relative(SOURCE_DIR, assetPath));
+    const publicAssetPath = path.join(PUBLIC_NOTE_ASSETS_DIR, path.relative(SOURCE_DIR, assetPath));
     ensureDir(path.dirname(outputPath));
+    ensureDir(path.dirname(publicAssetPath));
     copyFileSync(assetPath, outputPath);
+    copyFileSync(assetPath, publicAssetPath);
   }
 
   const noteFiles = collectMarkdownFiles(SOURCE_DIR);
@@ -338,7 +348,6 @@ function main() {
     const preprocessed = replaceObsidianLinks(
       replaceObsidianEmbeds(note.body, {
         noteDir: note.noteDir,
-        outputPath: note.outputPath,
         attachmentIndex,
       }),
       noteLookup,

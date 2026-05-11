@@ -7,6 +7,9 @@ import {
 import { expressiveCodeConfig } from "@/config";
 import type { LIGHT_DARK_MODE } from "@/types/config";
 
+const THEME_TRANSITION_MS = 320;
+let themeTransitionTimer: number | undefined;
+
 export function getDefaultHue(): number {
 	const fallback = "24";
 	const configCarrier = document.getElementById("config-carrier");
@@ -64,8 +67,40 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 	);
 }
 
+function beginThemeTransition() {
+	const root = document.documentElement;
+	const bodyStyles = window.getComputedStyle(document.body);
+
+	root.style.setProperty(
+		"--theme-transition-from-bg",
+		bodyStyles.backgroundColor || "transparent",
+	);
+	root.style.setProperty(
+		"--theme-transition-from-image",
+		bodyStyles.backgroundImage && bodyStyles.backgroundImage !== "none"
+			? bodyStyles.backgroundImage
+			: "none",
+	);
+	root.classList.add("theme-transitioning");
+
+	if (themeTransitionTimer) {
+		window.clearTimeout(themeTransitionTimer);
+	}
+
+	themeTransitionTimer = window.setTimeout(() => {
+		root.classList.remove("theme-transitioning");
+	}, THEME_TRANSITION_MS);
+}
+
 export function setTheme(theme: LIGHT_DARK_MODE): void {
 	localStorage.setItem("theme", theme);
+
+	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		applyThemeToDocument(theme);
+		return;
+	}
+
+	beginThemeTransition();
 	applyThemeToDocument(theme);
 }
 

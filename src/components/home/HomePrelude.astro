@@ -58,6 +58,9 @@ import { url } from "../../utils/url-utils";
         isolation: isolate;
         mask-image: radial-gradient(circle at center, black 62%, transparent 100%);
         -webkit-mask-image: radial-gradient(circle at center, black 62%, transparent 100%);
+        transition:
+            color 0.38s ease-out,
+            text-shadow 0.44s ease-out;
     }
 
     .home-prelude__wash {
@@ -72,6 +75,9 @@ import { url } from "../../utils/url-utils";
         pointer-events: none;
         animation: prelude-paper 18s ease-in-out infinite alternate;
         opacity: 0.94;
+        transition:
+            background 0.46s ease-out,
+            opacity 0.36s ease-out;
     }
 
     .home-prelude__ink-field,
@@ -95,6 +101,9 @@ import { url } from "../../utils/url-utils";
             radial-gradient(ellipse at 80% 70%, rgba(156, 118, 91, 0.24), transparent 26%),
             radial-gradient(ellipse at 92% 22%, rgba(193, 160, 126, 0.16), transparent 20%);
         animation: prelude-ink-field 24s ease-in-out infinite alternate;
+        transition:
+            background 0.46s ease-out,
+            opacity 0.36s ease-out;
     }
 
     .home-prelude__ink {
@@ -104,6 +113,9 @@ import { url } from "../../utils/url-utils";
         mix-blend-mode: multiply;
         animation: prelude-ink-drift 18s ease-in-out infinite;
         transform-origin: center;
+        transition:
+            background 0.46s ease-out,
+            opacity 0.36s ease-out;
     }
 
     .home-prelude__ink--one {
@@ -152,6 +164,9 @@ import { url } from "../../utils/url-utils";
         border-radius: 999px;
         pointer-events: none;
         filter: blur(24px);
+        transition:
+            background 0.46s ease-out,
+            opacity 0.36s ease-out;
     }
 
     .home-prelude__ink::before {
@@ -179,6 +194,9 @@ import { url } from "../../utils/url-utils";
             radial-gradient(ellipse at 82% 74%, rgba(255, 255, 255, 0.24), transparent 30%);
         filter: blur(18px);
         animation: prelude-mist 24s ease-in-out infinite alternate;
+        transition:
+            background 0.46s ease-out,
+            opacity 0.36s ease-out;
     }
 
     .home-prelude__mist::before,
@@ -189,6 +207,9 @@ import { url } from "../../utils/url-utils";
         pointer-events: none;
         border-radius: 999px;
         filter: blur(22px);
+        transition:
+            background 0.46s ease-out,
+            opacity 0.36s ease-out;
     }
 
     .home-prelude__mist::before {
@@ -219,6 +240,9 @@ import { url } from "../../utils/url-utils";
     .home-prelude__verse {
         text-wrap: balance;
         text-shadow: 0 12px 30px rgba(255, 251, 247, 0.12), 0 6px 18px rgba(93, 66, 47, 0.08);
+        transition:
+            color 0.38s ease-out,
+            text-shadow 0.44s ease-out;
     }
 
     .home-prelude__verse::after {
@@ -239,6 +263,20 @@ import { url } from "../../utils/url-utils";
         transform: translateX(-58%) skewX(-16deg);
         animation: prelude-sheen 8.5s ease-in-out 2.2s infinite;
         pointer-events: none;
+        transition:
+            background 0.46s ease-out,
+            opacity 0.36s ease-out;
+    }
+
+    .home-prelude__meta,
+    .home-prelude__actions a {
+        transition:
+            color 0.38s ease-out,
+            background-color 0.38s ease-out,
+            border-color 0.38s ease-out,
+            box-shadow 0.44s ease-out,
+            opacity 0.36s ease-out,
+            transform 0.36s ease-out;
     }
 
     .home-prelude__line {

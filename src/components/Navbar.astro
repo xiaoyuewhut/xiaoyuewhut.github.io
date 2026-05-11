@@ -62,24 +62,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
 </div>
 
 <script>
-function switchTheme() {
-    if (localStorage.theme === 'dark') {
-        document.documentElement.classList.remove('dark');
-        localStorage.theme = 'light';
-    } else {
-        document.documentElement.classList.add('dark');
-        localStorage.theme = 'dark';
-    }
-}
-
 function loadButtonScript() {
-    let switchBtn = document.getElementById("scheme-switch");
-    if (switchBtn) {
-        switchBtn.onclick = function () {
-            switchTheme()
-        };
-    }
-
     let settingBtn = document.getElementById("display-settings-switch");
     if (settingBtn) {
         settingBtn.onclick = function () {
@@ -106,18 +89,16 @@ loadButtonScript();
 
 <style>
     .navbar-shell {
-        border: 1px solid color-mix(in oklab, var(--card-border) 70%, transparent);
+        border: 1px solid var(--navbar-shell-border);
         border-radius: 1.15rem;
-        background: color-mix(in oklab, var(--page-bg) 82%, var(--card-bg) 18%);
+        background: var(--navbar-shell-bg);
         box-shadow: 0 10px 26px -24px var(--card-shadow);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
-    }
-
-    :root.dark .navbar-shell {
-        border-color: color-mix(in oklab, var(--card-border) 78%, transparent);
-        background: color-mix(in oklab, var(--page-bg) 74%, var(--card-bg) 26%);
-        box-shadow: 0 12px 30px -26px var(--card-shadow);
+        transition:
+            background-color 0.38s ease-out,
+            border-color 0.38s ease-out,
+            box-shadow 0.42s ease-out;
     }
  </style>
 

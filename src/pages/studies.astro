@@ -3,7 +3,7 @@ import StudiesPanel from "@components/StudiesPanel.svelte";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getCategoryList, getSortedPosts } from "@utils/content-utils";
 
-const categories = await getCategoryList();
+const categories = (await getCategoryList()).filter((category) => category.name !== "随记");
 const posts = await getSortedPosts();
 
 const postsByCategory = new Map();

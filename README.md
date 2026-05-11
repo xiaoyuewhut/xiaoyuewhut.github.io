@@ -35,3 +35,4 @@ npm run sync:notes
 - The site keeps the Fuwari theme structure in `src/`.
 - Production output is written to `dist/`.
 - The configured site URL is `https://xiaoyuewhut.github.io/`.
+- Local reusable prompts/skills are stored under `skills/`.

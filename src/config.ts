@@ -7,7 +7,7 @@ import type {
 } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "小月手记",
+	title: "技术手记",
 	subtitle: "学习笔记站点",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
@@ -41,6 +41,7 @@ export const siteConfig: SiteConfig = {
 export const navBarConfig: NavBarConfig = {
 	links: [
 		{ name: "首页", url: "/" },
+		{ name: "随记", url: "/suiji/" },
 		{ name: "时间线", url: "/timeline/" },
 		{ name: "专题", url: "/studies/" },
 		{ name: "关于", url: "/about/" },
@@ -49,25 +50,9 @@ export const navBarConfig: NavBarConfig = {
 
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "小月",
-	bio: "记录整车通信、智驾系统、控制与持续学习过程的中文笔记。",
-	links: [
-		{
-			name: "QQ",
-			icon: "fa6-brands:qq",
-			url: "https://wpa.qq.com/msgrd?v=3&uin=1410419147&site=qq&menu=yes",
-		},
-		{
-			name: "邮箱",
-			icon: "material-symbols:mail-outline-rounded",
-			url: "mailto:xiaoyue@example.com",
-		},
-		{
-			name: "微信",
-			icon: "fa6-brands:weixin",
-			url: "https://weixin.qq.com/",
-		},
-	],
+	name: "站点作者",
+	bio: "整理整车通信、智驾系统、控制等方向的中文学习笔记。",
+	links: [],
 };
 
 export const licenseConfig: LicenseConfig = {

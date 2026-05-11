@@ -207,7 +207,7 @@ import {
 	// SizeObserverPlugin,
 	// ClickScrollPlugin
 } from 'overlayscrollbars';
-import {getHue, getStoredTheme, setHue, setTheme} from "../utils/setting-utils";
+import {applyThemeToDocument, getHue, getStoredTheme, setHue} from "../utils/setting-utils";
 import {pathsEqual, url} from "../utils/url-utils";
 import {
 	BANNER_HEIGHT,
@@ -284,7 +284,7 @@ setClickOutsideToClose("search-panel", ["search-panel", "search-bar", "search-sw
 
 function loadTheme() {
 	const theme = getStoredTheme()
-	setTheme(theme)
+	applyThemeToDocument(theme)
 }
 
 function loadHue() {

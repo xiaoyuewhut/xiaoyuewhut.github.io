@@ -89,7 +89,7 @@ $$
 
 # 毫米波雷达的外参标定
 ## 角反射器 Corner Reflector
-<img src="%E9%99%84%E4%BB%B6/Pasted%20image%2020260416134128.png" alt="Pasted image 20260416134128" />
+<img src="/note-assets/%E7%A1%AC%E4%BB%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416134128.png" alt="Pasted image 20260416134128" />
 
 这个带有三个相互垂直金属面的锥体，就是角反射器。
 

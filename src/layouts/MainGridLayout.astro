@@ -24,6 +24,7 @@ interface Props {
 	headings?: MarkdownHeading[];
 	showHero?: boolean;
 	showSidebar?: boolean;
+	showLeftToc?: boolean;
 }
 
 const {
@@ -35,6 +36,7 @@ const {
 	headings = [],
 	showHero = false,
 	showSidebar = false,
+	showLeftToc = false,
 } = Astro.props;
 const hasBannerCredit =
 	siteConfig.banner.enable && siteConfig.banner.credit.enable;
@@ -77,7 +79,11 @@ const mainPanelTop = siteConfig.banner.enable
                 id="main-grid"
                 class:list={[
                     "transition duration-700 w-full left-0 right-0 grid grid-rows-[auto_1fr_auto] lg:grid-rows-[auto] mx-auto gap-4 px-0 md:px-4",
-                    showSidebar ? "grid-cols-[17.5rem_auto]" : "grid-cols-1",
+                    showSidebar
+                        ? "grid-cols-[17.5rem_auto]"
+                        : showLeftToc
+                            ? "grid-cols-1 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[16.5rem_minmax(0,1fr)]"
+                            : "grid-cols-1",
                 ]}
             >
                 <!-- Banner image credit -->
@@ -95,6 +101,23 @@ const mainPanelTop = siteConfig.banner.enable
 
                 {showSidebar && (
                     <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
+                )}
+
+                {showLeftToc && siteConfig.toc.enable && headings.length > 0 && (
+                    <aside class="hidden lg:block row-start-1 row-end-2 col-span-1 self-start">
+                        <div
+                            id="toc-wrapper"
+                            class="toc-left-shell onload-animation fixed top-24 z-20 hidden lg:block"
+                            style="left: max(1rem, calc((100vw - var(--page-width)) / 2 + 1rem)); width: clamp(15rem, 24vw, 16.5rem);"
+                        >
+                            <div id="toc-inner-wrapper" class="max-h-[calc(100vh_-_8rem)] overflow-y-auto overflow-x-hidden hide-scrollbar rounded-[1.5rem] border border-[var(--card-border)] bg-[color:var(--card-bg)] px-3 py-4 shadow-[0_18px_48px_-30px_var(--card-shadow)]">
+                                <div class="mb-3 px-2 text-sm font-semibold tracking-[0.18em] text-black/35 dark:text-white/35">目录</div>
+                                <div id="toc" class="w-full transition-swup-fade">
+                                    <TOC headings={headings}></TOC>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
                 )}
 
                 <div class:list={["overflow-hidden", showSidebar ? "col-span-2 lg:col-span-1" : "col-span-1"]}>
@@ -124,7 +147,7 @@ const mainPanelTop = siteConfig.banner.enable
 <div class="absolute w-full z-0 hidden 2xl:block">
     <div class="relative max-w-[var(--page-width)] mx-auto">
         <!-- TOC component -->
-        {siteConfig.toc.enable && <div id="toc-wrapper" class:list={["hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center",
+        {!showLeftToc && siteConfig.toc.enable && <div id="toc-wrapper" class:list={["hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center",
             {"toc-hide": siteConfig.banner.enable}]}
         >
             <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar">
@@ -137,7 +160,7 @@ const mainPanelTop = siteConfig.banner.enable
         </div>}
 
         <!-- #toc needs to exist for Swup to work normally -->
-        {!siteConfig.toc.enable && <div id="toc"></div>}
+        {(!siteConfig.toc.enable || showLeftToc) && <div id="toc"></div>}
     </div>
 </div>
 </Layout>

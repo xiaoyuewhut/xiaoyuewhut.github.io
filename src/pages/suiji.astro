@@ -1,0 +1,120 @@
+---
+import PostCard from "@components/PostCard.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@utils/content-utils";
+import { getPostUrlBySlug } from "@utils/url-utils";
+
+const allPosts = await getSortedPosts();
+const essays = allPosts.filter(
+	(post) => (post.data.category?.trim() || "") === "随记",
+);
+
+let delay = 0;
+const interval = 50;
+---
+
+<MainGridLayout title="随记" description="记录随笔、杂感与阶段性的个人思考。">
+	<div class="card-base suiji-shell px-5 py-5 md:px-6 md:py-6">
+		<div class="suiji-header">
+			<div class="suiji-kicker">Jottings</div>
+			<h1 class="suiji-title">随记</h1>
+			<p class="suiji-description">
+				这里不放专业专题里的系统化笔记，只放随笔、片段、感受和阶段性的想法。
+			</p>
+		</div>
+
+		{essays.length > 0 ? (
+			<div class="suiji-posts">
+				{essays.map((entry) => (
+					<PostCard
+						entry={entry}
+						title={entry.data.title}
+						tags={entry.data.tags}
+						category={entry.data.category}
+						published={entry.data.published}
+						updated={entry.data.updated}
+						url={getPostUrlBySlug(entry.slug)}
+						image={entry.data.image}
+						description={entry.data.description}
+						draft={entry.data.draft}
+						class:list="onload-animation"
+						style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+					/>
+				))}
+			</div>
+		) : (
+			<div class="suiji-empty onload-animation">
+				<div class="suiji-empty__title">这里还没有随记</div>
+				<div class="suiji-empty__description">
+					以后把随笔写在 <code>学习笔记/随记/</code> 下面，这里会自动出现。
+				</div>
+			</div>
+		)}
+	</div>
+</MainGridLayout>
+
+<style>
+	.suiji-shell {
+		background:
+			radial-gradient(circle at top left, rgba(175, 118, 94, 0.08), transparent 26%),
+			linear-gradient(180deg, rgba(255, 252, 248, 0.78), rgba(255, 255, 255, 0.34));
+	}
+
+	.suiji-header {
+		padding: 0.2rem 0.1rem 1.15rem;
+		border-bottom: 1px solid rgba(73, 46, 33, 0.08);
+	}
+
+	.suiji-kicker {
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.24em;
+		text-transform: uppercase;
+		color: rgba(151, 83, 65, 0.72);
+	}
+
+	.suiji-title {
+		margin-top: 0.55rem;
+		font-size: clamp(2rem, 3vw, 2.75rem);
+		line-height: 1.15;
+		font-weight: 700;
+		color: rgba(27, 21, 18, 0.92);
+	}
+
+	.suiji-description {
+		margin-top: 0.85rem;
+		max-width: 42rem;
+		font-size: 0.96rem;
+		line-height: 1.9;
+		color: rgba(27, 21, 18, 0.58);
+	}
+
+	.suiji-posts {
+		margin-top: 1.1rem;
+	}
+
+	.suiji-empty {
+		margin-top: 1.2rem;
+		min-height: 16rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 1.5rem 1.25rem;
+		border-radius: 1.1rem;
+		border: 1px dashed rgba(98, 67, 51, 0.2);
+		background: rgba(250, 244, 236, 0.72);
+	}
+
+	.suiji-empty__title {
+		font-size: 1rem;
+		font-weight: 700;
+		color: rgba(27, 21, 18, 0.88);
+	}
+
+	.suiji-empty__description {
+		margin-top: 0.6rem;
+		font-size: 0.92rem;
+		line-height: 1.9;
+		color: rgba(27, 21, 18, 0.56);
+	}
+</style>

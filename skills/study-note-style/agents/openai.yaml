@@ -1,0 +1,4 @@
+interface:
+  display_name: "学习笔记风格"
+  short_description: "学习笔记写作风格、结构层级与 Mermaid 使用规范"
+  default_prompt: "Use $study-note-style 按照克制、专业、层次分明的学习笔记风格来起草或润色内容，在合适时把知识点落实到实际工程场景，并只在确有必要时使用 Mermaid 图。"

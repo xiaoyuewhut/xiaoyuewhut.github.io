@@ -11,6 +11,7 @@ import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
 import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
+import PostShare from "../../components/PostShare.astro";
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 
@@ -26,6 +27,7 @@ const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
 
 const { remarkPluginFrontmatter } = await entry.render();
+const shareUrl = new URL(getPostUrlBySlug(entry.slug), Astro.site).toString();
 
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -94,6 +96,12 @@ const jsonLd = {
                 ></PostMetadata>
                 {!entry.data.image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
             </div>
+
+			<PostShare
+				title={entry.data.title}
+				url={shareUrl}
+				description={entry.data.description || entry.data.title}
+			/>
 
             <!-- always show cover as long as it has one -->
 

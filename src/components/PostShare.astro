@@ -1,0 +1,227 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	title: string;
+	url: string;
+	description?: string;
+}
+
+const { title, url, description = "" } = Astro.props;
+const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=0&data=${encodeURIComponent(url)}`;
+---
+
+<section
+	class="post-share onload-animation mb-6 rounded-2xl border border-[var(--card-border)] bg-[color-mix(in_oklab,var(--card-bg)_82%,transparent)] px-4 py-4 md:px-5"
+	data-share-panel
+	data-share-title={title}
+	data-share-url={url}
+	data-share-description={description}
+	aria-label="文章分享"
+>
+	<div class="post-share__layout">
+		<div class="post-share__main">
+			<div class="post-share__header">
+				<div class="post-share__title">分享这篇文章</div>
+				<div class="post-share__hint">用微信扫一扫打开文章后，再从右上角菜单分享到朋友圈。</div>
+			</div>
+
+			<div class="post-share__actions">
+				<button
+					type="button"
+					class="post-share__button"
+					data-share-action="native"
+					onclick="window.__postShareHandleAction?.(this)"
+				>
+					<Icon name="fa6-solid:share-nodes" class="post-share__icon" />
+					<span>系统分享</span>
+				</button>
+
+				<button
+					type="button"
+					class="post-share__button"
+					data-share-action="copy"
+					onclick="window.__postShareHandleAction?.(this)"
+				>
+					<Icon name="fa6-regular:copy" class="post-share__icon" />
+					<span>复制链接</span>
+				</button>
+			</div>
+
+			<p class="post-share__status" data-share-status aria-live="polite"></p>
+		</div>
+
+		<div class="post-share__qr-block" aria-label="文章分享二维码">
+			<div class="post-share__qr-shell">
+				<img
+					src={qrCodeUrl}
+					alt={`${title} 的分享二维码`}
+					class="post-share__qr-image"
+					loading="lazy"
+					referrerpolicy="no-referrer"
+				/>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+<style>
+	.post-share__layout {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.post-share__main {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.post-share__header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.post-share__title {
+		font-size: 0.98rem;
+		font-weight: 700;
+		color: color-mix(in oklab, var(--deep-text) 88%, black 6%);
+	}
+
+	.post-share__hint,
+	.post-share__status {
+		font-size: 0.84rem;
+		line-height: 1.7;
+		color: rgba(76, 58, 42, 0.66);
+	}
+
+	.post-share__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 0.95rem;
+	}
+
+	.post-share__button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		padding: 0.72rem 1rem;
+		border-radius: 999px;
+		border: 1px solid color-mix(in oklab, var(--card-border) 88%, transparent);
+		background: color-mix(in oklab, var(--btn-regular-bg) 88%, white 12%);
+		color: color-mix(in oklab, var(--deep-text) 82%, black 4%);
+		font-size: 0.9rem;
+		font-weight: 600;
+		line-height: 1;
+		transition:
+			transform 0.2s ease,
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.post-share__button:hover {
+		transform: translateY(-1px);
+		background: color-mix(in oklab, var(--btn-regular-bg-hover) 90%, white 10%);
+		border-color: color-mix(in oklab, var(--primary) 22%, var(--card-border));
+		box-shadow: 0 10px 22px -18px rgba(108, 70, 44, 0.42);
+	}
+
+	.post-share__button:active {
+		transform: scale(0.97);
+		background: color-mix(in oklab, var(--btn-regular-bg-active) 92%, white 8%);
+	}
+
+	.post-share__icon {
+		font-size: 1rem;
+	}
+
+	.post-share__status {
+		margin-top: 0.6rem;
+	}
+
+	.post-share__status:empty {
+		display: none;
+	}
+
+	.post-share__status[data-state="success"] {
+		color: color-mix(in oklab, var(--primary) 70%, #2d6a4f 30%);
+	}
+
+	.post-share__status[data-state="error"] {
+		color: #b42318;
+	}
+
+	.post-share__qr-block {
+		display: flex;
+		flex: 0 0 auto;
+		justify-content: flex-end;
+		align-self: flex-start;
+	}
+
+	.post-share__qr-shell {
+		width: 7rem;
+		padding: 0.35rem;
+		border-radius: 0.75rem;
+		background: white;
+		border: 1px solid rgba(76, 58, 42, 0.08);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	}
+
+	.post-share__qr-image {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 0.7rem;
+	}
+
+	:root.dark .post-share__hint,
+	:root.dark .post-share__status {
+		color: rgba(232, 224, 214, 0.64);
+	}
+
+	:root.dark .post-share__title {
+		color: rgba(248, 244, 239, 0.92);
+	}
+
+	:root.dark .post-share__button {
+		background: color-mix(in oklab, var(--btn-regular-bg) 76%, rgba(255, 255, 255, 0.02) 24%);
+		color: rgba(245, 239, 232, 0.88);
+	}
+
+	:root.dark .post-share__button:hover {
+		border-color: color-mix(in oklab, var(--primary) 30%, var(--card-border));
+		box-shadow: 0 12px 24px -20px rgba(0, 0, 0, 0.65);
+	}
+
+	:root.dark .post-share__qr-shell {
+		background: white;
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+
+	@media (max-width: 640px) {
+		.post-share__layout {
+			flex-direction: column;
+		}
+
+		.post-share__actions {
+			flex-direction: column;
+		}
+
+		.post-share__button {
+			justify-content: center;
+			width: 100%;
+		}
+
+		.post-share__qr-block {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>

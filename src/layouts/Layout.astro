@@ -55,6 +55,7 @@ if (title) {
 } else {
 	pageTitle = `${siteConfig.title} - ${siteConfig.subtitle}`;
 }
+const socialImage = new URL(url("/favicon/favicon-light-192.png"), Astro.site).toString();
 
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
@@ -90,6 +91,8 @@ const bannerOffset =
 		<meta property="og:url" content={Astro.url}>
 		<meta property="og:title" content={pageTitle}>
 		<meta property="og:description" content={description || pageTitle}>
+		<meta property="og:image" content={socialImage}>
+		<meta property="og:image:alt" content={siteConfig.title}>
 		{setOGTypeArticle ? (
         <meta property="og:type" content="article" />
         ) : (
@@ -100,6 +103,7 @@ const bannerOffset =
 		<meta property="twitter:url" content={Astro.url}>
 		<meta name="twitter:title" content={pageTitle}>
 		<meta name="twitter:description" content={description || pageTitle}>
+		<meta name="twitter:image" content={socialImage}>
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
@@ -568,6 +572,70 @@ if (window.swup) {
 	setup()
 } else {
 	document.addEventListener("swup:enable", setup)
+}
+</script>
+
+<script is:inline>
+if (!window.__postShareBound) {
+	window.__postShareBound = true;
+
+	const setStatus = (panel, message, state = "success") => {
+		const status = panel?.querySelector("[data-share-status]");
+		if (!(status instanceof HTMLElement)) return;
+		status.textContent = message;
+		status.dataset.state = state;
+	};
+
+	const copyText = async (text) => {
+		if (navigator.clipboard?.writeText) {
+			await navigator.clipboard.writeText(text);
+			return;
+		}
+
+		const textarea = document.createElement("textarea");
+		textarea.value = text;
+		textarea.setAttribute("readonly", "");
+		textarea.style.position = "absolute";
+		textarea.style.left = "-9999px";
+		document.body.appendChild(textarea);
+		textarea.select();
+		document.execCommand("copy");
+		textarea.remove();
+	};
+
+	window.__postShareHandleAction = async (button) => {
+		if (!(button instanceof HTMLElement)) return;
+
+		const panel = button.closest("[data-share-panel]");
+		if (!(panel instanceof HTMLElement)) return;
+
+		const title = panel.dataset.shareTitle || document.title;
+		const url = panel.dataset.shareUrl || window.location.href;
+		const description = panel.dataset.shareDescription || "";
+		const action = button.dataset.shareAction;
+
+		try {
+			if (action === "native") {
+				if (navigator.share) {
+					await navigator.share({ title, text: description, url });
+					setStatus(panel, "已调起系统分享面板。");
+				} else {
+					await copyText(url);
+					setStatus(panel, "当前浏览器不支持系统分享，链接已复制。");
+				}
+				return;
+			}
+
+			if (action === "copy") {
+				await copyText(url);
+				setStatus(panel, "文章链接已复制。");
+				return;
+			}
+		} catch (error) {
+			console.error(error);
+			setStatus(panel, "分享失败了，请稍后重试。", "error");
+		}
+	};
 }
 </script>
 

@@ -329,9 +329,12 @@ function normalizeSequentialPublishedDates(notes) {
     return;
   }
 
-  const baseDate = parseDateString(flexibleNotes[0].published) || new Date();
+  // Anchor the newest generated note to "today", then lay out older notes
+  // one per day backwards so the timeline never spills into the future.
+  const baseDate = new Date();
+  const startDate = addDays(baseDate, -(flexibleNotes.length - 1));
   flexibleNotes.forEach((note, index) => {
-    note.published = formatDate(addDays(baseDate, index));
+    note.published = formatDate(addDays(startDate, index));
   });
 }
 

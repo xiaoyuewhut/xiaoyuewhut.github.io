@@ -12,7 +12,8 @@ This repository is an Astro-backed static site based on the Fuwari theme. Source
 ## Deployment Workflow
 - Treat `学习笔记/` as the only source of truth for content edits.
 - The working branch is `source`; pushing `source` triggers `.github/workflows/deploy.yml`.
-- That workflow builds the Astro site and publishes `dist/` to the `main` branch, which serves the live GitHub Pages site.
+- The repository must have `Settings > Pages > Build and deployment > Source` set to `GitHub Actions`.
+- The deploy workflow builds the Astro site and publishes the `dist/` artifact through GitHub Pages actions.
 - Do not manually edit `main` for content updates unless the user explicitly asks for a hotfix on the deployed static branch.
 - For article publishing requests, update `学习笔记/`, ensure `npm run build` passes locally when feasible, then commit and push `source`.
 

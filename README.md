@@ -34,8 +34,9 @@ npm run sync:notes
 
 - Authoring happens on the `source` branch.
 - Pushing `source` triggers `.github/workflows/deploy.yml`.
-- That workflow builds the site and publishes the generated `dist/` output to the `main` branch.
-- GitHub Pages serves the live site from `main`, so new notes should be shipped by pushing `source`, not by manually editing `main`.
+- In repository settings, `Settings > Pages > Build and deployment > Source` should be set to `GitHub Actions`.
+- The workflow builds the site and publishes the generated `dist/` artifact through GitHub Pages actions.
+- After that one-time Pages setting is enabled, new notes should be shipped by pushing `source`.
 
 ## Notes
 

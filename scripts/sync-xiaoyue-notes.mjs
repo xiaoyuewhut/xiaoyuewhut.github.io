@@ -242,6 +242,21 @@ function formatDate(date) {
   return `${year}-${month}-${day}`;
 }
 
+function parseDateString(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return null;
+  }
+
+  const [year, month, day] = value.split("-").map((part) => Number.parseInt(part, 10));
+  return new Date(year, month - 1, day);
+}
+
+function addDays(date, days) {
+  const next = new Date(date);
+  next.setDate(next.getDate() + days);
+  return next;
+}
+
 function inferPublishedDateFromGit(filePath) {
   try {
     const output = execFileSync(
@@ -269,22 +284,55 @@ function inferPublishedDateFromGit(filePath) {
   }
 }
 
-function inferPublishedDate(filePath, relPath, data) {
+function inferPublishedDateInfo(filePath, relPath, data) {
   if (typeof data.published === "string" && data.published.trim()) {
-    return data.published.trim();
+    return {
+      published: data.published.trim(),
+      fixed: true,
+    };
   }
 
   const basename = path.basename(relPath, ".md");
   if (/^\d{4}-\d{2}-\d{2}$/.test(basename)) {
-    return basename;
+    return {
+      published: basename,
+      fixed: true,
+    };
   }
 
   const gitPublishedDate = inferPublishedDateFromGit(filePath);
   if (gitPublishedDate) {
-    return gitPublishedDate;
+    return {
+      published: gitPublishedDate,
+      fixed: false,
+    };
   }
 
-  return formatDate(statSync(filePath).mtime);
+  return {
+    published: formatDate(statSync(filePath).mtime),
+    fixed: false,
+  };
+}
+
+function normalizeSequentialPublishedDates(notes) {
+  const flexibleNotes = notes
+    .filter((note) => !note.publishedFixed)
+    .sort((a, b) => {
+      if (a.published === b.published) {
+        return a.relPath.localeCompare(b.relPath, "zh-CN");
+      }
+
+      return a.published.localeCompare(b.published);
+    });
+
+  if (flexibleNotes.length === 0) {
+    return;
+  }
+
+  const baseDate = parseDateString(flexibleNotes[0].published) || new Date();
+  flexibleNotes.forEach((note, index) => {
+    note.published = formatDate(addDays(baseDate, index));
+  });
 }
 
 function deriveTags(relPath, data) {
@@ -353,6 +401,7 @@ function main() {
     const category = data.category || (relPath.includes(path.sep) ? relPath.split(path.sep)[0] : "随记");
     const slug = buildSlug(relPath);
     const route = buildPostRoute(slug);
+    const publishedInfo = inferPublishedDateInfo(filePath, relPath, data);
 
     const note = {
       sourcePath: filePath,
@@ -366,7 +415,8 @@ function main() {
       tags: deriveTags(relPath, data),
       body,
       description: excerptFrom(body) || title,
-      published: inferPublishedDate(filePath, relPath, data),
+      published: publishedInfo.published,
+      publishedFixed: publishedInfo.fixed,
       updated: formatDate(statSync(filePath).mtime),
     };
 
@@ -374,6 +424,8 @@ function main() {
     noteLookup.set(title, note);
     return note;
   });
+
+  normalizeSequentialPublishedDates(notes);
 
   for (const note of notes) {
     ensureDir(path.dirname(note.outputPath));

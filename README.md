@@ -30,6 +30,13 @@ npm run sync:notes
 3. Verify the generated site locally.
 4. Run `npm run build` before shipping changes.
 
+## Deployment
+
+- Authoring happens on the `source` branch.
+- Pushing `source` triggers `.github/workflows/deploy.yml`.
+- That workflow builds the site and publishes the generated `dist/` output to the `main` branch.
+- GitHub Pages serves the live site from `main`, so new notes should be shipped by pushing `source`, not by manually editing `main`.
+
 ## Notes
 
 - The site keeps the Fuwari theme structure in `src/`.

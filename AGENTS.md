@@ -9,6 +9,13 @@ This repository is an Astro-backed static site based on the Fuwari theme. Source
 - `npm run build`: produce the production bundle in `dist/`; use this as the main smoke test.
 - `npm run preview`: serve the built output locally to verify the production result.
 
+## Deployment Workflow
+- Treat `学习笔记/` as the only source of truth for content edits.
+- The working branch is `source`; pushing `source` triggers `.github/workflows/deploy.yml`.
+- That workflow builds the Astro site and publishes `dist/` to the `main` branch, which serves the live GitHub Pages site.
+- Do not manually edit `main` for content updates unless the user explicitly asks for a hotfix on the deployed static branch.
+- For article publishing requests, update `学习笔记/`, ensure `npm run build` passes locally when feasible, then commit and push `source`.
+
 ## Coding Style & Naming Conventions
 Use 2-space indentation in HTML, CSS, and JavaScript. Follow the existing style in `src/` and `scripts/sync-xiaoyue-notes.mjs`: ES modules, `const`/`let`, semicolons, and small focused helpers. Keep CSS class names descriptive and kebab-case. When adding content, prefer lower-case slugs and preserve `学习笔记/` as the source of truth.
 

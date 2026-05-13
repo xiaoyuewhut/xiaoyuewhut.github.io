@@ -1,7 +1,7 @@
 ---
 title: "CAN Bus-Off 详解"
 slug: "整车通信与诊断/can-bus-off-详解"
-published: 2026-04-29
+published: 2026-04-27
 updated: 2026-04-29
 description: "理解 Bus Off，需要沿着错误计数器往前追。Bus Off 的上游是错误计数器，错误计数器的上游是发送和接收过程中的具体失败。分析时要同时看三个对象：CAN 控制器、错误计数器 TEC 与 REC 、错误状态机。"
 tags: ["CAN", "Bus-Off", "TEC", "REC", "故障处理"]

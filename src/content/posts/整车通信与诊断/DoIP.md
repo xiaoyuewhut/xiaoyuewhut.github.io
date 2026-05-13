@@ -1,7 +1,7 @@
 ---
 title: "DoIP 诊断协议"
 slug: "整车通信与诊断/doip"
-published: 2026-05-05
+published: 2026-04-28
 updated: 2026-05-05
 description: "IANA 还登记了 doip data 和 doip disc ，二者都映射到 13400 端口，前者走 TCP ，后者走 UDP 。这也是 DoIP 在工程里最直观的入口形态。"
 tags: ["整车网络", "整车诊断", "DoIP", "UDS", "车载以太网", "ISO-13400"]

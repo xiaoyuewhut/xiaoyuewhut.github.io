@@ -1,7 +1,7 @@
 ---
 title: "L2 L3 智驾 驾驶员 HMI 与接管机制"
 slug: "智驾系统开发/l2-l3-智驾-驾驶员-hmi-与接管机制"
-published: 2026-04-17
+published: 2026-05-09
 updated: 2026-04-17
 description: "DMS 如何判断驾驶员状态、TOR 如何组织控制权交接，以及 HMI 为什么必须采用多模态提示？"
 tags: ["智驾", "HMI", "接管", "DMS", "L2", "L3"]

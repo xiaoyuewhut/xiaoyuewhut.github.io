@@ -1,7 +1,7 @@
 ---
 title: "TSMixer 时序预测详解"
 slug: "深度学习/tsmixer-时序预测"
-published: 2026-04-21
+published: 2026-04-19
 updated: 2026-04-21
 description: "本文只讨论 TSMixer 最典型的使用语境，也就是固定窗口、多变量、直接多步预测。文中 MLP 指若干层全连接网络，batch 输入记作 $\\mathbf{X} \\in \\mathbb{R}^{B \\times L \\times C}$，预测目标记作 $\\mathbf{Y} \\"
 tags: ["深度学习", "时序预测", "TSMixer", "LSTM", "MLP-Mixer"]

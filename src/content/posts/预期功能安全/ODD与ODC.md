@@ -1,7 +1,7 @@
 ---
 title: "ODD与ODC"
 slug: "预期功能安全/odd与odc"
-published: 2026-04-16
+published: 2026-04-21
 updated: 2026-04-16
 description: "更直白地说，ODD 定义的是系统的设计运行范围，也就是："
 tags: ["智驾", "设计运行域", "设计运行条件"]

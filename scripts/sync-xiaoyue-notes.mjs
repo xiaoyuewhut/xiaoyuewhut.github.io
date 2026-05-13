@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -241,6 +242,33 @@ function formatDate(date) {
   return `${year}-${month}-${day}`;
 }
 
+function inferPublishedDateFromGit(filePath) {
+  try {
+    const output = execFileSync(
+      "git",
+      [
+        "log",
+        "--follow",
+        "--diff-filter=A",
+        "--format=%ad",
+        "--date=format:%Y-%m-%d",
+        "--",
+        filePath,
+      ],
+      {
+        cwd: ROOT_DIR,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      },
+    ).trim();
+
+    const firstLine = output.split("\n").find(Boolean);
+    return firstLine || "";
+  } catch {
+    return "";
+  }
+}
+
 function inferPublishedDate(filePath, relPath, data) {
   if (typeof data.published === "string" && data.published.trim()) {
     return data.published.trim();
@@ -249,6 +277,11 @@ function inferPublishedDate(filePath, relPath, data) {
   const basename = path.basename(relPath, ".md");
   if (/^\d{4}-\d{2}-\d{2}$/.test(basename)) {
     return basename;
+  }
+
+  const gitPublishedDate = inferPublishedDateFromGit(filePath);
+  if (gitPublishedDate) {
+    return gitPublishedDate;
   }
 
   return formatDate(statSync(filePath).mtime);

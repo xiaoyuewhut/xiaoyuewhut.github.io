@@ -41,9 +41,9 @@ export const siteConfig: SiteConfig = {
 export const navBarConfig: NavBarConfig = {
 	links: [
 		{ name: "首页", url: "/" },
-		{ name: "随记", url: "/suiji/" },
 		{ name: "时间线", url: "/timeline/" },
 		{ name: "专题", url: "/studies/" },
+		{ name: "随记", url: "/suiji/" },
 		{ name: "关于", url: "/about/" },
 	],
 };

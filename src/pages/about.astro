@@ -1,25 +1,387 @@
 ---
-
-import { getEntry, render } from "astro:content";
-import Markdown from "@components/misc/Markdown.astro";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
+import { Icon } from "astro-icon/components";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
-
-const aboutPost = await getEntry("spec", "about");
-
-if (!aboutPost) {
-	throw new Error("About page content not found");
-}
-
-const { Content } = await render(aboutPost);
 ---
-<MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-        <div class="card-base z-10 px-9 py-6 relative w-full ">
-            <Markdown class="mt-2">
-                <Content />
-            </Markdown>
-        </div>
-    </div>
+
+<MainGridLayout title="关于" description="教育经历、工作经历与技术栈">
+	<div class="about-shell space-y-5">
+		<section class="about-hero card-base overflow-hidden px-6 py-7 md:px-8 md:py-9">
+			<div class="about-hero__glow"></div>
+			<div class="about-hero__grid">
+				<div class="relative z-10 max-w-[60rem]">
+					<div class="mb-3 inline-flex items-center rounded-full border border-[rgba(150,94,73,0.18)] bg-white/55 px-3 py-1 text-xs tracking-[0.18em] text-50 dark:bg-white/5">
+						教育经历 / 工作经历 / 技术栈
+					</div>
+					<h1 class="font-display text-4xl font-bold text-90 md:text-[3.35rem] md:leading-[1.08]">
+						关于
+					</h1>
+					<p class="mt-4 text-lg leading-8 text-[color:var(--deep-text)]/88">
+						当前主要聚焦智能驾驶功能开发、整车通信与诊断、功能安全，以及车辆动力学与控制相关工作。
+					</p>
+					<div class="mt-6 flex flex-wrap gap-3">
+						<span class="about-chip">智能驾驶功能开发</span>
+						<span class="about-chip">整车通信与诊断</span>
+						<span class="about-chip">功能安全</span>
+						<span class="about-chip">车辆动力学与控制</span>
+					</div>
+				</div>
+
+				<div class="about-summary-grid">
+					<div class="about-summary-card">
+						<div class="about-summary-card__icon">
+							<Icon name="material-symbols:school-outline-rounded" class="text-[1.2rem]" />
+						</div>
+						<div>
+							<div class="about-summary-card__label">教育路径</div>
+							<div class="about-summary-card__value">本硕均在交通工程相关方向完成</div>
+						</div>
+					</div>
+					<div class="about-summary-card">
+						<div class="about-summary-card__icon">
+							<Icon name="material-symbols:memory-outline-rounded" class="text-[1.2rem]" />
+						</div>
+						<div>
+							<div class="about-summary-card__label">工程实践</div>
+							<div class="about-summary-card__value">覆盖域控、EOL 电检、刷写与验证</div>
+						</div>
+					</div>
+					<div class="about-summary-card">
+						<div class="about-summary-card__icon">
+							<Icon name="material-symbols:modeling-rounded" class="text-[1.2rem]" />
+						</div>
+						<div>
+							<div class="about-summary-card__label">技术重心</div>
+							<div class="about-summary-card__value">控制、诊断、安全与系统设计</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="grid gap-5 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
+			<div class="space-y-5">
+				<section class="about-panel card-base px-6 py-6 md:px-8">
+					<div class="about-panel__header">
+						<div class="about-title">教育经历</div>
+						<div class="about-panel__rule"></div>
+					</div>
+					<div class="mt-5 space-y-5">
+						<div class="about-entry about-entry--timeline">
+							<div class="about-entry__dot"></div>
+							<div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+								<div>
+									<h2 class="font-display text-[1.75rem] font-bold text-90">武汉理工大学</h2>
+									<p class="mt-1 text-base leading-7 text-[color:var(--deep-text)]/86">
+										交通运输工程，学术型硕士研究生
+									</p>
+									<p class="text-sm leading-7 text-50">
+										研究方向包括车辆动力学与控制、自动驾驶控制。
+									</p>
+								</div>
+								<div class="about-date">2023.9 - 2026.6</div>
+							</div>
+						</div>
+
+						<div class="about-entry about-entry--timeline">
+							<div class="about-entry__dot"></div>
+							<div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+								<div>
+									<h2 class="font-display text-[1.75rem] font-bold text-90">武汉理工大学</h2>
+									<p class="mt-1 text-base leading-7 text-[color:var(--deep-text)]/86">
+										交通工程，工学学士
+									</p>
+								</div>
+								<div class="about-date">2019.9 - 2023.6</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="about-panel card-base px-6 py-6 md:px-8">
+					<div class="about-panel__header">
+						<div class="about-title">工作经历</div>
+						<div class="about-panel__rule"></div>
+					</div>
+					<div class="mt-5">
+						<div class="about-entry about-entry--timeline">
+							<div class="about-entry__dot"></div>
+							<div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+								<div>
+									<h2 class="font-display text-[1.75rem] font-bold text-90">理想汽车</h2>
+									<p class="mt-1 text-base leading-7 text-[color:var(--deep-text)]/86">
+										域控方向实习经历
+									</p>
+								</div>
+								<div class="about-date">2025.6 - 2025.9</div>
+							</div>
+							<ul class="mt-4 space-y-3 text-base leading-8 text-[color:var(--deep-text)]/86">
+								<li>参与整车域控相关的试生产、投产和量产支持工作，围绕问题闭环、功能设计和验证推进交付。</li>
+								<li>参与 EOL 电检、软件刷写与版本管理相关工作，支持量产阶段的一致性与问题定位。</li>
+								<li>结合工程工具和自动化思路，处理业务分析、数据整理与效率优化任务。</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<div class="space-y-5">
+				<section class="about-panel card-base px-6 py-6 md:px-7">
+					<div class="about-panel__header">
+						<div class="about-title">技术栈</div>
+						<div class="about-panel__rule"></div>
+					</div>
+					<div class="about-stack-grid mt-5">
+						<div class="about-stack-card">
+							<div class="about-stack-card__eyebrow">智能驾驶功能开发</div>
+							<p class="mt-3">熟悉 ACC、APA、APO 等智能驾驶功能的系统设计、状态机定义、接口梳理与性能指标拆解。</p>
+						</div>
+						<div class="about-stack-card">
+							<div class="about-stack-card__eyebrow">整车通信与诊断</div>
+							<p class="mt-3">熟悉 CAN / CAN FD、车载以太网、UDP / TCP、UDS、DTC、刷写链路与 OTA 相关 ECU 问题分析。</p>
+						</div>
+						<div class="about-stack-card">
+							<div class="about-stack-card__eyebrow">功能安全</div>
+							<p class="mt-3">熟悉 HARA、ASIL、Safety Goal、FSR、TSR 等功能安全基本流程与文档体系。</p>
+						</div>
+						<div class="about-stack-card">
+							<div class="about-stack-card__eyebrow">控制与仿真</div>
+							<p class="mt-3">具备车辆动力学与控制建模基础，熟悉 MATLAB / Simulink、CarSim 等分析与仿真工具。</p>
+						</div>
+						<div class="about-stack-card">
+							<div class="about-stack-card__eyebrow">编程与工程工具</div>
+							<p class="mt-3">具备 Python、C++ 的使用经验，能够结合 AI 工具提升文档输出、资料整理和工程支持效率。</p>
+						</div>
+					</div>
+				</section>
+
+				<section class="about-panel card-base px-6 py-6 md:px-7">
+					<div class="about-panel__header">
+						<div class="about-title">关注方向</div>
+						<div class="about-panel__rule"></div>
+					</div>
+					<div class="mt-5 flex flex-wrap gap-3">
+						<span class="about-chip">智能驾驶功能开发</span>
+						<span class="about-chip">整车通信与诊断</span>
+						<span class="about-chip">功能安全</span>
+						<span class="about-chip">车辆动力学与控制</span>
+						<span class="about-chip">域控制器工程</span>
+					</div>
+				</section>
+			</div>
+		</section>
+	</div>
 </MainGridLayout>
+
+<style>
+	.about-shell {
+		margin-bottom: 1rem;
+	}
+
+	.about-hero {
+		position: relative;
+		background:
+			radial-gradient(circle at top left, rgba(169, 108, 86, 0.14), transparent 26%),
+			radial-gradient(circle at 85% 18%, rgba(207, 182, 149, 0.14), transparent 24%),
+			linear-gradient(180deg, rgba(255, 252, 248, 0.78), rgba(255, 255, 255, 0.36));
+	}
+
+	.about-hero__glow {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background:
+			linear-gradient(120deg, rgba(255, 255, 255, 0.24), transparent 38%),
+			linear-gradient(180deg, transparent, rgba(133, 86, 67, 0.04));
+	}
+
+	.about-hero__grid {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.about-summary-grid {
+		display: grid;
+		gap: 0.9rem;
+	}
+
+	.about-summary-card {
+		display: grid;
+		grid-template-columns: 2.5rem minmax(0, 1fr);
+		gap: 0.85rem;
+		align-items: start;
+		padding: 1rem 1rem 1rem 0.95rem;
+		border-radius: 1rem;
+		border: 1px solid rgba(150, 94, 73, 0.12);
+		background: rgba(255, 255, 255, 0.56);
+		backdrop-filter: blur(10px);
+	}
+
+	.about-summary-card__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 0.85rem;
+		background: rgba(165, 103, 84, 0.12);
+		color: var(--primary);
+	}
+
+	.about-summary-card__label {
+		font-size: 0.78rem;
+		letter-spacing: 0.14em;
+		color: rgba(78, 63, 49, 0.56);
+	}
+
+	.about-summary-card__value {
+		margin-top: 0.3rem;
+		font-size: 1rem;
+		line-height: 1.7;
+		color: rgba(36, 28, 24, 0.88);
+	}
+
+	.about-panel {
+		position: relative;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.38));
+	}
+
+	.about-panel__header {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+	}
+
+	.about-panel__rule {
+		flex: 1;
+		height: 1px;
+		background: linear-gradient(90deg, rgba(150, 94, 73, 0.18), transparent);
+	}
+
+	.about-title {
+		font-size: 0.9rem;
+		letter-spacing: 0.16em;
+		color: rgba(78, 63, 49, 0.72);
+	}
+
+	.about-entry--timeline {
+		position: relative;
+		padding-left: 1.2rem;
+	}
+
+	.about-entry__dot {
+		position: absolute;
+		top: 0.35rem;
+		left: 0;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 999px;
+		background: var(--primary);
+		box-shadow: 0 0 0 5px rgba(165, 103, 84, 0.12);
+	}
+
+	.about-entry + .about-entry {
+		margin-top: 1.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line-color);
+	}
+
+	.about-date {
+		white-space: nowrap;
+		font-size: 0.95rem;
+		color: rgba(78, 63, 49, 0.62);
+	}
+
+	.about-stack-grid {
+		display: grid;
+		gap: 0.9rem;
+	}
+
+	.about-stack-card {
+		padding: 1rem 1rem 1.05rem;
+		border-radius: 1rem;
+		border: 1px solid rgba(150, 94, 73, 0.1);
+		background: rgba(255, 255, 255, 0.55);
+		line-height: 1.9;
+		color: rgba(36, 28, 24, 0.84);
+	}
+
+	.about-stack-card__eyebrow {
+		font-size: 0.76rem;
+		letter-spacing: 0.16em;
+		color: rgba(78, 63, 49, 0.58);
+	}
+
+	.about-chip {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		border: 1px solid var(--line-color);
+		background: var(--btn-regular-bg);
+		padding: 0.56rem 1rem;
+		font-size: 0.9rem;
+		color: rgba(78, 63, 49, 0.78);
+	}
+
+	@media (min-width: 1024px) {
+		.about-hero__grid {
+			grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 22rem);
+			align-items: end;
+		}
+
+		.about-stack-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 767px) {
+		.about-summary-card__value {
+			font-size: 0.95rem;
+		}
+
+		.about-date {
+			font-size: 0.88rem;
+		}
+	}
+
+	:root.dark .about-title,
+	:root.dark .about-date,
+	:root.dark .about-chip,
+	:root.dark .about-summary-card__label,
+	:root.dark .about-stack-card__eyebrow {
+		color: rgba(255, 248, 242, 0.72);
+	}
+
+	:root.dark .about-hero {
+		background:
+			radial-gradient(circle at top left, rgba(169, 108, 86, 0.16), transparent 26%),
+			radial-gradient(circle at 85% 18%, rgba(207, 182, 149, 0.08), transparent 24%),
+			linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+	}
+
+	:root.dark .about-summary-card,
+	:root.dark .about-stack-card,
+	:root.dark .about-panel {
+		background: color-mix(in oklab, var(--card-bg) 76%, transparent);
+	}
+
+	:root.dark .about-summary-card {
+		border-color: rgba(255, 248, 242, 0.08);
+	}
+
+	:root.dark .about-summary-card__icon {
+		background: rgba(255, 248, 242, 0.08);
+	}
+
+	:root.dark .about-summary-card__value,
+	:root.dark .about-stack-card {
+		color: rgba(255, 248, 242, 0.84);
+	}
+
+	:root.dark .about-chip {
+		background: color-mix(in oklab, var(--btn-regular-bg) 88%, transparent);
+	}
+</style>

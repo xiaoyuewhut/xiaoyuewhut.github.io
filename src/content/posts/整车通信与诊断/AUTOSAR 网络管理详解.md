@@ -1,7 +1,7 @@
 ---
 title: "AUTOSAR 网络管理详解"
 slug: "整车通信与诊断/autosar-网络管理详解"
-published: 2026-04-25
+published: 2026-05-09
 updated: 2026-04-25
 description: "在 Classic Platform 中，网络管理通常围绕 ComM 、 Nm 、 NmIf 、 BusNm 和状态管理模块展开。工程上最常见的是 CanNm ，但同一套抽象也覆盖 FrNm 、 UdpNm 等总线类型。"
 tags: ["AUTOSAR", "网络管理", "ComM", "CanNm", "整车通信"]

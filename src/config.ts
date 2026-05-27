@@ -44,7 +44,6 @@ export const navBarConfig: NavBarConfig = {
 		{ name: "时间线", url: "/timeline/" },
 		{ name: "专题", url: "/studies/" },
 		{ name: "随记", url: "/suiji/" },
-		{ name: "关于", url: "/about/" },
 	],
 };
 

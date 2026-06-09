@@ -351,6 +351,18 @@ function deriveTags(relPath, data) {
   return [...new Set(segments.slice(0, -1))];
 }
 
+function inferDraft(data) {
+  if (typeof data.draft === "boolean") {
+    return data.draft;
+  }
+
+  if (typeof data.draft === "string") {
+    return data.draft.trim().toLowerCase() === "true";
+  }
+
+  return false;
+}
+
 function toFrontmatter(note) {
   const lines = [
     "---",
@@ -361,7 +373,7 @@ function toFrontmatter(note) {
     `description: ${yamlString(note.description)}`,
     `tags: [${note.tags.map((tag) => yamlString(tag)).join(", ")}]`,
     `category: ${yamlString(note.category)}`,
-    "draft: false",
+    `draft: ${note.draft ? "true" : "false"}`,
     "---",
     "",
   ];
@@ -420,6 +432,7 @@ function main() {
       description: excerptFrom(body) || title,
       published: publishedInfo.published,
       publishedFixed: publishedInfo.fixed,
+      draft: inferDraft(data),
       updated: formatDate(statSync(filePath).mtime),
     };
 

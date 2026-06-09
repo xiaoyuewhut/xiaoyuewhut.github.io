@@ -1510,3 +1510,589 @@ $$120 / 3.6 \times 1.7 \approx 57 \mathrm{m}$$
 | V2X | CCRH、C2C SCPO 等高速或遮挡增强场景 | 适合作为遮挡和远距离场景增强信息，但不应替代基本传感器感知能力。 |
 
 > ✅ 选型建议：<span style="background-color: rgba(255, 246, 122, 0.8);"><strong>基础覆盖可按“前视摄像头 + 前向毫米波雷达 + 后角雷达”起步</strong></span>；若要更稳地覆盖路口横穿、遮挡、ELK、DOW/RCTA 等场景，应增加前角雷达，并把传感器规格写成“目标类型 + ODD + 有效距离 + 精度 + 时延 + 输出字段”的组合要求。
+
+## 7. C-NCAP 2027
+
+C-NCAP 2027版规程已于2026年发布，计划自2027年7月1日起正式实施。
+
+### 7.1. 相比 2024 版总体变化
+
+#### 评价体系本身更严
+
+> 💡 2027 版不是只调整综合分门槛，而是进一步强化“综合分 + 分板块最低线”的双门槛。综合得分率公式仍为：乘员保护 × 54% + VRU 保护 × 25% + 主动安全 × 21%，但<span style="background-color: rgba(255, 246, 122, 0.8);">主动安全最低要求明显提高，并新增 VRU 行人保护最低得分率约束</span>。
+
+<table>
+	<colgroup>
+		<col width="94" />
+		<col width="125" />
+		<col width="125" />
+		<col width="138" />
+		<col width="138" />
+		<col width="155" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">星级</th>
+			<th style="vertical-align: top;">2024 主动安全最低</th>
+			<th style="vertical-align: top;">2027 主动安全最低</th>
+			<th style="vertical-align: top;">2024 VRU 行人保护最低</th>
+			<th style="vertical-align: top;">2027 VRU 行人保护最低</th>
+			<th style="vertical-align: top;">变化说明</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">5+</td>
+			<td style="vertical-align: top;">≥85%</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">≥90%</span></strong></td>
+			<td style="vertical-align: top;">未单列</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">≥65%</span></strong></td>
+			<td style="vertical-align: top;">主动安全最低线提高 5 个百分点，并新增行人保护约束。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">5 星</td>
+			<td style="vertical-align: top;">≥70%</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">≥80%</span></strong></td>
+			<td style="vertical-align: top;">≥62%</td>
+			<td style="vertical-align: top;">≥62%</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">主动安全最低线提高 10 个百分点</span></strong>，智驾/主动安全短板更难被其他板块补平。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">4 星</td>
+			<td style="vertical-align: top;">≥60%</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">≥70%</span></strong></td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">主动安全最低线提高 10 个百分点</span></strong>。</td>
+		</tr>
+	</tbody>
+</table>
+
+直观理解：2024 版已经要求综合得分和三大板块最低分同时满足；2027 版进一步把主动安全门槛抬高，尤其是 5 星和 4 星车型，主动安全不再只是“加分项”，而是影响星级上限的硬约束。
+
+#### 新增实体按键/物理控制要求
+
+<table>
+	<colgroup>
+		<col width="144" />
+		<col width="218" />
+		<col width="219" />
+		<col width="219" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">对比项</th>
+			<th style="vertical-align: top;">2024 版口径</th>
+			<th style="vertical-align: top;">2027 版口径</th>
+			<th style="vertical-align: top;">影响</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">物理操控装置</td>
+			<td style="vertical-align: top;">未作为独立扣分项突出。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增物理操控装置要求，属于扣分项</span></strong>。</td>
+			<td style="vertical-align: top;">关键驾驶控制不能完全屏幕化，转向灯、换挡、危险报警灯等功能需要保留清晰、可快速触达的实体操控入口。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">评价性质</td>
+			<td style="vertical-align: top;">主要围绕碰撞、VRU、主动安全和灯光。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">不满足要求会扣综合得分率</span></strong>。</td>
+			<td style="vertical-align: top;">智能座舱设计要兼顾极简交互和安全冗余，不能只从 UI 美观角度设计。</td>
+		</tr>
+	</tbody>
+</table>
+
+这个变化的本质，是 C-NCAP 开始约束“关键驾驶动作的可操作性”。对车型开发来说，屏幕内菜单、二级页面、语音入口不能替代所有关键安全控制。
+
+#### 乘员保护：从标准坐姿扩展到多样人群、多样姿态、事故后安全
+
+<table>
+	<colgroup>
+		<col width="175" />
+		<col width="281" />
+		<col width="344" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">变化方向</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版新增/调整</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">驾驶员假人</td>
+			<td style="vertical-align: top;">正面 100% 刚性壁障驾驶员位使用 Hybrid III 50 百分位男性假人。</td>
+			<td style="vertical-align: top;">改为 Hybrid III <strong><span style="color: #d83931;">5 百分位女性假人</span></strong>，更关注小体型驾驶员伤害。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">MPDB 壁障</td>
+			<td style="vertical-align: top;">沿用 2024 版正面 50% 重叠移动渐进变形壁障。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">更换 MPDB 移动壁障</span></strong>，提高碰撞兼容性评价要求。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">乘员多样性</td>
+			<td style="vertical-align: top;">以常规乘员保护为主。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增正面碰撞乘员多样性保护评价</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">大角度坐姿</td>
+			<td style="vertical-align: top;">标准坐姿是主线。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增大角度坐姿正面碰撞评价</span></strong>，对应智能座舱舒适坐姿/座椅后仰场景。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">离位保护</td>
+			<td style="vertical-align: top;">正面主被动离位乘员保护虚拟测评为观察项。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">从观察项转为正式评价项</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">侧碰与事故后</td>
+			<td style="vertical-align: top;">常规侧碰和约束评价为主。</td>
+			<td style="vertical-align: top;">新增 <strong><span style="color: #d83931;">近侧乘员保护</span></strong>、<strong><span style="color: #d83931;">事故后安全测试</span></strong>、<strong><span style="color: #d83931;">侧面柱碰危险工况</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">座舱提醒</td>
+			<td style="vertical-align: top;">安全带提醒已有基础要求。</td>
+			<td style="vertical-align: top;">新增 <strong><span style="color: #d83931;">第三排安全带未系提醒</span></strong>、<strong><span style="color: #d83931;">驾驶员安全带使用状态提醒</span></strong>、<strong><span style="color: #d83931;">乘员姿态监测</span></strong>。</td>
+		</tr>
+	</tbody>
+</table>
+
+乘员保护的重点从“标准假人 + 标准坐姿 + 碰撞瞬间”扩展到“不同体型、不同坐姿、离位状态、事故后救援和座舱监测”。
+
+#### VRU 保护：从“行人/二轮车”扩展到更复杂弱势交通参与者
+
+<table>
+	<colgroup>
+		<col width="181" />
+		<col width="281" />
+		<col width="338" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">项目</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版变化</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">被动行人保护</td>
+			<td style="vertical-align: top;">头型、腿型等常规行人保护评价。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增制动姿态下的行人腿型试验</span></strong>，考虑车辆制动点头后前端姿态变化。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">主动 VRU 目标物</td>
+			<td style="vertical-align: top;">以行人和二轮车为主。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增幼儿、自行车、三轮车等目标</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">主动 VRU 场景</td>
+			<td style="vertical-align: top;">常规横穿、纵向冲突、夜间等场景。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增多目标、目标变速、雨雾模拟等扩展场景</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">主动 VRU 分值</td>
+			<td style="vertical-align: top;">文档前文主要展开 AEB VRU_Ped 和 AEB VRU_TW。</td>
+			<td style="vertical-align: top;">2027 主动 VRU 避撞为 32 分：车-行人 12 分、车-二轮车 <strong><span style="color: #d83931;">17 分</span></strong>、车-三轮车 <strong><span style="color: #d83931;">3 分</span></strong>。</td>
+		</tr>
+	</tbody>
+</table>
+
+二轮车分值最高，说明 2027 版更贴近中国道路中电动自行车、自行车、踏板车等高频冲突风险。
+
+#### 主动安全/智驾：结构从 ADAS 24 分变成避撞与风险提醒 26 分
+
+> 📌 主动安全评分口径是 2024→2027 最需要重点标注的变化：2024 是 ADAS 24 分 + 灯光 10 分；2027 改为避撞与驾驶风险提醒 26 分 + 灯光 10 分 + 本地危险提醒 3 分加分项。
+
+<table>
+	<colgroup>
+		<col width="175" />
+		<col width="294" />
+		<col width="331" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">对比项</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版新口径</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">主动安全公式</td>
+			<td style="vertical-align: top;">主动安全得分率 = ADAS 实际得分 / 24 × 71.4% + 整车灯光实际得分 / 10 × 28.6%</td>
+			<td style="vertical-align: top;">主动安全得分率 =（避撞得分 + 驾驶风险提醒得分）<strong><span style="color: #d83931;">/ 26</span></strong> × 71.4% + 灯光 / 10 × 28.6% + <strong><span style="color: #d83931;">本地危险提醒 / 3 × 4.76%</span></strong></td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">ADAS/智驾主块</td>
+			<td style="vertical-align: top;">ADAS 块满分 24 分。</td>
+			<td style="vertical-align: top;">避撞与驾驶风险提醒主块变为 <strong><span style="color: #d83931;">26 分</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">本地危险提醒</td>
+			<td style="vertical-align: top;">未计入主动安全公式。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增 3 分加分项，权重 4.76%</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">报告审核项上限</td>
+			<td style="vertical-align: top;">可选审核项理论合计 7 分，最高计 6 分。</td>
+			<td style="vertical-align: top;">碰撞规避和驾驶风险提醒模块中的报告审核项最高计 <strong><span style="color: #d83931;">9 分</span></strong>。</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<colgroup>
+		<col width="156" />
+		<col width="200" />
+		<col width="200" />
+		<col width="244" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">项目</th>
+			<th style="vertical-align: top;">2024 分值/形式</th>
+			<th style="vertical-align: top;">2027 分值/形式</th>
+			<th style="vertical-align: top;">变化</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">AEB C2C/车车冲突</td>
+			<td style="vertical-align: top;">AEB C2C 10 分 + AEB 误作用 3 分。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">车车冲突 13 分</span></strong>，复杂场景显著增加。</td>
+			<td style="vertical-align: top;">从基础 AEB 场景扩展到遮挡、雨雾、弯道、转弯、对向车等。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">LKA</td>
+			<td style="vertical-align: top;">2 分，实车测试。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">1 分</span></strong>，<strong><span style="color: #d83931;">报告审核项</span></strong>。</td>
+			<td style="vertical-align: top;">新增弯道场景，LDW 变成 LKA 得分前提。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">ELK</td>
+			<td style="vertical-align: top;">1 分，实车测试。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">2 分</span></strong>，<strong><span style="color: #d83931;">报告审核项</span></strong>。</td>
+			<td style="vertical-align: top;">新增对向车、锥桶、护栏等紧急横向避险场景。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">DMS</td>
+			<td style="vertical-align: top;">2 分，疲劳/分心报警为主。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">4 分，实际测试</span></strong>。</td>
+			<td style="vertical-align: top;">增加系统干预、扩展行为、误响应测试。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">RCTA/RCTB</td>
+			<td style="vertical-align: top;">RCTA 后方横穿提示，1 分。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">RCTB</span></strong> 后方横穿<strong><span style="color: #d83931;">制动</span></strong>，1 分。</td>
+			<td style="vertical-align: top;">从“提醒”升级为“制动避撞”。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">AMAP</td>
+			<td style="vertical-align: top;">无。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增误踩油门抑制</span></strong>，<strong><span style="color: #d83931;">2 分</span></strong>。</td>
+			<td style="vertical-align: top;">覆盖起步/低速误踩油门风险。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">本地危险提醒</td>
+			<td style="vertical-align: top;">无。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增 HVA/AVA/TLA</span></strong>，共 <strong><span style="color: #d83931;">3 分加分项</span></strong>。</td>
+			<td style="vertical-align: top;">C-V2X 进入 C-NCAP 加分评价。</td>
+		</tr>
+	</tbody>
+</table>
+
+#### AEB/车车冲突：场景数量和复杂度大幅提升
+
+<table>
+	<colgroup>
+		<col width="169" />
+		<col width="288" />
+		<col width="343" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">对比项</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版变化</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">主线场景</td>
+			<td style="vertical-align: top;">CCRs、CCRH、C2C SCP、C2C SCPO、CCFT、HMI，并单列 AEB 误作用。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">6 个基础场景 + 10 个扩展场景</span></strong>，覆盖切入、横穿、转弯、弯道、对向、遮挡、雨雾。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">基础场景</td>
+			<td style="vertical-align: top;">以静止前车、前车切出、交叉路口、转弯冲突为主。</td>
+			<td style="vertical-align: top;">CCRc、CCRh、CCRb、C2C SCPf、CCFT、<strong><span style="color: #d83931;">CCRbc 弯道跟车制动</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">扩展场景</td>
+			<td style="vertical-align: top;">2024 未形成如此完整的扩展随机抽查机制。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">雨天 CCRsr</span></strong>、<strong><span style="color: #d83931;">雾天 CCRsf</span></strong>、<strong><span style="color: #d83931;">对向 CCFhos</span></strong>、<strong><span style="color: #d83931;">近侧横穿 C2C SCPn</span></strong>、<strong><span style="color: #d83931;">运动遮挡 C2C SCPmo</span></strong>、<strong><span style="color: #d83931;">静态遮挡 C2C SCPso</span></strong>、左右转横穿等。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">误触发</td>
+			<td style="vertical-align: top;">AEB 误作用单独 3 分。</td>
+			<td style="vertical-align: top;">多个扩展场景带 <strong><span style="color: #d83931;">false activation / error effect</span></strong> 预试验，更强调“不该刹时不要误刹”。</td>
+		</tr>
+	</tbody>
+</table>
+
+结论：2027 不再只是验证前向 AEB 能不能刹住，而是在验证系统能不能处理路口、转弯、遮挡、雨雾、对向车等真实复杂冲突。
+
+#### LKA/ELK：LDW 降级为前提，ELK 权重上升
+
+<table>
+	<colgroup>
+		<col width="138" />
+		<col width="212" />
+		<col width="238" />
+		<col width="212" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">项目</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版变化</th>
+			<th style="vertical-align: top;">开发含义</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">LDW</td>
+			<td style="vertical-align: top;">可选审核项，1 分。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">删除单独 LDW 测试</span></strong>，改为 <strong><span style="color: #d83931;">LKA 得分前提</span></strong>。</td>
+			<td style="vertical-align: top;">单纯车道偏离报警不再是独立亮点。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">LKA</td>
+			<td style="vertical-align: top;">实车测试，2 分；主要看实线/虚线偏离纠偏能力。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">报告审核项，1 分；新增弯道场景</span></strong>。</td>
+			<td style="vertical-align: top;">基础车道保持权重下降，但弯道稳定性仍要覆盖。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">ELK</td>
+			<td style="vertical-align: top;">实车测试，1 分；侧后目标冲突为主。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">报告审核项</span></strong>，<strong><span style="color: #d83931;">2 分</span></strong>；新增 <strong><span style="color: #d83931;">对向车、锥桶、护栏场景</span></strong>。</td>
+			<td style="vertical-align: top;">紧急横向避险权重上升，需要识别可行驶边界和侧向危险目标。</td>
+		</tr>
+	</tbody>
+</table>
+
+这一组变化说明：2027 更看重“危险边界下能不能避免冲出车道或撞上障碍”，而不是只看普通压线纠偏。
+
+#### DMS：从 2 分报警功能升级为 4 分闭环干预系统
+
+> ❗ DMS 是智驾相关变化里最明显的增量之一：2024 是 2 分报警功能，2027 提升为 4 分，并开始评价系统干预和误响应。
+
+<table>
+	<colgroup>
+		<col width="175" />
+		<col width="288" />
+		<col width="337" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">维度</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版变化</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">分值</td>
+			<td style="vertical-align: top;">DMS 2 分。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">DMS 4 分，实际测试</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">疲劳识别</td>
+			<td style="vertical-align: top;">闭眼 3s，裸眼/墨镜等场景。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">闭眼 3s + 闭眼 6s</span></strong>，6s 用于驾驶员失能/风险缓解测试。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">分心识别</td>
+			<td style="vertical-align: top;">长时间分心 3s，关注后视镜、中控屏、仪表、右腿等。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增短分心：30s 内累计 10s</span></strong>，并覆盖手机充电位置、手机支架等。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">系统干预</td>
+			<td style="vertical-align: top;">主要看报警是否及时。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增系统干预测试</span></strong>：疲劳/分心时联动纵向避撞（如 FCW）或横向避撞（如 LDW/LKA），失能时触发自动减速、紧急呼叫等风险缓解。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">扩展行为</td>
+			<td style="vertical-align: top;">未作为核心得分展开。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增扩展项</span></strong>：酒驾、路怒、吃喝、抽烟、打电话、脱手、异常坐姿、增强提醒等。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">误响应</td>
+			<td style="vertical-align: top;">已有误报判断，但不是六类测试之一。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增 1 小时正常驾驶误响应测试</span></strong>，统计 DMS 误报警。</td>
+		</tr>
+	</tbody>
+</table>
+
+结论：2027 的 DMS 不再只是“看见闭眼低头就响”，而是驾驶员状态识别、报警、ADAS 联动、失能处置和误报控制的闭环系统。
+
+#### RCTA 升级为 RCTB
+
+<table>
+	<colgroup>
+		<col width="175" />
+		<col width="294" />
+		<col width="331" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">对比项</th>
+			<th style="vertical-align: top;">2024 RCTA</th>
+			<th style="vertical-align: top;">2027 RCTB</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">功能定义</td>
+			<td style="vertical-align: top;">Rear Cross Traffic Alert，后方交通穿行提示。</td>
+			<td style="vertical-align: top;">Rear Cross Traffic <strong><span style="color: #d83931;">Braking</span></strong>，<strong><span style="color: #d83931;">后方横穿制动</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">评价重点</td>
+			<td style="vertical-align: top;">倒车时能否对后方横穿目标及时报警。</td>
+			<td style="vertical-align: top;">倒车时能否<strong><span style="color: #d83931;">主动制动</span></strong>并避免或减轻碰撞。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">目标物</td>
+			<td style="vertical-align: top;">儿童、踏板摩托车、电动自行车等横穿目标。</td>
+			<td style="vertical-align: top;">车辆、儿童、踏板摩托车等后方横穿对象。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">分值</td>
+			<td style="vertical-align: top;">1 分。</td>
+			<td style="vertical-align: top;">1 分，但功能门槛从“<strong><span style="color: #d83931;">提醒</span></strong>”升级为“<strong><span style="color: #d83931;">制动</span></strong>”。</td>
+		</tr>
+	</tbody>
+</table>
+
+这类变化把低速倒车安全从 HMI 预警推向主动控制，对后向感知、低速 AEB 逻辑和制动舒适性都有更高要求。
+
+#### 新增 AMAP：误踩油门抑制
+
+<table>
+	<colgroup>
+		<col width="175" />
+		<col width="294" />
+		<col width="331" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">对比项</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版新增</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">项目设置</td>
+			<td style="vertical-align: top;">未单独设置 AMAP 项。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">新增 AMAP，满分 2 分</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">功能含义</td>
+			<td style="vertical-align: top;">低速误踩风险未作为独立评价重点。</td>
+			<td style="vertical-align: top;">起步或低速行驶时，驾驶员误踩油门导致车辆突然加速，系统应报警或抑制加速。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">典型场景</td>
+			<td style="vertical-align: top;">停车场/小区/地库风险更多依赖其他法规或企业自定义要求。</td>
+			<td style="vertical-align: top;">停车场、地库、小区起步误踩风险<strong><span style="color: #d83931;">进入 C-NCAP 主动安全评价</span></strong>。</td>
+		</tr>
+	</tbody>
+</table>
+
+AMAP 的加入说明 2027 开始把低速近距安全作为主动安全的重要组成，而不是只看高速或中高速 ADAS。
+
+#### 新增本地危险提醒：C-V2X 进入加分项
+
+<table>
+	<colgroup>
+		<col width="162" />
+		<col width="269" />
+		<col width="369" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">项目</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版新增</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">本地危险提醒</td>
+			<td style="vertical-align: top;">未进入主动安全得分公式。</td>
+			<td style="vertical-align: top;">新增 <strong><span style="color: #d83931;">Local Hazard Warning</span></strong>，满分 <strong><span style="color: #d83931;">3 分加分项</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">HVA</td>
+			<td style="vertical-align: top;">无。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">危险车辆提醒 1 分</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">AVA</td>
+			<td style="vertical-align: top;">无。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">事故车辆提醒 1 分</span></strong>。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">TLA</td>
+			<td style="vertical-align: top;">无。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">交通灯提醒 1 分</span></strong>。</td>
+		</tr>
+	</tbody>
+</table>
+
+该项目适用于具备 C-V2X 车辆信息交互能力的车型，评价车辆能否发送/接收外部风险信息，并在异常车辆、事故车辆、交通灯风险等场景下有效提醒驾驶员。
+
+> 💡 这意味着 C-NCAP 2027 开始从“单车智能”向“车路协同风险感知”扩展。V2X 目前是加分项，但方向性很明确。
+
+#### 灯光性能仍保留，但与主动安全并列
+
+<table>
+	<colgroup>
+		<col width="181" />
+		<col width="288" />
+		<col width="331" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">对比项</th>
+			<th style="vertical-align: top;">2024 版旧口径</th>
+			<th style="vertical-align: top;">2027 版口径</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">灯光权重</td>
+			<td style="vertical-align: top;">整车灯光实际得分 / 10 × 28.6%。</td>
+			<td style="vertical-align: top;">仍为整车灯光性能 / 10 × 28.6%。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">主动安全公式关系</td>
+			<td style="vertical-align: top;">与 ADAS 24 分共同构成主动安全得分率。</td>
+			<td style="vertical-align: top;">与避撞及驾驶风险提醒 26 分、本地危险提醒 3 分共同构成主动安全得分率。</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">智驾关联</td>
+			<td style="vertical-align: top;">更多体现夜间可视与照明安全。</td>
+			<td style="vertical-align: top;"><strong><span style="color: #d83931;">夜间 VRU、AEB 夜间场景</span></strong>和驾驶员可视距离仍受灯光能力影响。</td>
+		</tr>
+	</tbody>
+</table>
+
+灯光分值本身没有像 ADAS 那样大幅重构，但它仍是主动安全板块的重要组成，不能只把主动安全理解为智驾控制器和传感器。
+
+> ✅ 2024 更偏“基础功能覆盖 + 常规测试场景”；2027 更偏“复杂真实场景 + 误响应控制 + 驾驶员状态闭环 + 低速主动安全 + C-V2X 协同”。

@@ -17,6 +17,7 @@ import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
 import { expressiveCodeConfig } from "./src/config.ts";
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
+import { rehypeEmojiBlockquote } from "./src/plugins/rehype-emoji-blockquote.mjs";
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
@@ -115,6 +116,7 @@ export default defineConfig({
 		rehypePlugins: [
 			rehypeKatex,
 			rehypeSlug,
+			rehypeEmojiBlockquote,
 			[
 				rehypeComponents,
 				{

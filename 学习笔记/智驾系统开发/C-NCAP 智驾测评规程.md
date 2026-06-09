@@ -54,24 +54,96 @@ updated: 2026-06-09
 
 ADAS 在主动安全得分率里占 24 的分值，71.4%的权重。
 
-| 项目类别 | 项目名称 | 测试场景 | 各项分值 | 总分值 |
-|-|-|-|-|-|
-| 评价项 | AEB C2C | CCRs | 3 | 24 |
-| 评价项 | AEB C2C | CCRH | 1 | 24 |
-| 评价项 | AEB C2C | C2C SCP | 2 | 24 |
-| 评价项 | AEB C2C | C2C SCPO | 1 | 24 |
-| 评价项 | AEB C2C | CCFT | 2 | 24 |
-| 评价项 | AEB C2C | HMI | 1 | 24 |
-| 评价项 | AEB 误作用 | / | 3 | 24 |
-| 评价项 | LSS | LKA | 2 | 24 |
-| 评价项 | LSS | ELK | 1 | 24 |
-| 评价项 | DMS | DMS | 2 | 24 |
-| 可选审核项 | LDW | / | 1 | 24 |
-| 可选审核项 | TSR | / | 1 | 24 |
-| 可选审核项 | ISLS | / | 1 | 24 |
-| 可选审核项 | BSD | / | 2 | 24 |
-| 可选审核项 | DOW | / | 1 | 24 |
-| 可选审核项 | RCTA | / | 1 | 24 |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">项目类别</th>
+			<th style="vertical-align: top;">项目名称</th>
+			<th style="vertical-align: top;">测试场景</th>
+			<th style="vertical-align: top;">各项分值</th>
+			<th style="vertical-align: top;">总分值</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="10" style="vertical-align: middle;">评价项</td>
+			<td rowspan="6" style="vertical-align: middle;">AEB C2C</td>
+			<td style="vertical-align: top;">CCRs</td>
+			<td style="vertical-align: top;">3</td>
+			<td rowspan="16" style="vertical-align: middle;">24</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">CCRH</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">C2C SCP</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">C2C SCPO</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">CCFT</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">HMI</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">AEB 误作用</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">3</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">LSS</td>
+			<td style="vertical-align: top;">LKA</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">ELK</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">DMS</td>
+			<td style="vertical-align: top;">DMS</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td rowspan="6" style="vertical-align: middle;">可选审核项</td>
+			<td style="vertical-align: top;">LDW</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">TSR</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">ISLS</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">BSD</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">DOW</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">RCTA</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+	</tbody>
+</table>
 
 **ADAS 块满分 24 分**
 
@@ -107,29 +179,157 @@ ADAS 在主动安全得分率里占 24 的分值，71.4%的权重。
 
 #### 3.1.2. 各项目分数
 
-| 测试场景 | 测试类型 | 测试速度（km/h） | 偏置率 | 速度点权重 | 场景总权重 | 场景分值 |
-|-|-|-:|-|-:|-:|-:|
-| CCRs | AEB | 20 | -50% | 1 | 11 | 3 |
-| CCRs | AEB | 30 | +50% | 2 | 11 | 3 |
-| CCRs | AEB | 40 | -50% | 2 | 11 | 3 |
-| CCRs | FCW | 50 | +50% | 2 | 11 | 3 |
-| CCRs | FCW | 60 | -50% | 2 | 11 | 3 |
-| CCRs | FCW | 70 | +50% | 1 | 11 | 3 |
-| CCRs | FCW | 80 | -50% | 1 | 11 | 3 |
-| CCRH | FCW | 80 | 100% | 1 | 2 | 1 |
-| CCRH | FCW | 120 | 100% | 1 | 2 | 1 |
-| C2C SCP | AEB | 30 | / | 1 | 5 | 2 |
-| C2C SCP | AEB | 40 | / | 2 | 5 | 2 |
-| C2C SCP | FCW | 50 | / | 1 | 5 | 2 |
-| C2C SCP | FCW | 60 | / | 1 | 5 | 2 |
-| C2C SCPO | FCW | 50 | / | 1 | 2 | 1 |
-| C2C SCPO | FCW | 60 | / | 1 | 2 | 1 |
-| CCFT | AEB | 10 | / | 1 | 3 | 2 |
-| CCFT | AEB | 20 | / | 1 | 3 | 2 |
-| CCFT | AEB | 30 | / | 1 | 3 | 2 |
-| HMI | 关闭要求 | / | / | 2 | 4 | 1 |
-| HMI | 报警要求 | / | / | 1 | 4 | 1 |
-| HMI | 主动安全带 | / | / | 1 | 4 | 1 |
+<table>
+	<thead>
+		<tr>
+			<th rowspan="2" style="vertical-align: middle;">测试场景</th>
+			<th rowspan="2" style="vertical-align: middle;">测试类型</th>
+			<th rowspan="2" style="vertical-align: middle;">测试速度（km/h）</th>
+			<th rowspan="2" style="vertical-align: middle;">偏置率</th>
+			<th colspan="2" style="vertical-align: top;">项目权重</th>
+			<th rowspan="2" style="vertical-align: middle;">场景分值</th>
+		</tr>
+		<tr>
+			<th style="vertical-align: top;">速度点权重</th>
+			<th style="vertical-align: top;">场景总权重</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="7" style="vertical-align: middle;">CCRs</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: top;">20</td>
+			<td style="vertical-align: top;">-50%</td>
+			<td style="vertical-align: top;">1</td>
+			<td rowspan="7" style="vertical-align: middle;">11</td>
+			<td rowspan="7" style="vertical-align: middle;">3</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">30</td>
+			<td style="vertical-align: top;">+50%</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">40</td>
+			<td style="vertical-align: top;">-50%</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">FCW</td>
+			<td style="vertical-align: top;">50</td>
+			<td style="vertical-align: top;">+50%</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">60</td>
+			<td style="vertical-align: top;">-50%</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">70</td>
+			<td style="vertical-align: top;">+50%</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">80</td>
+			<td style="vertical-align: top;">-50%</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">CCRH</td>
+			<td rowspan="2" style="vertical-align: middle;">FCW</td>
+			<td style="vertical-align: top;">80</td>
+			<td style="vertical-align: top;">100%</td>
+			<td style="vertical-align: top;">1</td>
+			<td rowspan="2" style="vertical-align: middle;">2</td>
+			<td rowspan="2" style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">120</td>
+			<td style="vertical-align: top;">100%</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">C2C SCP</td>
+			<td rowspan="2" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: top;">30</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+			<td rowspan="4" style="vertical-align: middle;">5</td>
+			<td rowspan="4" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">40</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">2</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">FCW</td>
+			<td style="vertical-align: top;">50</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">60</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">C2C SCPO</td>
+			<td rowspan="2" style="vertical-align: middle;">FCW</td>
+			<td style="vertical-align: top;">50</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+			<td rowspan="2" style="vertical-align: middle;">2</td>
+			<td rowspan="2" style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">60</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CCFT</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: top;">10</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">3</td>
+			<td rowspan="3" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">20</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">30</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">HMI</td>
+			<td style="vertical-align: top;">关闭要求</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">2</td>
+			<td rowspan="3" style="vertical-align: middle;">4</td>
+			<td rowspan="3" style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">报警要求</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">主动安全带</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+	</tbody>
+</table>
 
 #### 3.1.3. 偏置率
 
@@ -241,32 +441,127 @@ HMI 不是动态碰撞工况，而是检查系统的人机交互是否满足要�
 
 车道辅助系统（LSS）得分前提为车辆应装备 ESC 系统。
 
-| 车道线类型 | 偏离方向 | 测试车速（km/h） | 目标物速度（km/h） | 偏离速度（m/s） |
-|-|-|-|-|-|
-| LKA 实线 | 左侧 | 80 | / | 0.3 |
-| LKA 实线 | 左侧 | 80 | / | 0.5 |
-| LKA 实线 | 右侧 | 80 | / | 0.3 |
-| LKA 实线 | 右侧 | 80 | / | 0.5 |
-| LKA 虚线 | 左侧 | 80 | / | 0.3 |
-| LKA 虚线 | 左侧 | 80 | / | 0.5 |
-| LKA 虚线 | 右侧 | 80 | / | 0.3 |
-| LKA 虚线 | 右侧 | 80 | / | 0.5 |
-| ELK 虚线 | 左侧有意识 | 70 | 80 | 0.6 |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">车道线类型</th>
+			<th style="vertical-align: top;">偏离方向</th>
+			<th style="vertical-align: top;">测试车速（km/h）</th>
+			<th style="vertical-align: top;">目标物速度（km/h）</th>
+			<th style="vertical-align: top;">偏离速度（m/s）</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">LKA 实线</td>
+			<td rowspan="2" style="vertical-align: middle;">左侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td rowspan="4" style="vertical-align: middle;">/</td>
+			<td style="vertical-align: top;">0.3</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">右侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.3</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+		</tr>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">LKA 虚线</td>
+			<td rowspan="2" style="vertical-align: middle;">左侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td rowspan="4" style="vertical-align: middle;">/</td>
+			<td style="vertical-align: top;">0.3</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">右侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.3</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">ELK 虚线</td>
+			<td style="vertical-align: top;">左侧有意识</td>
+			<td style="vertical-align: top;">70</td>
+			<td style="vertical-align: top;">80</td>
+			<td style="vertical-align: top;">0.6</td>
+		</tr>
+	</tbody>
+</table>
 
 #### 3.3.1. LKA
 
 ![[附件/C-NCAP 智驾测评规程 08.png]]
 
-| 车道线类型 | 偏离方向 | 测试车速（km/h） | 偏离速度（m/s） | 速度点权重 | 项目权重 | 场景分值 |
-|-|-|-|-|-|-|-|
-| 实线 | 左侧 | 80 | 0.3 | 1 | 4 | 2 |
-| 实线 | 左侧 | 80 | 0.5 | 1 | 4 | 2 |
-| 实线 | 右侧 | 80 | 0.3 | 1 | 4 | 2 |
-| 实线 | 右侧 | 80 | 0.5 | 1 | 4 | 2 |
-| 虚线 | 左侧 | 80 | 0.3 | 1 | 4 | 2 |
-| 虚线 | 左侧 | 80 | 0.5 | 1 | 4 | 2 |
-| 虚线 | 右侧 | 80 | 0.3 | 1 | 4 | 2 |
-| 虚线 | 右侧 | 80 | 0.5 | 1 | 4 | 2 |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">车道线类型</th>
+			<th style="vertical-align: top;">偏离方向</th>
+			<th style="vertical-align: top;">测试车速（km/h）</th>
+			<th style="vertical-align: top;">偏离速度（m/s）</th>
+			<th style="vertical-align: top;">速度点权重</th>
+			<th style="vertical-align: top;">项目权重</th>
+			<th style="vertical-align: top;">场景分值</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">实线</td>
+			<td rowspan="2" style="vertical-align: middle;">左侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.3</td>
+			<td style="vertical-align: top;">1</td>
+			<td rowspan="4" style="vertical-align: middle;">4</td>
+			<td rowspan="8" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">右侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.3</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">虚线</td>
+			<td rowspan="2" style="vertical-align: middle;">左侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.3</td>
+			<td style="vertical-align: top;">1</td>
+			<td rowspan="4" style="vertical-align: middle;">4</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">右侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.3</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.5</td>
+			<td style="vertical-align: top;">1</td>
+		</tr>
+	</tbody>
+</table>
 
 注：偏离速度的意思其实就是横向速度。
 
@@ -317,15 +612,52 @@ ELK 是 Emergency Lane Keeping，紧急车道保持。
 
 ### 3.4. DMS
 
-| 场景类别 | 测试动作 | 测试条件 | 评分细则 | 场景权重 | 项目分值 |
-|-|-|-|-|-|-|
-| 驾驶员疲劳监测（DFM）测试场景 | 完全闭眼（3s） | 裸眼 | （1）每人 4 次测试全通过，则得分率 100%；<br>（2）每人至少 2 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。 | 2 | 2 |
-| 驾驶员疲劳监测（DFM）测试场景 | 完全闭眼（3s） | 佩戴墨镜 | （1）每人 4 次测试全通过，则得分率 100%；<br>（2）每人至少 2 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。 | 2 | 2 |
-| 驾驶员注意力监测（DAM）测试场景 | 长时间分心<br>（头动） | 驾驶员侧后视镜（3s） | （1）每人 6 次测试全通过，则得分率 100%；<br>（2）每人至少 3 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。 | 2 | 2 |
-| 驾驶员注意力监测（DAM）测试场景 | 长时间分心<br>（头动） | 内后视镜（3s） | （1）每人 6 次测试全通过，则得分率 100%；<br>（2）每人至少 3 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。 | 2 | 2 |
-| 驾驶员注意力监测（DAM）测试场景 | 长时间分心<br>（头动） | 车载娱乐系统的中控屏幕（3s） | （1）每人 6 次测试全通过，则得分率 100%；<br>（2）每人至少 3 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。 | 2 | 2 |
-| 驾驶员注意力监测（DAM）测试场景 | 长时间分心<br>（头不动） | 仪表盘速度显示区域（3s） | （1）每人 4 次测试全通过，则得分率 100%；<br>（2）每人至少 2 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。 | 1 | 2 |
-| 驾驶员注意力监测（DAM）测试场景 | 长时间分心<br>（头不动） | 驾驶员右腿膝盖处（3s） | （1）每人 4 次测试全通过，则得分率 100%；<br>（2）每人至少 2 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。 | 1 | 2 |
+<table>
+	<thead>
+		<tr>
+			<th colspan="3" style="vertical-align: top;">场景</th>
+			<th style="vertical-align: top;">评分细则</th>
+			<th style="vertical-align: top;">场景权重</th>
+			<th style="vertical-align: top;">项目分值</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">驾驶员疲劳监测（DFM）测试场景</td>
+			<td style="vertical-align: top;">完全闭眼（3s）</td>
+			<td style="vertical-align: top;">裸眼</td>
+			<td rowspan="2" style="vertical-align: middle;">（1）每人 4 次测试全通过，则得分率 100%；<br>（2）每人至少 2 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。</td>
+			<td rowspan="2" style="vertical-align: middle;">2</td>
+			<td rowspan="7" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">完全闭眼（3s）</td>
+			<td style="vertical-align: top;">佩戴墨镜</td>
+		</tr>
+		<tr>
+			<td rowspan="5" style="vertical-align: middle;">驾驶员注意力监测（DAM）测试场景</td>
+			<td rowspan="3" style="vertical-align: middle;">长时间分心<br>（头动）</td>
+			<td style="vertical-align: top;">驾驶员侧后视镜（3s）</td>
+			<td rowspan="3" style="vertical-align: middle;">（1）每人 6 次测试全通过，则得分率 100%；<br>（2）每人至少 3 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。</td>
+			<td rowspan="3" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">内后视镜（3s）</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">车载娱乐系统的中控屏幕（3s）</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">长时间分心<br>（头不动）</td>
+			<td style="vertical-align: top;">仪表盘速度显示区域（3s）</td>
+			<td rowspan="2" style="vertical-align: middle;">（1）每人 4 次测试全通过，则得分率 100%；<br>（2）每人至少 2 次测试通过，则得分率 50%；<br>（3）有一人全通过，则得分率 25%。<br>其他情况不得分。</td>
+			<td rowspan="2" style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">驾驶员右腿膝盖处（3s）</td>
+		</tr>
+	</tbody>
+</table>
 
 驾驶员开始闭眼或分心动作后，系统在 2-4s 内发出警告，则单次场景测试通过；系统未发出警告，则单次场景测试不通过；若发生误报，则单次场景测试不通过。
 
@@ -368,14 +700,46 @@ LDW 测试主要有两类场景：直道直线和弯道直线。每个场景也�
 
 ![[附件/C-NCAP 智驾测评规程 11.png]]
 
-| 车道线类型 | 偏离方向 | 测试车速（km/h） | 偏离速度（m/s） |
-|-|-|-|-|
-| 直道实线 | 左侧 | 80 | 0.6 |
-| 直道实线 | 左侧 | 80 | 0.7 |
-| 直道实线 | 右侧 | 80 | 0.6 |
-| 直道实线 | 右侧 | 80 | 0.7 |
-| 弯道实线 | 左侧 | 80 | 0 |
-| 弯道实线 | 右侧 | 80 | 0 |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">车道线类型</th>
+			<th style="vertical-align: top;">偏离方向</th>
+			<th style="vertical-align: top;">测试车速（km/h）</th>
+			<th style="vertical-align: top;">偏离速度（m/s）</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">直道实线</td>
+			<td rowspan="2" style="vertical-align: middle;">左侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.6</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.7</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">右侧</td>
+			<td rowspan="2" style="vertical-align: middle;">80</td>
+			<td style="vertical-align: top;">0.6</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">0.7</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">弯道实线</td>
+			<td style="vertical-align: top;">左侧</td>
+			<td style="vertical-align: top;">80</td>
+			<td style="vertical-align: top;">0</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">右侧</td>
+			<td style="vertical-align: top;">80</td>
+			<td style="vertical-align: top;">0</td>
+		</tr>
+	</tbody>
+</table>
 
 LDW 需要在车辆越线前后规定范围内发出有效报警。报警可以是：
 
@@ -408,10 +772,36 @@ TSR 是 Traffic Signal Recognition，交通信号识别系统，主要测的是�
 
 ![[附件/C-NCAP 智驾测评规程 12.png]]
 
-| 信号灯灯色 | 20km/h | 40km/h | 50km/h | 60km/h |
-|-|-|-|-|-|
-| 红灯 | / | 直行 | 直行 | 直行 |
-| 红灯 | 右转（开启转向灯） | / | / | / |
+<table>
+	<thead>
+		<tr>
+			<th rowspan="2" style="vertical-align: middle;">信号灯灯色</th>
+			<th colspan="4" style="vertical-align: top;">TSR 试验车辆行驶速度及方向</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">20km/h</td>
+			<td style="vertical-align: top;">40km/h</td>
+			<td style="vertical-align: top;">50km/h</td>
+			<td style="vertical-align: top;">60km/h</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">红灯</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">直行</td>
+			<td style="vertical-align: top;">直行</td>
+			<td style="vertical-align: top;">直行</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">红灯</td>
+			<td style="vertical-align: top;">右转（开启转向灯）</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">/</td>
+			<td style="vertical-align: top;">/</td>
+		</tr>
+	</tbody>
+</table>
 
 VUT 在直行车道越过停止线（超过 4 m）时 TSR 功能均未产生预警， 或 VUT 在右转时产生误报预警，终止本测试场景试验。
 
@@ -421,12 +811,38 @@ VUT 在直行车道越过停止线（超过 4 m）时 TSR 功能均未产生预�
 
 测试道路为至少包含一条车道的长直道，并于该路段道路一侧设置限速标志牌（40km/h、80km/h）。测试车辆在车道中央沿直线行驶，选择车道时应满足车辆纵向中心线与道路一侧标志牌立柱的横向距离在 ≤ 5m。试验开始时，车辆以低于限制速度（5±1）km/h 的车速行驶。
 
-| 测试类型 | 限速标识速度（km/h） | 测试车速（km/h） |
-|-|-|-|
-| 限速识别 ISLD | 40 | 35 |
-| 限速识别 ISLD | 80 | 75 |
-| 超速报警 ISLI | 40 | 50 |
-| 超速报警 ISLI | 80 | 90 |
+<table>
+	<thead>
+		<tr>
+			<th colspan="3" style="vertical-align: top;">智能限速系统 ISLS 测试场景</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">测试类型</td>
+			<td style="vertical-align: top;">限速标识速度（km/h）</td>
+			<td style="vertical-align: top;">测试车速（km/h）</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">限速识别 ISLD</td>
+			<td style="vertical-align: top;">40</td>
+			<td style="vertical-align: top;">35</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">80</td>
+			<td style="vertical-align: top;">75</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">超速报警 ISLI</td>
+			<td style="vertical-align: top;">40</td>
+			<td style="vertical-align: top;">50</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">80</td>
+			<td style="vertical-align: top;">90</td>
+		</tr>
+	</tbody>
+</table>
 
 #### 3.5.4. BSD
 
@@ -468,12 +884,40 @@ VUT 25 km/h，二轮车 25 km/h，初始横向距离 7.5 m。二轮车以 （0.5
 
 **总结：**
 
-| 测试车辆速度（km/h） | 目标物类型 | 目标物速度（km/h） | 目标物动作 |
-|-|-|-|-|
-| 50 | 车辆 | 60 | 超车 |
-| 50 | 车辆 | 50 | 变道 |
-| 30 | 踏板式摩托车 | 40 | 超车 |
-| 25 | 踏板式摩托车 | 25 | 变道 |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">测试车辆速度（km/h）</th>
+			<th style="vertical-align: top;">目标物类型</th>
+			<th style="vertical-align: top;">目标物速度（km/h）</th>
+			<th style="vertical-align: top;">目标物动作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">50</td>
+			<td rowspan="2" style="vertical-align: middle;">车辆</td>
+			<td style="vertical-align: top;">60</td>
+			<td style="vertical-align: top;">超车</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">50</td>
+			<td style="vertical-align: top;">50</td>
+			<td style="vertical-align: top;">变道</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">30</td>
+			<td rowspan="2" style="vertical-align: middle;">踏板式摩托车</td>
+			<td style="vertical-align: top;">40</td>
+			<td style="vertical-align: top;">超车</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">25</td>
+			<td style="vertical-align: top;">25</td>
+			<td style="vertical-align: top;">变道</td>
+		</tr>
+	</tbody>
+</table>
 
 > 任一目标物相关的所有场景测试结果为通过，则对应系统（BSD C2C 或 BSD C2TW）的测试结果为通过，获得相应分数，否则不得分。
 
@@ -529,11 +973,34 @@ RCTA（Rear Cross Traffic Alert，后方交通穿行提示）项目分值 1 分�
 
 目标物有 3 类，都是横向穿过车尾后方：
 
-| 测试场景 | 车辆速度（km/h） | 目标物类型 | 目标物速度（km/h） |
-|-|-|-|-|
-| 儿童穿行 | 0 | PTC | 5 |
-| 踏板摩托车穿行 | 0 | STA | 20 |
-| 电动自行车穿行 | 0 | EBTA | 15 |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: top;">测试场景</th>
+			<th style="vertical-align: top;">车辆速度（km/h）</th>
+			<th style="vertical-align: top;">目标物类型</th>
+			<th style="vertical-align: top;">目标物速度（km/h）</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="vertical-align: top;">儿童穿行</td>
+			<td rowspan="3" style="vertical-align: middle;">0</td>
+			<td style="vertical-align: top;">PTC</td>
+			<td style="vertical-align: top;">5</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">踏板摩托车穿行</td>
+			<td style="vertical-align: top;">STA</td>
+			<td style="vertical-align: top;">20</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;">电动自行车穿行</td>
+			<td style="vertical-align: top;">EBTA</td>
+			<td style="vertical-align: top;">15</td>
+		</tr>
+	</tbody>
+</table>
 
 ![[附件/C-NCAP 智驾测评规程 23.png]]
 
@@ -597,33 +1064,181 @@ VRU 保护版块一共分三部分：
 8. CPTA-RF-50
 9. HMI
 
-| 测试场景 | 测试类型 | 测试速度（km/h） | 目标物速度（km/h） | 碰撞位置 | 各项分值 | 场景分值 | 车灯状况 | 路灯状况 |
-|-|-|-|-|-|-|-|-|-|
-| CPLA-25 | AEB | 20 | 5 | 25% | 1 | 2 | / | / |
-| CPLA-25 | AEB | 40 | 5 | 25% | 2 | 2 | / | / |
-| CPLA-25 | FCW | 60 | 5 | 25% | 1 | 2 | / | / |
-| CPLA-25 | FCW | 80 | 5 | 25% | 1 | 2 | / | / |
-| CPLA-25 夜晚 | AEB | 20 | 5 | 25% | 1 | 2 | 近光灯 | / |
-| CPLA-25 夜晚 | AEB | 40 | 5 | 25% | 2 | 2 | 近光灯 | / |
-| CPLA-25 夜晚 | FCW | 60 | 5 | 25% | 2 | 2 | 近光灯 | / |
-| CPLA-25 夜晚 | FCW | 80 | 5 | 25% | 1 | 2 | 近光灯 | / |
-| CPNCO-25 | AEB | 20 | 5 | 25% | 1 | 2 | / | / |
-| CPNCO-25 | AEB | 40 | 5 | 25% | 2 | 2 | / | / |
-| CPNCO-25 | AEB | 60 | 5 | 25% | 1 | 2 | / | / |
-| CPFAO-25 | AEB | 20 | 6.5 | 25% | 1 | 2 | / | / |
-| CPFAO-25 | AEB | 40 | 6.5 | 25% | 2 | 2 | / | / |
-| CPFAO-25 | AEB | 60 | 6.5 | 25% | 1 | 2 | / | / |
-| CPFAO-25 夜晚 | AEB | 20 | 6.5 | 25% | 1 | 2 | 近光灯 | 路灯 |
-| CPFAO-25 夜晚 | AEB | 40 | 6.5 | 25% | 2 | 2 | 近光灯 | 路灯 |
-| CPFAO-25 夜晚 | AEB | 60 | 6.5 | 25% | 2 | 2 | 近光灯 | 路灯 |
-| CPTA-LN-50 | AEB | 10 | 5 | 50% | 1 | 1 | / | / |
-| CPTA-LN-50 | AEB | 20 | 5 | 50% | 1 | 1 | / | / |
-| CPTA-LN-50 | AEB | 30 | 5 | 50% | 1 | 1 | / | / |
-| CPTA-LF-50 | AEB | 10 | 6.5 | 50% | 1 | 1 | / | / |
-| CPTA-LF-50 | AEB | 20 | 6.5 | 50% | 1 | 1 | / | / |
-| CPTA-LF-50 | AEB | 30 | 6.5 | 50% | 1 | 1 | / | / |
-| CPTA-RF-50 | AEB | 10 | 6.5 | 50% | 1 | 1 | / | / |
-| CPTA-RF-50 | AEB | 20 | 6.5 | 50% | 1 | 1 | / | / |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: middle;">测试场景</th>
+			<th style="vertical-align: middle;">测试类型</th>
+			<th style="vertical-align: middle;">测试速度（km/h）</th>
+			<th style="vertical-align: middle;">目标物速度（km/h）</th>
+			<th style="vertical-align: middle;">碰撞位置</th>
+			<th style="vertical-align: middle;">各项分值</th>
+			<th style="vertical-align: middle;">场景分值</th>
+			<th style="vertical-align: middle;">车灯状况</th>
+			<th style="vertical-align: middle;">路灯状况</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">CPLA-25</td>
+			<td rowspan="2" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="4" style="vertical-align: middle;">5</td>
+			<td rowspan="4" style="vertical-align: middle;">25%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="4" style="vertical-align: middle;">2</td>
+			<td rowspan="4" style="vertical-align: middle;">/</td>
+			<td rowspan="4" style="vertical-align: middle;">/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">FCW</td>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">80</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">CPLA-25 夜晚</td>
+			<td rowspan="2" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="4" style="vertical-align: middle;">5</td>
+			<td rowspan="4" style="vertical-align: middle;">25%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="4" style="vertical-align: middle;">2</td>
+			<td rowspan="4" style="vertical-align: middle;">近光灯</td>
+			<td rowspan="4" style="vertical-align: middle;">/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">FCW</td>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">80</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CPNCO-25</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="3" style="vertical-align: middle;">5</td>
+			<td rowspan="3" style="vertical-align: middle;">25%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">2</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CPFAO-25</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="3" style="vertical-align: middle;">6.5</td>
+			<td rowspan="3" style="vertical-align: middle;">25%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">2</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CPFAO-25 夜晚</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="3" style="vertical-align: middle;">6.5</td>
+			<td rowspan="3" style="vertical-align: middle;">25%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">2</td>
+			<td rowspan="3" style="vertical-align: middle;">近光灯</td>
+			<td rowspan="3" style="vertical-align: middle;">路灯</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CPTA-LN-50</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">10</td>
+			<td rowspan="3" style="vertical-align: middle;">5</td>
+			<td rowspan="3" style="vertical-align: middle;">50%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">20</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">30</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CPTA-LF-50</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">10</td>
+			<td rowspan="3" style="vertical-align: middle;">6.5</td>
+			<td rowspan="3" style="vertical-align: middle;">50%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+			<td rowspan="3" style="vertical-align: middle;">/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">20</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">30</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">CPTA-RF-50</td>
+			<td rowspan="2" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">10</td>
+			<td rowspan="2" style="vertical-align: middle;">6.5</td>
+			<td rowspan="2" style="vertical-align: middle;">50%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="2" style="vertical-align: middle;">1</td>
+			<td rowspan="2" style="vertical-align: middle;">/</td>
+			<td rowspan="2" style="vertical-align: middle;">/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">20</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+	</tbody>
+</table>
 
 可以先把这些英文缩写粗略理解成几类典型风险：
 
@@ -671,23 +1286,107 @@ AEB VRU_Ped 要拿分，需要先满足前提条件：
 - EBTA：电动自行车目标物
 - STA：踏板式摩托车目标物
 
-| 测试场景 | 测试类型 | 测试速度（km/h） | 目标物速度（km/h） | 碰撞位置 | 各项分值 | 场景分值 |
-|-|-|-|-|-|-|-|
-| CBNAO-50 | AEB | 20 | 15 | 50% | 1 | 3 |
-| CBNAO-50 | AEB | 40 | 15 | 50% | 2 | 3 |
-| CBNAO-50 | AEB | 60 | 15 | 50% | 1 | 3 |
-| CSFAO-50 | AEB | 20 | 20 | 50% | 2 | 3 |
-| CSFAO-50 | AEB | 40 | 20 | 50% | 2 | 3 |
-| CSFAO-50 | AEB | 60 | 20 | 50% | 1 | 3 |
-| CBLA-25 | AEB | 20 | 15 | 25% | 1 | 2 |
-| CBLA-25 | AEB | 40 | 15 | 25% | 2 | 2 |
-| CBLA-25 | FCW | 60 | 15 | 25% | 1 | 2 |
-| CBLA-25 | FCW | 80 | 15 | 25% | 1 | 2 |
-| CSTA-LN-50 | AEB | 10 | 20 | 50% | 1 | 2 |
-| CSTA-LN-50 | AEB | 20 | 20 | 50% | 1 | 2 |
-| CSTA-LN-50 | AEB | 30 | 20 | 50% | 1 | 2 |
-| CSTA-RN | AEB | 10 | 20 | 右前端 | 1 | 2 |
-| CSTA-RN | AEB | 20 | 20 | 右前端 | 1 | 2 |
+<table>
+	<thead>
+		<tr>
+			<th style="vertical-align: middle;">测试场景</th>
+			<th style="vertical-align: middle;">测试类型</th>
+			<th style="vertical-align: middle;">测试速度（km/h）</th>
+			<th style="vertical-align: middle;">目标物速度（km/h）</th>
+			<th style="vertical-align: middle;">碰撞位置</th>
+			<th style="vertical-align: middle;">各项分值</th>
+			<th style="vertical-align: middle;">场景分值</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CBNAO-50</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="3" style="vertical-align: middle;">15</td>
+			<td rowspan="3" style="vertical-align: middle;">50%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">3</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CSFAO-50</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="3" style="vertical-align: middle;">20</td>
+			<td rowspan="3" style="vertical-align: middle;">50%</td>
+			<td style="vertical-align: middle;">2</td>
+			<td rowspan="3" style="vertical-align: middle;">3</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="4" style="vertical-align: middle;">CBLA-25</td>
+			<td rowspan="2" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">20</td>
+			<td rowspan="4" style="vertical-align: middle;">15</td>
+			<td rowspan="4" style="vertical-align: middle;">25%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="4" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">40</td>
+			<td style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">FCW</td>
+			<td style="vertical-align: middle;">60</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">80</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="3" style="vertical-align: middle;">CSTA-LN-50</td>
+			<td rowspan="3" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">10</td>
+			<td rowspan="3" style="vertical-align: middle;">20</td>
+			<td rowspan="3" style="vertical-align: middle;">50%</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="3" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">20</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">30</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">CSTA-RN</td>
+			<td rowspan="2" style="vertical-align: middle;">AEB</td>
+			<td style="vertical-align: middle;">10</td>
+			<td rowspan="2" style="vertical-align: middle;">20</td>
+			<td rowspan="2" style="vertical-align: middle;">右前端</td>
+			<td style="vertical-align: middle;">1</td>
+			<td rowspan="2" style="vertical-align: middle;">2</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">20</td>
+			<td style="vertical-align: middle;">1</td>
+		</tr>
+	</tbody>
+</table>
 
 AEB VRU_TW 的 评分逻辑和 AEB VRU_Ped 差不多，主要是没有 HMI。
 

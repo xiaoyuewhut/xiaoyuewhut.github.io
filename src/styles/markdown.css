@@ -149,6 +149,73 @@
 
     }
 
+    table {
+        width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        table-layout: auto;
+        margin: 1.25rem 0;
+        overflow: hidden;
+        border: 1px solid var(--line-color);
+        border-radius: 0.5rem;
+        font-size: 0.9em;
+        line-height: 1.55;
+    }
+
+    thead {
+        background: color-mix(in oklab, var(--btn-regular-bg) 82%, transparent);
+    }
+
+    th, td {
+        min-width: 3.75rem;
+        border: 1px solid var(--line-color);
+        padding: 0.55rem 0.7rem;
+        text-align: center;
+        vertical-align: middle !important;
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+
+    th {
+        color: var(--deep-text);
+        font-weight: 700;
+        white-space: normal;
+    }
+
+    td {
+        color: color-mix(in oklab, var(--deep-text) 88%, transparent);
+    }
+
+    tbody tr:nth-child(even) {
+        background: color-mix(in oklab, var(--btn-regular-bg) 34%, transparent);
+    }
+
+    tbody tr:hover {
+        background: color-mix(in oklab, var(--btn-regular-bg-hover) 48%, transparent);
+    }
+
+    th[colspan], th[rowspan], td[colspan], td[rowspan] {
+        vertical-align: middle !important;
+    }
+
+    @media (max-width: 640px) {
+        table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.82em;
+        }
+
+        th, td {
+            min-width: 4.5rem;
+            padding: 0.45rem 0.55rem;
+        }
+    }
+
     .katex-display-container {
         max-width: 100%;
         overflow-x: auto;

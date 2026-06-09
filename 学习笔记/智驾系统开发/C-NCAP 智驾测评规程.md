@@ -90,7 +90,29 @@ ADAS 在主动安全得分率里占 24 的分值，71.4%的权重。
 
 #### 3.1.2. 各项目分数
 
-<table><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><thead><tr><th vertical-align="top">测试场景</th><th vertical-align="top">测试类型</th><th vertical-align="top">测试速度（km/h）</th><th vertical-align="top">偏置率</th><th colspan="2" vertical-align="top">项目权重</th><th vertical-align="top">场景分值</th></tr></thead><tbody><tr><td rowspan="7" vertical-align="middle">CCRs</td><td rowspan="3" vertical-align="middle">AEB</td><td vertical-align="top">20</td><td vertical-align="top">-50%</td><td vertical-align="top">1</td><td rowspan="7" vertical-align="middle">11</td><td rowspan="7" vertical-align="middle">3</td></tr><tr><td vertical-align="top">30</td><td vertical-align="top">+50%</td><td vertical-align="top">2</td></tr><tr><td vertical-align="top">40</td><td vertical-align="top">-50%</td><td vertical-align="top">2</td></tr><tr><td rowspan="4" vertical-align="middle">FCW</td><td vertical-align="top">50</td><td vertical-align="top">+50%</td><td vertical-align="top">2</td></tr><tr><td vertical-align="top">60</td><td vertical-align="top">-50%</td><td vertical-align="top">2</td></tr><tr><td vertical-align="top">70</td><td vertical-align="top">+50%</td><td vertical-align="top">1</td></tr><tr><td vertical-align="top">80</td><td vertical-align="top">-50%</td><td vertical-align="top">1</td></tr><tr><td rowspan="2" vertical-align="middle">CCRH</td><td rowspan="2" vertical-align="middle">FCW</td><td vertical-align="top">80</td><td vertical-align="top">100%</td><td vertical-align="top">1</td><td rowspan="2" vertical-align="middle">2</td><td rowspan="2" vertical-align="middle">1</td></tr><tr><td vertical-align="top">120</td><td vertical-align="top">100%</td><td vertical-align="top">1</td></tr><tr><td rowspan="4" vertical-align="middle">C2C SCP</td><td rowspan="2" vertical-align="middle">AEB</td><td vertical-align="top">30</td><td vertical-align="top">/</td><td vertical-align="top">1</td><td rowspan="4" vertical-align="middle">5</td><td rowspan="4" vertical-align="middle">2</td></tr><tr><td vertical-align="top">40</td><td vertical-align="top">/</td><td vertical-align="top">2</td></tr><tr><td rowspan="2" vertical-align="middle">FCW</td><td vertical-align="top">50</td><td vertical-align="top">/</td><td vertical-align="top">1</td></tr><tr><td vertical-align="top">60</td><td vertical-align="top">/</td><td vertical-align="top">1</td></tr><tr><td rowspan="2" vertical-align="middle">C2C SCPO</td><td rowspan="2" vertical-align="middle">FCW</td><td vertical-align="top">50</td><td vertical-align="top">/</td><td vertical-align="top">1</td><td rowspan="2" vertical-align="middle">2</td><td rowspan="2" vertical-align="middle">1</td></tr><tr><td vertical-align="top">60</td><td vertical-align="top">/</td><td vertical-align="top">1</td></tr><tr><td rowspan="3" vertical-align="middle">CCFT</td><td rowspan="3" vertical-align="middle">AEB</td><td vertical-align="top">10</td><td vertical-align="top">/</td><td vertical-align="top">1</td><td rowspan="3" vertical-align="middle">3</td><td rowspan="3" vertical-align="middle">2</td></tr><tr><td vertical-align="top">20</td><td vertical-align="top">/</td><td vertical-align="top">1</td></tr><tr><td vertical-align="top">30</td><td vertical-align="top">/</td><td vertical-align="top">1</td></tr><tr><td rowspan="3" vertical-align="middle">HMI</td><td vertical-align="top">关闭要求</td><td vertical-align="top">/</td><td vertical-align="top">/</td><td vertical-align="top">2</td><td rowspan="3" vertical-align="middle">4</td><td rowspan="3" vertical-align="middle">1</td></tr><tr><td vertical-align="top">报警要求</td><td vertical-align="top">/</td><td vertical-align="top">/</td><td vertical-align="top">1</td></tr><tr><td vertical-align="top">主动安全带</td><td vertical-align="top">/</td><td vertical-align="top">/</td><td vertical-align="top">1</td></tr></tbody></table>
+| 测试场景 | 测试类型 | 测试速度（km/h） | 偏置率 | 速度点权重 | 场景总权重 | 场景分值 |
+|-|-|-:|-|-:|-:|-:|
+| CCRs | AEB | 20 | -50% | 1 | 11 | 3 |
+| CCRs | AEB | 30 | +50% | 2 | 11 | 3 |
+| CCRs | AEB | 40 | -50% | 2 | 11 | 3 |
+| CCRs | FCW | 50 | +50% | 2 | 11 | 3 |
+| CCRs | FCW | 60 | -50% | 2 | 11 | 3 |
+| CCRs | FCW | 70 | +50% | 1 | 11 | 3 |
+| CCRs | FCW | 80 | -50% | 1 | 11 | 3 |
+| CCRH | FCW | 80 | 100% | 1 | 2 | 1 |
+| CCRH | FCW | 120 | 100% | 1 | 2 | 1 |
+| C2C SCP | AEB | 30 | / | 1 | 5 | 2 |
+| C2C SCP | AEB | 40 | / | 2 | 5 | 2 |
+| C2C SCP | FCW | 50 | / | 1 | 5 | 2 |
+| C2C SCP | FCW | 60 | / | 1 | 5 | 2 |
+| C2C SCPO | FCW | 50 | / | 1 | 2 | 1 |
+| C2C SCPO | FCW | 60 | / | 1 | 2 | 1 |
+| CCFT | AEB | 10 | / | 1 | 3 | 2 |
+| CCFT | AEB | 20 | / | 1 | 3 | 2 |
+| CCFT | AEB | 30 | / | 1 | 3 | 2 |
+| HMI | 关闭要求 | / | / | 2 | 4 | 1 |
+| HMI | 报警要求 | / | / | 1 | 4 | 1 |
+| HMI | 主动安全带 | / | / | 1 | 4 | 1 |
 
 #### 3.1.3. 偏置率
 

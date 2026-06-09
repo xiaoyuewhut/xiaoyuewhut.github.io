@@ -134,6 +134,15 @@
         }
     }
 
+    span[style*="background-color: rgba(255, 246, 122"],
+    span[style*="background-color:rgba(255,246,122"] {
+        background: color-mix(in oklab, #facc15 44%, transparent) !important;
+        border-radius: 0.18em;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+        padding: 0.02em 0.16em;
+    }
+
     blockquote {
         @apply not-italic border-transparent relative;
         font-weight: inherit;

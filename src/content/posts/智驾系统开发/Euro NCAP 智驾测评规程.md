@@ -53,8 +53,7 @@ Euro NCAP 的星级门槛可以理解成“木桶原则”。车辆想拿到某�
 考虑到新体系切换需要开发周期，Euro NCAP 对 2026 和 2027 两年设置了 Soft Landing。这个软着陆只作用于 **Safe Driving** 和 **Crash Avoidance**，Crash Protection 和 Post-Crash 仍按常规门槛理解。
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th rowspan="2">星级</th>
 			<th colspan="2">Safe Driving</th>
@@ -240,8 +239,7 @@ Safe Driving = Occupant Monitoring + Driver Engagement + Vehicle Assistance
 Occupant Monitoring 的计分更接近条款表。除档位取分或比例计分项外，满足该小项要求拿对应分，不满足该小项为 0 分。
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项 / 档位</th>
@@ -337,8 +335,7 @@ Occupant Monitoring 的计分更接近条款表。除档位取分或比例计分
 - **第二步，只在车辆提供 Assisted Driving 时检查 50% 门槛。**Euro NCAP 会回到 AD 评级里看两个小项：Driver Monitoring 是否 ≥50%，Driving Collaboration 是否 ≥50%。两个门槛都通过，上表 30 分正常计入；任一门槛没过，整车 Safety Rating 里的 Driver Engagement 相关分数会被卡住。
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项</th>
@@ -425,8 +422,7 @@ Occupant Monitoring 的计分更接近条款表。除档位取分或比例计分
 Vehicle Assistance 的 40 分按功能和场景拆行。ACC 项目中，多个测试速度点会先在场景内部结算，表里列的是规程给出的场景权重。
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项 / 档位</th>
@@ -719,8 +715,7 @@ Safe Driving 满分 100，由 Occupant Monitoring 30、Driver Engagement 30、Ve
 ### 3.3.1. Occupant Monitoring
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项</th>
@@ -793,8 +788,7 @@ Safe Driving 满分 100，由 Occupant Monitoring 30、Driver Engagement 30、Ve
 Driver Engagement 先看 Safe Driving 表内 30 分：Driver Monitoring 25 分 + General Vehicle Controls 5 分。因为车型 A 提供 Assisted Driving，还要额外检查 AD 评级中的 Driver Monitoring 和 Driving Collaboration 是否都达到 50%；本例后面会算到这两个门槛均通过。
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项</th>
@@ -919,8 +913,7 @@ Driver Engagement 先看 Safe Driving 表内 30 分：Driver Monitoring 25 分 +
 ### 3.3.3. Vehicle Assistance
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项</th>
@@ -993,8 +986,7 @@ Driver Engagement 先看 Safe Driving 表内 30 分：Driver Monitoring 25 分 +
 Crash Avoidance 的重点是把每个大场景拆成大量 grid cell。一个 grid cell 通常由 VUT 速度、目标速度、横向位置、转弯/横穿路径、遮挡、光照或鲁棒性层等参数组合而成。先给每个 grid cell 判颜色或通过/失败，再归一化到场景分。
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>场景组</th>
@@ -1041,8 +1033,7 @@ Assisted Driving 单独发布评级，满分 200。先算 Driver Engagement 100 
 ### 3.5.1. Assistance Competence
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项</th>
@@ -1094,8 +1085,7 @@ Assistance Competence = min(83, 81) = 81 / 100
 ### 3.5.2. Safety Backup
 
 <table>
-
-			<thead>
+	<thead>
 		<tr>
 			<th>一级项</th>
 			<th>小项</th>

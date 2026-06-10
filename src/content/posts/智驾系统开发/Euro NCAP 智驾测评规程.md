@@ -11,7 +11,7 @@ draft: false
 ## 1. 总体逻辑
 
 
-> 📌 Euro NCAP 从 2026 开始采用**新的四阶段评价体系**，和 C-NCAP（[C-NCAP 智驾测评规程](/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/c-ncap-%E6%99%BA%E9%A9%BE%E6%B5%8B%E8%AF%84%E8%A7%84%E7%A8%8B/)）按“乘员保护、VRU 保护、主动安全”加权计算综合得分率的方式不太一样。
+> 📌 Euro NCAP 从 2026 开始采用<strong>新的四阶段评价体系</strong>，和 C-NCAP（[C-NCAP 智驾测评规程](/posts/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/c-ncap-%E6%99%BA%E9%A9%BE%E6%B5%8B%E8%AF%84%E8%A7%84%E7%A8%8B/)）按“乘员保护、VRU 保护、主动安全”加权计算综合得分率的方式不太一样。
 >
 > 理解 Euro NCAP 时，要先看 Stage，再看星级门槛，最后再落到 Safe Driving、Crash Avoidance 和 Assisted Driving 的具体项目。
 
@@ -24,14 +24,14 @@ Euro NCAP 2026+ 把整车安全拆成四个独立 Stage，每个 Stage 都按 10
 
 | Stage | 满分 | 权重 | 主要评价对象 |
 |-|-|-|-|
-| **Safe Driving** | 100 | 20 | 驾驶员、乘员、车速辅助、ACC、转向辅助、车控 HMI |
-| **Crash Avoidance** | 100 | 20 | 前向碰撞、车道偏离、低速碰撞的避免或减轻 |
-| **Crash Protection** | 100 | 50 | 正碰、侧碰、后碰、VRU 被动碰撞保护 |
-| **Post-Crash Safety** | 100 | 10 | 救援信息、eCall、事故后干预、脱困能力 |
+| <strong>Safe Driving</strong> | 100 | 20 | 驾驶员、乘员、车速辅助、ACC、转向辅助、车控 HMI |
+| <strong>Crash Avoidance</strong> | 100 | 20 | 前向碰撞、车道偏离、低速碰撞的避免或减轻 |
+| <strong>Crash Protection</strong> | 100 | 50 | 正碰、侧碰、后碰、VRU 被动碰撞保护 |
+| <strong>Post-Crash Safety</strong> | 100 | 10 | 救援信息、eCall、事故后干预、脱困能力 |
 
 
-> ❗ **注意：**Euro NCAP 官方表里给四个 Stage 标了 Weight：Safe Driving 20、Crash Avoidance 20、Crash Protection 50、Post-Crash 10。
-> 这个权重主要用于年度 **Best in Class** 加权排序，星级计算仍以各 Stage 门槛为核心。
+> ❗ <strong>注意：</strong>Euro NCAP 官方表里给四个 Stage 标了 Weight：Safe Driving 20、Crash Avoidance 20、Crash Protection 50、Post-Crash 10。
+> 这个权重主要用于年度 <strong>Best in Class</strong> 加权排序，星级计算仍以各 Stage 门槛为核心。
 
 
 ## 1.2. 星级门槛
@@ -50,7 +50,7 @@ Euro NCAP 的星级门槛可以理解成“木桶原则”。车辆想拿到某�
 
 ### 1.2.1. 软着陆
 
-考虑到新体系切换需要开发周期，Euro NCAP 对 2026 和 2027 两年设置了 Soft Landing。这个软着陆只作用于 **Safe Driving** 和 **Crash Avoidance**，Crash Protection 和 Post-Crash 仍按常规门槛理解。
+考虑到新体系切换需要开发周期，Euro NCAP 对 2026 和 2027 两年设置了 Soft Landing。这个软着陆只作用于 <strong>Safe Driving</strong> 和 <strong>Crash Avoidance</strong>，Crash Protection 和 Post-Crash 仍按常规门槛理解。
 
 <table>
 	<thead>
@@ -99,13 +99,13 @@ Euro NCAP 的星级门槛可以理解成“木桶原则”。车辆想拿到某�
 </table>
 
 
-> ✅ **工程解读：**2026 年新体系刚实施，Safe Driving 获得过渡窗口。到 2027 年，Safe Driving 门槛提高；到完整门槛阶段，Safe Driving 和 Crash Avoidance 都会成为拿高星的硬约束。
-> 所以可以说：**2026 年 Safe Driving 达到 60%、Crash Avoidance 达到 70%，就可能满足 5 星在这两个 Stage 上的过渡门槛**，不必一开始就都达到完整的 80%。
+> ✅ <strong>工程解读：</strong>2026 年新体系刚实施，Safe Driving 获得过渡窗口。到 2027 年，Safe Driving 门槛提高；到完整门槛阶段，Safe Driving 和 Crash Avoidance 都会成为拿高星的硬约束。
+> 所以可以说：<strong>2026 年 Safe Driving 达到 60%、Crash Avoidance 达到 70%，就可能满足 5 星在这两个 Stage 上的过渡门槛</strong>，不必一开始就都达到完整的 80%。
 
 
 ### 1.2.2. 分数补偿
 
-Euro NCAP 2026+ 引入了一个补偿规则：前三个 Stage 中，如果某个 Stage 有富余分，最多可以拿 **5 分** 去补偿相邻 Stage，以帮助车辆达到更高星级。但这个补偿有边界：
+Euro NCAP 2026+ 引入了一个补偿规则：前三个 Stage 中，如果某个 Stage 有富余分，最多可以拿 <strong>5 分</strong> 去补偿相邻 Stage，以帮助车辆达到更高星级。但这个补偿有边界：
 
 - 只能补偿相邻 Stage，例如 Safe Driving 可以和 Crash Avoidance 相邻，Crash Avoidance 可以和 Safe Driving / Crash Protection 相邻。
 - Safe Driving 和 Crash Protection 不相邻，因此不能直接互相补偿。
@@ -113,9 +113,9 @@ Euro NCAP 2026+ 引入了一个补偿规则：前三个 Stage 中，如果某个
 - 这个规则主要用于提高评分稳定性，不应被理解为允许某一大块长期明显短板。
 
 
-> ✅ **可以理解为：**Crash Avoidance 多出来的一点分，可能补 Safe Driving 或 Crash Protection 的小缺口。
+> ✅ <strong>可以理解为：</strong>Crash Avoidance 多出来的一点分，可能补 Safe Driving 或 Crash Protection 的小缺口。
 
-> ❌ **不能理解为：**只要 AEB 做得很好，就能完全抵消 DMS、HMI、被动安全或事故后安全的不足。
+> ❌ <strong>不能理解为：</strong>只要 AEB 做得很好，就能完全抵消 DMS、HMI、被动安全或事故后安全的不足。
 
 
 ### 1.2.3. Backstop
@@ -125,14 +125,14 @@ Euro NCAP 2026+ 引入了一个补偿规则：前三个 Stage 中，如果某个
 普通扣分是某个项目表现不好，导致该项目少拿分；Backstop 则更像一道门槛或封顶条件。它不一定体现为“扣几分”，而可能直接影响某个项目能不能计分，或者限制整车最高星级。
 
 
-> ✅ **普通得分逻辑：**某个 AEB 场景没避开碰撞，该测试点少拿分，最终影响 Crash Avoidance 分数。
+> ✅ <strong>普通得分逻辑：</strong>某个 AEB 场景没避开碰撞，该测试点少拿分，最终影响 Crash Avoidance 分数。
 
-> 💡 **Backstop 逻辑：**即使某些 Stage 分数已经达到 5 星门槛，只要触发关键封顶规则，最终也可能不能拿 5 星。
+> 💡 <strong>Backstop 逻辑：</strong>即使某些 Stage 分数已经达到 5 星门槛，只要触发关键封顶规则，最终也可能不能拿 5 星。
 
 
 #### 1.2.3.2. 辅助驾驶约束
 
-如果车辆提供 Assisted Driving 系统，无论是标配还是选装，都不能只看纵向/横向控制能力。Euro NCAP 要求该 AD 系统在 Assisted Driving Grading 中，**Driver Monitoring** 和 **Driving Collaboration** 分别达到至少 50%，Safe Driving 里的 Driver Engagement 才能正常获得相关分数。
+如果车辆提供 Assisted Driving 系统，无论是标配还是选装，都不能只看纵向/横向控制能力。Euro NCAP 要求该 AD 系统在 Assisted Driving Grading 中，<strong>Driver Monitoring</strong> 和 <strong>Driving Collaboration</strong> 分别达到至少 50%，Safe Driving 里的 Driver Engagement 才能正常获得相关分数。
 
 | 约束点 | 规程含义 | 工程含义 |
 |-|-|-|
@@ -141,7 +141,7 @@ Euro NCAP 2026+ 引入了一个补偿规则：前三个 Stage 中，如果某个
 | 影响 Driver Engagement | AD 系统如果监管和协作不足，会影响 Safe Driving 下 Driver Engagement 的得分资格。 | 高阶辅助驾驶项目不能把 DMS、HMI、接管策略放到后期补丁处理，它们属于星级相关的核心系统要求。 |
 
 
-> ❗ **这条规则的本质：**Euro NCAP 不鼓励“辅助能力很强，但驾驶员监管很弱”的系统。车辆越能自动跟车、居中、变道或处理道路特征，就越需要证明驾驶员仍然被正确监控，并且能和系统安全协作。
+> ❗ <strong>这条规则的本质：</strong>Euro NCAP 不鼓励“辅助能力很强，但驾驶员监管很弱”的系统。车辆越能自动跟车、居中、变道或处理道路特征，就越需要证明驾驶员仍然被正确监控，并且能和系统安全协作。
 
 
 #### 1.2.3.3. VRU 主被动联动
@@ -157,7 +157,7 @@ Euro NCAP 把 VRU 安全拆到了两个不同 Stage：Crash Protection 里有 VR
 | Prerequisite 关联 | 跨 Stage 约束 | 主动安全和被动安全不能互相替代。AEB 做得好，不代表可以放松车头行人保护。 |
 
 
-> 📌 **工程解读：**对于智驾团队来说，这意味着 AEB VRU 不能只写传感器识别距离、TTC 和制动策略；还要和整车安全、造型、车身、机盖、保险杠等团队确认被动 VRU 保护底线。否则主动避撞分数可能存在资格风险。
+> 📌 <strong>工程解读：</strong>对于智驾团队来说，这意味着 AEB VRU 不能只写传感器识别距离、TTC 和制动策略；还要和整车安全、造型、车身、机盖、保险杠等团队确认被动 VRU 保护底线。否则主动避撞分数可能存在资格风险。
 
 
 #### 1.2.3.4. 碰撞红区封顶
@@ -193,7 +193,7 @@ Backstop 最容易出问题的地方，是项目团队只盯具体测试分数�
 | 验证阶段 | 不仅验证测试点得分，还验证是否触发星级封顶、不得分或资格缺失。 | Euro NCAP 评分预测表、Backstop 风险关闭报告。 |
 
 
-> ✅ **本小节结论：**Backstop 是 Euro NCAP 防止安全短板被高分掩盖的硬性机制。对智驾开发来说，它要求 ADAS、DMS、HMI、乘员监测、被动安全和事故后安全协同设计；否则某个前置条件缺失，就可能导致相关项目不得分或整车星级被封顶。
+> ✅ <strong>本小节结论：</strong>Backstop 是 Euro NCAP 防止安全短板被高分掩盖的硬性机制。对智驾开发来说，它要求 ADAS、DMS、HMI、乘员监测、被动安全和事故后安全协同设计；否则某个前置条件缺失，就可能导致相关项目不得分或整车星级被封顶。
 
 
 ---
@@ -201,22 +201,22 @@ Backstop 最容易出问题的地方，是项目团队只盯具体测试分数�
 ## 2. 智驾主线
 
 
-> 📌 **这一章重点是说明分数怎么来的。**Euro NCAP 智驾相关评分大体遵循一条链路：
+> 📌 <strong>这一章重点是说明分数怎么来的。</strong>Euro NCAP 智驾相关评分大体遵循一条链路：
 > - 先把能力拆成测试项或审核项
 > - 再把测试项拆成场景矩阵或检查条款
 > - 然后把每个测试点转成颜色、通过/失败或条款得分
 > - 最后按场景分值归一化并汇总到 Stage 分数。
 
 
-Euro NCAP 里和智驾最相关的是三条线：**Safe Driving**、**Crash Avoidance** 和 **Assisted Driving**。其中 Safe Driving 和 Crash Avoidance 进入星级门槛。
+Euro NCAP 里和智驾最相关的是三条线：<strong>Safe Driving</strong>、<strong>Crash Avoidance</strong> 和 <strong>Assisted Driving</strong>。其中 Safe Driving 和 Crash Avoidance 进入星级门槛。
 
 *（Assisted Driving 单独发布评级，但会影响 Safe Driving 中 Driver Engagement 的得分资格。）*
 
 | 主线 | 是否进入星级 | 分数来源 | 计分关键词 |
 |-|-|-|-|
-| **Safe Driving**  <br>（安全驾驶） | 进入星级门槛 | Occupant Monitoring、Driver Engagement、Vehicle Assistance 三个子项相加，共 100 分。 | 条款审核、功能可用性、DMS 资料包与抽查、ACC/转向辅助测试、道路特征响应。 |
-| **Crash Avoidance**  <br>（碰撞避免） | 进入星级门槛 | Frontal Collisions、Lane Departure Collisions、Low Speed Collisions 三个子项相加，共 100 分。 | 场景矩阵、网格点、颜色带、通过/失败、标准范围、扩展范围、鲁棒性层、验证测试。 |
-| **Assisted Driving**  <br>（辅助驾驶） | 单独评级，但影响星级资格 | Assistance Competence 与 Safety Backup 共同决定辅助驾驶评级。 | 辅助能力与驾驶员参与平衡、系统状态提示、驾驶协作、失效兜底、传感器遮挡、失能驾驶员。 |
+| <strong>Safe Driving</strong><br>（安全驾驶） | 进入星级门槛 | Occupant Monitoring、Driver Engagement、Vehicle Assistance 三个子项相加，共 100 分。 | 条款审核、功能可用性、DMS 资料包与抽查、ACC/转向辅助测试、道路特征响应。 |
+| <strong>Crash Avoidance</strong><br>（碰撞避免） | 进入星级门槛 | Frontal Collisions、Lane Departure Collisions、Low Speed Collisions 三个子项相加，共 100 分。 | 场景矩阵、网格点、颜色带、通过/失败、标准范围、扩展范围、鲁棒性层、验证测试。 |
+| <strong>Assisted Driving</strong><br>（辅助驾驶） | 单独评级，但影响星级资格 | Assistance Competence 与 Safety Backup 共同决定辅助驾驶评级。 | 辅助能力与驾驶员参与平衡、系统状态提示、驾驶协作、失效兜底、传感器遮挡、失能驾驶员。 |
 
 ## 2.1. Safe Driving
 
@@ -329,10 +329,10 @@ Occupant Monitoring 的计分更接近条款表。除档位取分或比例计分
 
 ### 2.1.2. Driver Engagement
 
-**先把它理解成两步：**
+<strong>先把它理解成两步：</strong>
 
-- **第一步，算这张表里的 30 分。**这里就是 Driver Monitoring 25 分 + General Vehicle Controls 5 分。
-- **第二步，只在车辆提供 Assisted Driving 时检查 50% 门槛。**Euro NCAP 会回到 AD 评级里看两个小项：Driver Monitoring 是否 ≥50%，Driving Collaboration 是否 ≥50%。两个门槛都通过，上表 30 分正常计入；任一门槛没过，整车 Safety Rating 里的 Driver Engagement 相关分数会被卡住。
+- <strong>第一步，算这张表里的 30 分。</strong>这里就是 Driver Monitoring 25 分 + General Vehicle Controls 5 分。
+- <strong>第二步，只在车辆提供 Assisted Driving 时检查 50% 门槛。</strong>Euro NCAP 会回到 AD 评级里看两个小项：Driver Monitoring 是否 ≥50%，Driving Collaboration 是否 ≥50%。两个门槛都通过，上表 30 分正常计入；任一门槛没过，整车 Safety Rating 里的 Driver Engagement 相关分数会被卡住。
 
 <table>
 	<thead>
@@ -412,7 +412,7 @@ Occupant Monitoring 的计分更接近条款表。除档位取分或比例计分
 </table>
 
 
-> ✅ **例子：**长分心可检测、短分心不可检测、手机使用不可检测时，Transient driver states = 5 + 0 + 0 = 5 分。若 Impairment、Microsleep、Sleep、Unresponsive 都满足，则 Non-transient driver states = 4 + 2 + 2 + 2 = 10 分。
+> ✅ <strong>例子：</strong>长分心可检测、短分心不可检测、手机使用不可检测时，Transient driver states = 5 + 0 + 0 = 5 分。若 Impairment、Microsleep、Sleep、Unresponsive 都满足，则 Non-transient driver states = 4 + 2 + 2 + 2 = 10 分。
 
 
 所以，这里要分清两件事：上表只负责计算 Safe Driving 里的 30 分；Driving Collaboration 出现在 AD 评级中，车辆带 Assisted Driving 时会被拿来做 50% 门槛检查。
@@ -560,12 +560,12 @@ Vehicle Assistance 的 40 分按功能和场景拆行。ACC 项目中，多个�
 </table>
 
 
-> 📌 **ACC 子场景得分：**车车和摩托车纵向场景通常按“完全避免 = 1、速度降低 >15 km/h = 0.5、≤15 km/h = 0”结算；VRU 同向场景按“速度降低 >30 km/h = 1、>15 km/h = 0.5、≤15 km/h = 0”结算。
+> 📌 <strong>ACC 子场景得分：</strong>车车和摩托车纵向场景通常按“完全避免 = 1、速度降低 >15 km/h = 0.5、≤15 km/h = 0”结算；VRU 同向场景按“速度降低 >30 km/h = 1、>15 km/h = 0.5、≤15 km/h = 0”结算。
 
 
 ## 2.2. Crash Avoidance
 
-Crash Avoidance 的 100 分更像传统意义上的主动避撞测试，但 Euro NCAP 的计分方式比“撞上/没撞上”复杂。它通常先把一个场景拆成很多 **grid cell**，每个 grid cell 是速度、目标类型、横向位置、遮挡、方向等参数组合，然后把每个 grid cell 的表现换成颜色或通过/失败，最后归一化到该场景分值。
+Crash Avoidance 的 100 分更像传统意义上的主动避撞测试，但 Euro NCAP 的计分方式比“撞上/没撞上”复杂。它通常先把一个场景拆成很多 <strong>grid cell</strong>，每个 grid cell 是速度、目标类型、横向位置、遮挡、方向等参数组合，然后把每个 grid cell 的表现换成颜色或通过/失败，最后归一化到该场景分值。
 
 ```text
 Crash Avoidance = Frontal Collisions + Lane Departure Collisions + Low Speed Collisions
@@ -577,12 +577,12 @@ Crash Avoidance = Frontal Collisions + Lane Departure Collisions + Low Speed Col
 
 Crash Avoidance 最重要的是理解“场景分怎么来”。典型链路如下：
 
-1. **定义场景。**例如车对车追尾、摩托车横穿、行人夜间横穿、道路边缘偏离、倒车儿童、开门杀等。
-2. **拆成网格点。**每个场景由一组速度、目标位置、目标方向、遮挡、横向速度等参数组合而成，每个组合就是一个 grid cell。
-3. **车企提交预测。**车企需要提供每个 grid cell 的预测表现，可以来自虚拟测试、自声明、实车数据或场地测试。
-4. **实验室抽查验证。**Euro NCAP 从预测中抽取若干测试点验证。验证结果会决定预测能否被接受，必要时会扩展测试。
-5. **转成颜色或通过/失败。**不同协议用不同 KPI，例如碰撞速度、速度降低、FCW TTC、是否碰撞、扭矩抑制、开门提醒 TTC 等。
-6. **归一化到场景分。**把所有 grid cell 的子分相加，再按该场景总分归一化。
+1. <strong>定义场景。</strong>例如车对车追尾、摩托车横穿、行人夜间横穿、道路边缘偏离、倒车儿童、开门杀等。
+2. <strong>拆成网格点。</strong>每个场景由一组速度、目标位置、目标方向、遮挡、横向速度等参数组合而成，每个组合就是一个 grid cell。
+3. <strong>车企提交预测。</strong>车企需要提供每个 grid cell 的预测表现，可以来自虚拟测试、自声明、实车数据或场地测试。
+4. <strong>实验室抽查验证。</strong>Euro NCAP 从预测中抽取若干测试点验证。验证结果会决定预测能否被接受，必要时会扩展测试。
+5. <strong>转成颜色或通过/失败。</strong>不同协议用不同 KPI，例如碰撞速度、速度降低、FCW TTC、是否碰撞、扭矩抑制、开门提醒 TTC 等。
+6. <strong>归一化到场景分。</strong>把所有 grid cell 的子分相加，再按该场景总分归一化。
 
 ```text
 场景得分 = 所有 grid cell 子分之和 / grid cell 数量 × 该场景总分
@@ -621,7 +621,7 @@ Euro NCAP 不只测试标准场景，还会看扩展范围和鲁棒性层。这�
 | Robustness Layer  <br>（鲁棒性层） | 引入真实世界扰动，例如目标位置偏差、目标外观变化、车道边界变化、夜间、雨雾、眩光、传感器遮挡等。 | 通常要求标准范围先达到一定水平，才有资格拿鲁棒性分。验证测试失败时，可能导致对应层或同类目标场景降级。 |
 
 
-> 💡 **验证测试会实质影响得分。**车企提交的预测会被 Euro NCAP 随机抽点验证。如果验证点没有达到预测颜色或通过结果，最终场景分会被验证结果影响；虚拟测试预测不满足接受准则时，也可能被按 Self-claim 处理，得分更保守。
+> 💡 <strong>验证测试会实质影响得分。</strong>车企提交的预测会被 Euro NCAP 随机抽点验证。如果验证点没有达到预测颜色或通过结果，最终场景分会被验证结果影响；虚拟测试预测不满足接受准则时，也可能被按 Self-claim 处理，得分更保守。
 
 
 ### 2.2.4. 汇总规则
@@ -679,13 +679,13 @@ Assisted Driving 最终用 Assistance Competence 和 Safety Backup 的合计分�
 | Entry  <br>（入门） | ≥100 分（≥50%） | 达到入门级辅助驾驶评级。 |
 
 
-> ✅ **本章结论：**Euro NCAP 智驾相关评分强调计算链路，而非简单罗列功能分值。Safe Driving 更像条款和功能审核的加总；Crash Avoidance 是场景矩阵、颜色带、验证测试和归一化计算；Assisted Driving 则用“辅助能力不能超过驾驶员监管能力”的平衡原则，再叠加 Safety Backup 形成单独评级。
+> ✅ <strong>本章结论：</strong>Euro NCAP 智驾相关评分强调计算链路，而非简单罗列功能分值。Safe Driving 更像条款和功能审核的加总；Crash Avoidance 是场景矩阵、颜色带、验证测试和归一化计算；Assisted Driving 则用“辅助能力不能超过驾驶员监管能力”的平衡原则，再叠加 Safety Backup 形成单独评级。
 
 
 ## 3. 例子
 
 
-> 💡 **示例说明：**下面用一台假设车型 A 来走完整流程。分数是为了说明 Euro NCAP 的计算方式而设置的示例结果；真实项目中，Crash Avoidance 和 Assisted Driving 的大量 grid cell 需要由车企预测、虚拟测试材料和实验室抽查共同确认。
+> 💡 <strong>示例说明：</strong>下面用一台假设车型 A 来走完整流程。分数是为了说明 Euro NCAP 的计算方式而设置的示例结果；真实项目中，Crash Avoidance 和 Assisted Driving 的大量 grid cell 需要由车企预测、虚拟测试材料和实验室抽查共同确认。
 
 
 ## 3.1. 示例车辆
@@ -781,7 +781,7 @@ Safe Driving 满分 100，由 Occupant Monitoring 30、Driver Engagement 30、Ve
 	</tbody>
 </table>
 
-本例 Occupant Monitoring = 9 + 8 + 9.5 = **26.5 / 30**。失分集中在“整条安全带背后绕过”“脚放仪表台”和“前排乘客体型分类”。
+本例 Occupant Monitoring = 9 + 8 + 9.5 = <strong>26.5 / 30</strong>。失分集中在“整条安全带背后绕过”“脚放仪表台”和“前排乘客体型分类”。
 
 ### 3.3.2. Driver Engagement
 
@@ -908,7 +908,7 @@ Driver Engagement 先看 Safe Driving 表内 30 分：Driver Monitoring 25 分 +
 	</tbody>
 </table>
 
-本例 Driver Monitoring = Long 4 + Short 3 + Phone 2.5 + Non-transient 6 = **15.5 / 25**；General Vehicle Controls = **4.75 / 5**。Safe Driving 中 Driver Engagement = **20.25 / 30**。
+本例 Driver Monitoring = Long 4 + Short 3 + Phone 2.5 + Non-transient 6 = <strong>15.5 / 25</strong>；General Vehicle Controls = <strong>4.75 / 5</strong>。Safe Driving 中 Driver Engagement = <strong>20.25 / 30</strong>。
 
 ### 3.3.3. Vehicle Assistance
 
@@ -979,7 +979,7 @@ Driver Engagement 先看 Safe Driving 表内 30 分：Driver Monitoring 25 分 +
 	</tbody>
 </table>
 
-本例 Vehicle Assistance = Speed Assistance 16 + ACC Performance 11.3 + Steering Assistance 4 = **31.3 / 40**。Safe Driving 总分 = 26.5 + 20.25 + 31.3 = **78.05 / 100**。
+本例 Vehicle Assistance = Speed Assistance 16 + ACC Performance 11.3 + Steering Assistance 4 = <strong>31.3 / 40</strong>。Safe Driving 总分 = 26.5 + 20.25 + 31.3 = <strong>78.05 / 100</strong>。
 
 ## 3.4. Crash Avoidance
 
@@ -1024,7 +1024,7 @@ Crash Avoidance 的重点是把每个大场景拆成大量 grid cell。一个 gr
 	</tbody>
 </table>
 
-本例 Crash Avoidance = 48 + 15 + 15.5 = **78.5 / 100**。如果看单个 grid cell，Euro NCAP 会先按 Green 1.00、Yellow 0.75、Orange 0.50、Brown 0.25、Red 0.00 折算 Standard Range；Extended Range 通常只有 Green 才算通过，最后再按 50%、75%、100% 的阶梯拿扩展分。鲁棒性层还会看目标速度偏差、初始位置偏差、目标外观、夜间、雨雾、眩光、遮挡和路边杂物等变化。
+本例 Crash Avoidance = 48 + 15 + 15.5 = <strong>78.5 / 100</strong>。如果看单个 grid cell，Euro NCAP 会先按 Green 1.00、Yellow 0.75、Orange 0.50、Brown 0.25、Red 0.00 折算 Standard Range；Extended Range 通常只有 Green 才算通过，最后再按 50%、75%、100% 的阶梯拿扩展分。鲁棒性层还会看目标速度偏差、初始位置偏差、目标外观、夜间、雨雾、眩光、遮挡和路边杂物等变化。
 
 ## 3.5. Assisted Driving
 
@@ -1163,7 +1163,7 @@ Assisted Driving 总分 = Assistance Competence 81 + Safety Backup 76 = 157 / 20
 | 整车星级 | 需四个 stage 一起看 | 本例只演示智驾链路 | 若再假设 Crash Protection 和 Post-Crash Safety 都满足 5 星门槛且没有 backstop 封顶，则车型 A 在 2026 可冲 5 星；到正常门槛年份，Safe Driving 和 Crash Avoidance 都需要继续补分。 |
 
 
-> ✅ **这个例子最关键的结论：**Euro NCAP 智驾测评是一条完整链路。车内监测决定 Safe Driving 基础分；DSM 和接管协作又会成为辅助驾驶门槛；主动避撞要通过大量场景矩阵和验证测试；Assisted Driving 还会用“驾驶员参与能力不能低于车辆辅助能力”的平衡原则限制最终评级。
+> ✅ <strong>这个例子最关键的结论：</strong>Euro NCAP 智驾测评是一条完整链路。车内监测决定 Safe Driving 基础分；DSM 和接管协作又会成为辅助驾驶门槛；主动避撞要通过大量场景矩阵和验证测试；Assisted Driving 还会用“驾驶员参与能力不能低于车辆辅助能力”的平衡原则限制最终评级。
 
 
 ## 4. C-NCAP 映射
@@ -1182,7 +1182,7 @@ Assisted Driving 总分 = Assistance Competence 81 + Safety Backup 76 = 157 / 20
 ## 5. 乘用车评分
 
 
-> 💡 **资料口径：**以下整理基于 Euro NCAP 官方 Assisted Driving Gradings 总览页和车型详情页，检索时间为 2026-06-10。Assisted Driving 评级是单独发布的辅助驾驶评级，不等同于整车星级，也不等同于 Safety Assist 分数。
+> 💡 <strong>资料口径：</strong>以下整理基于 Euro NCAP 官方 Assisted Driving Gradings 总览页和车型详情页，检索时间为 2026-06-10。Assisted Driving 评级是单独发布的辅助驾驶评级，不等同于整车星级，也不等同于 Safety Assist 分数。
 
 
 ## 5.1. 国内品牌
@@ -1229,9 +1229,9 @@ Euro NCAP 官方总览页同期还列出以下车型。它们有助于对比国�
 
 ## 5.4. 车型备注
 
-- **BYD ATTO 3：**官方详情页说明 2022 MY 曾在 2024 年被评为 Not recommended；软件升级后的 2022 MY 重新评为 Moderate，2025 MY Bosch 系统评为 Good。这说明 AD 评级不仅看硬件，也看软件策略、系统状态提示、DMS、失效兜底和接管协作。
-- **XPENG G9：**官方评价中提到 XPILOT ASSIST 命名能准确表达系统功能，Driver Engagement 与 Vehicle Assistance 比较均衡，Safety Backup 也达到合理水平，因此总评 Good。
-- **MG ZS / Volvo EX30 / Mazda CX-80：**这些车型都出现 Driver Monitoring 分项为 0 / 25 的情况，说明只靠方向盘手力矩或基础监测，在新 AD 评级下很难形成高分。
-- **ZEEKR X、ZEEKR 001、NIO EL6：**其 Euro NCAP 安全星级页中出现 “Assisted Driving grading available” 提示，但当前未在官方 AD 总览页中抓到可核验的 AC/SB 分项，因此本节不把它们列为已有公开 AD 分数车型。
+- <strong>BYD ATTO 3：</strong>官方详情页说明 2022 MY 曾在 2024 年被评为 Not recommended；软件升级后的 2022 MY 重新评为 Moderate，2025 MY Bosch 系统评为 Good。这说明 AD 评级不仅看硬件，也看软件策略、系统状态提示、DMS、失效兜底和接管协作。
+- <strong>XPENG G9：</strong>官方评价中提到 XPILOT ASSIST 命名能准确表达系统功能，Driver Engagement 与 Vehicle Assistance 比较均衡，Safety Backup 也达到合理水平，因此总评 Good。
+- <strong>MG ZS / Volvo EX30 / Mazda CX-80：</strong>这些车型都出现 Driver Monitoring 分项为 0 / 25 的情况，说明只靠方向盘手力矩或基础监测，在新 AD 评级下很难形成高分。
+- <strong>ZEEKR X、ZEEKR 001、NIO EL6：</strong>其 Euro NCAP 安全星级页中出现 “Assisted Driving grading available” 提示，但当前未在官方 AD 总览页中抓到可核验的 AC/SB 分项，因此本节不把它们列为已有公开 AD 分数车型。
 
 参考入口：[Euro NCAP Assisted Driving Gradings](https://www.euroncap.com/assisted-driving-gradings/)。

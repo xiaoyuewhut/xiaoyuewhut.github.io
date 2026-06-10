@@ -2,6 +2,8 @@
 theme: academic-paper
 themeName: "学术论文"
 title: "L2 L3 智驾 驾驶员 HMI 与接管机制"
+updated: 2026-05-23
+published: 2026-05-23
 tags:
   - 智驾
   - HMI

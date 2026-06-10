@@ -3,12 +3,11 @@ import { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants.ts";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
-import {
-	getStoredTheme,
-	setTheme,
-} from "@utils/setting-utils.ts";
+import { getStoredTheme, setTheme } from "@utils/setting-utils.ts";
 import { onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
+
+let { hydrated = true }: { hydrated?: boolean } = $props();
 
 let mode: LIGHT_DARK_MODE = $state(AUTO_MODE);
 let activeMode: typeof LIGHT_MODE | typeof DARK_MODE = $state(LIGHT_MODE);
@@ -50,9 +49,7 @@ onMount(() => {
 	};
 });
 
-function switchScheme(
-	newMode: typeof LIGHT_MODE | typeof DARK_MODE,
-) {
+function switchScheme(newMode: typeof LIGHT_MODE | typeof DARK_MODE) {
 	mode = newMode;
 	setTheme(newMode);
 	syncActiveMode();
@@ -64,6 +61,7 @@ function switchScheme(
 	role="group"
 	aria-label="Light and dark mode switch"
 	data-mode={activeMode}
+	data-hydrated={hydrated}
 >
 	<div class="theme-switch__track" aria-hidden="true">
 		<div class="theme-switch__track-side theme-switch__track-side--light">

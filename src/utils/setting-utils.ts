@@ -30,20 +30,21 @@ export function getHue(): number {
 }
 
 export function setHue(hue: number): void {
+	const nextHue = isHueFixed() ? getDefaultHue() : hue;
+
 	if (isHueFixed()) {
 		localStorage.removeItem("hue");
-		hue = getDefaultHue();
 	} else {
-		localStorage.setItem("hue", String(hue));
+		localStorage.setItem("hue", String(nextHue));
 	}
 	const r = document.querySelector(":root") as HTMLElement;
 	if (!r) {
 		return;
 	}
-	r.style.setProperty("--hue", String(hue));
+	r.style.setProperty("--hue", String(nextHue));
 }
 
-export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
+export function applyThemeToDocument(theme: LIGHT_DARK_MODE): void {
 	switch (theme) {
 		case LIGHT_MODE:
 			document.documentElement.classList.remove("dark");

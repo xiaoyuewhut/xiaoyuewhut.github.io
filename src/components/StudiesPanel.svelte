@@ -1,53 +1,53 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+import { onMount } from "svelte";
 
-	import { getPostUrlBySlug } from "../utils/url-utils";
+import { getPostUrlBySlug } from "../utils/url-utils";
 
-	interface StudyPost {
-		slug: string;
-		title: string;
-		description: string;
+interface StudyPost {
+	slug: string;
+	title: string;
+	description: string;
+}
+
+interface StudySection {
+	id: string;
+	name: string;
+	url: string;
+	count: number;
+	posts: StudyPost[];
+}
+
+export let sections: StudySection[] = [];
+
+let activeIndex = 0;
+
+$: activeSection = sections[activeIndex] ?? null;
+
+function syncFromHash() {
+	const hash = window.location.hash.replace(/^#/, "");
+	if (!hash) {
+		activeIndex = 0;
+		return;
 	}
 
-	interface StudySection {
-		id: string;
-		name: string;
-		url: string;
-		count: number;
-		posts: StudyPost[];
+	const nextIndex = sections.findIndex((section) => section.id === hash);
+	if (nextIndex >= 0) {
+		activeIndex = nextIndex;
 	}
+}
 
-	export let sections: StudySection[] = [];
+function activateSection(index: number) {
+	activeIndex = index;
+	const section = sections[index];
+	if (!section) return;
+	window.history.replaceState(null, "", `#${section.id}`);
+}
 
-	let activeIndex = 0;
-
-	$: activeSection = sections[activeIndex] ?? null;
-
-	function syncFromHash() {
-		const hash = window.location.hash.replace(/^#/, "");
-		if (!hash) {
-			activeIndex = 0;
-			return;
-		}
-
-		const nextIndex = sections.findIndex((section) => section.id === hash);
-		if (nextIndex >= 0) {
-			activeIndex = nextIndex;
-		}
-	}
-
-	function activateSection(index: number) {
-		activeIndex = index;
-		const section = sections[index];
-		if (!section) return;
-		window.history.replaceState(null, "", `#${section.id}`);
-	}
-
-	onMount(() => {
-		syncFromHash();
-		window.addEventListener("hashchange", syncFromHash);
-		return () => window.removeEventListener("hashchange", syncFromHash);
-	});
+onMount(() => {
+	syncFromHash();
+	window.addEventListener("hashchange", syncFromHash);
+	return () => window.removeEventListener("hashchange", syncFromHash);
+});
 </script>
 
 <div class="card-base studies-shell px-4 py-4 md:px-5 md:py-5">

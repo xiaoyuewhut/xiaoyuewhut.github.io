@@ -53,13 +53,16 @@ const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=320x320&marg
 
 		<div class="post-share__qr-block" aria-label="文章分享二维码">
 			<div class="post-share__qr-shell">
-				<img
-					src={qrCodeUrl}
-					alt={`${title} 的分享二维码`}
-					class="post-share__qr-image"
-					loading="lazy"
-					referrerpolicy="no-referrer"
-				/>
+					<img
+						src={qrCodeUrl}
+						alt={`${title} 的分享二维码`}
+						class="post-share__qr-image"
+						width="320"
+						height="320"
+						loading="lazy"
+						decoding="async"
+						referrerpolicy="no-referrer"
+					/>
 			</div>
 		</div>
 	</div>

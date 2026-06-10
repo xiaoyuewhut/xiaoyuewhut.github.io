@@ -17,17 +17,18 @@ const fakeResult: SearchResult[] = [
 	{
 		url: url("/"),
 		meta: {
-			title: "This Is a Fake Search Result",
+			title: "开发环境搜索示例",
 		},
 		excerpt:
-			"Because the search cannot work in the <mark>dev</mark> environment.",
+			"开发环境不会生成 Pagefind 索引，这里显示的是 <mark>模拟</mark> 搜索结果。",
 	},
 	{
 		url: url("/"),
 		meta: {
-			title: "If You Want to Test the Search",
+			title: "测试真实搜索",
 		},
-		excerpt: "Try running <mark>npm build && npm preview</mark> instead.",
+		excerpt:
+			"运行 <mark>pnpm build</mark> 和 <mark>pnpm preview</mark> 后可测试真实搜索。",
 	},
 ];
 

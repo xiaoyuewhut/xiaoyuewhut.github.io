@@ -1,5 +1,7 @@
 ---
 title: "DoIP 诊断协议"
+updated: 2026-05-12
+published: 2026-05-12
 tags:
   - 整车网络
   - 整车诊断

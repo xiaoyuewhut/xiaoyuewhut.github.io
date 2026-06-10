@@ -2,16 +2,16 @@
 title: "ODD与ODC"
 slug: "预期功能安全/odd与odc"
 published: 2026-05-05
-updated: 2026-04-16
+updated: 2026-05-05
 description: "更直白地说，ODD 定义的是系统的设计运行范围，也就是："
 tags: ["智驾", "设计运行域", "设计运行条件"]
 category: "预期功能安全"
 draft: false
 ---
-# ODD 与 ODC
+## ODD 与 ODC
 ODD 和 ODC 是智驾系统开发里两个绕不过去的边界概念。前者回答系统能在什么外部条件下工作，后者回答在这些外部条件满足之后，系统还需要具备哪些内部条件才能安全启动和持续运行。很多功能定义、激活策略、降级逻辑、验证覆盖范围，最终都会落到这两个边界的明确性上。
 
-# 基本定义
+## 基本定义
 ## ODD 是什么
 ODD（Operational Design Domain，运行设计域 / 设计运行域）是指某一驾驶自动化系统或功能被设计、规定能够安全运行的特定运行条件集合。
 
@@ -36,7 +36,7 @@ ODC（Operational Design Condition，设计运行条件）可以理解为在 ODD
 
 因此，ODC 实际上把功能可运行的边界从“环境允许”进一步收紧到了“环境允许且系统自身也处于可用状态”。
 
-# ODD 的定义与作用
+## ODD 的定义与作用
 ## ODD 在智驾系统开发中具体管什么
 在 SOTIF 语境里，ODD 可以理解为功能只在 ODD 内承诺安全。这个表述很重要，因为它决定了系统开发时哪些场景必须由功能负责，哪些场景则应该被识别为超边界并及时退出。
 
@@ -66,7 +66,7 @@ NHTSA 将 ODD 进一步分为六大构建要素：
 这个框架的特点是强调分层分类。每一类下面还可以继续细分子类，并尽量用允许 / 不允许的清单形式表达。对于系统开发来说，这种写法的价值在于它很适合落到需求表、配置表和测试覆盖矩阵中。
 
 下面这张图展示了 NHTSA 的 ODD 分类思路。
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125814.png" alt="Pasted image 20260416125814" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125814.png" alt="Pasted image 20260416125814" width="944" height="398" loading="lazy" decoding="async" />
 
 ### SAE AVSC ODD 框架
 SAE AVSC 将 ODD 主要划分为以下 7 个维度：
@@ -81,7 +81,7 @@ SAE AVSC 将 ODD 主要划分为以下 7 个维度：
 这个框架比 NHTSA 更强调道路参与者、道路表面和连接性等细分类别，对于面向量产功能的 ODD 细化很有帮助，因为这些条件通常都会直接影响感知能力、制动距离、规划策略和可用车速上限。
 
 下图对应 SAE AVSC 的 ODD 框架。
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125832.png" alt="Pasted image 20260416125832" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125832.png" alt="Pasted image 20260416125832" width="945" height="218" loading="lazy" decoding="async" />
 
 ### 《智能网联汽车预期功能安全场景库建设报告》中的 ODD 框架
 这一版框架把 ODD 拆成以下 7 个层面：
@@ -105,9 +105,9 @@ BSI 框架把 ODD 主要分为三类：
 
 下图展示了 BSI ODD 的基本框架。
 
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125844.png" alt="Pasted image 20260416125844" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125844.png" alt="Pasted image 20260416125844" width="677" height="421" loading="lazy" decoding="async" />
 
-# ODC 的定义与工程边界
+## ODC 的定义与工程边界
 ## ODC 对系统开发意味着什么
 单独看 ODD，还只能说明环境允许不允许。真正进入系统开发后，工程上更常见的问题是：环境明明满足了，但系统此刻仍然不应该启动，或者不应该继续保持当前自动化等级。这部分边界，通常就由 ODC 来约束。
 
@@ -122,9 +122,9 @@ ODC 可以理解为功能的内部可运行条件集合。它至少会涉及以�
 
 下面两张图给出了文档中的 ODC 相关示意。
 
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125913.png" alt="Pasted image 20260416125913" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125913.png" alt="Pasted image 20260416125913" width="720" height="193" loading="lazy" decoding="async" />
 
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125934.png" alt="Pasted image 20260416125934" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416125934.png" alt="Pasted image 20260416125934" width="758" height="250" loading="lazy" decoding="async" />
 
 ## ODC 与自动驾驶等级
 从 SAE J3016 的责任划分看，自动驾驶等级的底层问题可以概括为：
@@ -141,22 +141,22 @@ $$
 从这个角度看，L3 以上系统是否站得住，核心不在于宣传口径，而在于能否把 ODC 划清楚，并证明系统在边界内的能力、边界处的识别和边界外的退出都足够可靠。
 
 下图对应 ODC 与自动驾驶等级关系的示意。
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130221.png" alt="Pasted image 20260416130221" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130221.png" alt="Pasted image 20260416130221" width="758" height="250" loading="lazy" decoding="async" />
 
-# 场景化理解
+## 场景化理解
 ## 高速 NOA
 高速 NOA 是 ODD / ODC 边界定义比较典型的例子。它通常只在高速或高架等受控道路上启用，并依赖清晰车道线、稳定定位、可用地图以及较完整的传感器能力。因此，它的功能表现不是单纯由规划算法决定，而是由道路条件、交通复杂度、地图质量、驾驶员状态和系统健康状态共同限定。
 
 下面这张图给出了高速 NOA 的一个示例。
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130158.png" alt="Pasted image 20260416130158" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130158.png" alt="Pasted image 20260416130158" width="752" height="871" loading="lazy" decoding="async" />
 
 ## HPP
 HPP 场景通常比高速 NOA 更收敛，环境结构更固定，因此 ODD 往往更容易被限定得足够清晰。但这不意味着开发难度更低，因为它往往对低速精确控制、泊车空间理解、障碍物识别和人机交互状态有更细的 ODC 约束。
 
 下图给出了 HPP 的示例。
-<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130136.png" alt="Pasted image 20260416130136" />
+<img src="/note-assets/%E6%99%BA%E9%A9%BE%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416130136.png" alt="Pasted image 20260416130136" width="758" height="854" loading="lazy" decoding="async" />
 
-# 小结
+## 小结
 ODD 定义的是系统对哪些外部条件负责，ODC 定义的是在这些外部条件满足后，系统还需要在哪些内部条件下才真正具备可运行性。对智驾系统开发来说，这两个概念的价值不在于术语本身，而在于它们把功能责任边界、验证边界和退出边界统一了起来。
 
 如果一个功能的 ODD 和 ODC 说不清楚，那么需求会变得模糊，测试覆盖会失去抓手，安全论证也很难成立。反过来，只要边界定义清楚，功能激活、在线监控、降级策略、最小风险动作和场景验证就都有了可落地的工程起点。

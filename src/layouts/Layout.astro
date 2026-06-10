@@ -55,7 +55,10 @@ if (title) {
 } else {
 	pageTitle = `${siteConfig.title} - ${siteConfig.subtitle}`;
 }
-const socialImage = new URL(url("/favicon/favicon-light-192.png"), Astro.site).toString();
+const socialImage = new URL(
+	url("/favicon/favicon-light-192.png"),
+	Astro.site,
+).toString();
 
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
@@ -65,6 +68,9 @@ if (!lang) {
 	lang = `${siteConfig.lang}`;
 }
 const siteLang = lang.replace("_", "-");
+const canonicalUrl = Astro.site
+	? new URL(Astro.url.pathname, Astro.site).toString()
+	: Astro.url.toString();
 
 const bannerOffsetByPosition = {
 	top: `${BANNER_HEIGHT_EXTEND}vh`,
@@ -86,13 +92,17 @@ const bannerOffset =
 		<meta charset="UTF-8" />
 		<meta name="description" content={description || pageTitle}>
 		<meta name="author" content={profileConfig.name}>
+		<link rel="canonical" href={canonicalUrl}>
 
 		<meta property="og:site_name" content={siteConfig.title}>
-		<meta property="og:url" content={Astro.url}>
+		<meta property="og:url" content={canonicalUrl}>
 		<meta property="og:title" content={pageTitle}>
 		<meta property="og:description" content={description || pageTitle}>
 		<meta property="og:image" content={socialImage}>
 		<meta property="og:image:alt" content={siteConfig.title}>
+		<meta property="og:image:width" content="192">
+		<meta property="og:image:height" content="192">
+		<meta property="og:locale" content={siteConfig.lang}>
 		{setOGTypeArticle ? (
         <meta property="og:type" content="article" />
         ) : (
@@ -100,12 +110,13 @@ const bannerOffset =
         )}
 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content={Astro.url}>
+		<meta property="twitter:url" content={canonicalUrl}>
 		<meta name="twitter:title" content={pageTitle}>
 		<meta name="twitter:description" content={description || pageTitle}>
 		<meta name="twitter:image" content={socialImage}>
+		<meta name="twitter:image:alt" content={siteConfig.title}>
 
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		{favicons.map(favicon => (
 			<link rel="icon"
@@ -592,15 +603,7 @@ if (!window.__postShareBound) {
 			return;
 		}
 
-		const textarea = document.createElement("textarea");
-		textarea.value = text;
-		textarea.setAttribute("readonly", "");
-		textarea.style.position = "absolute";
-		textarea.style.left = "-9999px";
-		document.body.appendChild(textarea);
-		textarea.select();
-		document.execCommand("copy");
-		textarea.remove();
+		throw new Error("Clipboard API is not available.");
 	};
 
 	window.__postShareHandleAction = async (button) => {

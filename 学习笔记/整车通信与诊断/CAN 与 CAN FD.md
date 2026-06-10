@@ -1,5 +1,7 @@
 ---
 title: "CAN 与 CAN FD"
+updated: 2026-05-10
+published: 2026-05-10
 tags:
   - 整车网络
   - CAN

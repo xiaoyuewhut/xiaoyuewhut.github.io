@@ -2,13 +2,13 @@
 title: "Diffusion Planner"
 slug: "端到端自动驾驶/diffusion-planner"
 published: 2026-04-30
-updated: 2026-04-17
+updated: 2026-04-30
 description: "现实驾驶并不是这样。很多场景天然带有多解。跟车时，你可以稍微保守一些，也可以更积极一些；路口会车时，你可以先让一下，也可以在安全前提下稍早通过；并线时，你可以选择更早切入，也可以再观察半秒。换句话说，驾驶行为往往是多峰的，而不是单峰的。"
 tags: ["端到端自动驾驶", "Diffusion", "轨迹规划", "生成模型"]
 category: "端到端自动驾驶"
 draft: false
 ---
-# Diffusion 扩散模型基础
+## Diffusion 扩散模型基础
 ## 规划问题和生成模型
 传统规划问题更像一个优化问题。给定当前环境、目标路线和车辆状态，系统应该算出一条未来轨迹，或者算出一串控制量。这种直觉没有错，但它隐含了一个前提：一个场景通常只有一条明显最优的轨迹。
 
@@ -30,7 +30,7 @@ draft: false
 
 下面这张图把最直观的过程画出来了。左边是一条结构清晰的未来轨迹，中间是逐步加噪后的带噪轨迹，最右侧接近纯高斯噪声。训练时模型真正学的是反向过程，也就是如何从这些不同噪声级别的状态一步步往更有结构的轨迹方向推回去。
 
-<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135252.png" alt="Pasted image 20260416135252" />
+<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135252.png" alt="Pasted image 20260416135252" width="2540" height="726" loading="lazy" decoding="async" />
 
 ## 前向扩散过程
 前向扩散过程的目标很简单：从真实样本出发，不断加一点点噪声，直到最后变成几乎纯噪声。
@@ -104,7 +104,7 @@ Diffusion Planner 的官方代码里就同时支持 `score` 和 `x_start` 两种
 
 所以 Diffusion Planner 不是在无条件地胡乱生成轨迹，而是在做条件扩散：给定场景上下文，让扩散模型从噪声中恢复出符合当前场景的未来轨迹。
 
-# 为什么 diffusion 特别适合做规划？
+## 为什么 diffusion 特别适合做规划？
 ## 规划天然是多峰的
 自动驾驶规划最麻烦的一点，是同一个场景往往不只有一种合理未来。直接做回归时，模型很容易把多种合理行为平均掉，得到一条谁都不像的均值轨迹。比如左绕和右绕都可行时，平均出来的轨迹可能反而撞上障碍物。
 
@@ -112,7 +112,7 @@ Diffusion Planner 的官方代码里就同时支持 `score` 和 `x_start` 两种
 
 下面这张图可以把多峰这件事讲得更具体一些。上绕和下绕都是合理规划，但如果模型只能输出一个均值结果，最后反而可能落到障碍物中心附近。扩散模型的价值之一，就是避免把这种多解场景粗暴平均掉。
 
-<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135307.png" alt="Pasted image 20260416135307" />
+<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135307.png" alt="Pasted image 20260416135307" width="1316" height="884" loading="lazy" decoding="async" />
 
 ## 规划质量不只是拟合历史轨迹
 行为克隆式规划最常见的问题，是模型容易学到数据集里的平均动作，却不一定真正学会怎样在复杂场景里平衡安全、效率和舒适性。
@@ -126,7 +126,7 @@ Diffusion Planner 的官方代码里就同时支持 `score` 和 `x_start` 两种
 
 在自动驾驶里，一条轨迹通常不只是位置点序列，还可能包含朝向、速度、甚至邻车未来。Diffusion Planner 正是走了这条路：把自车和关键邻车的未来状态拼成一个更大的结构对象，然后联合生成。
 
-# Diffusion Planner 原理
+## Diffusion Planner 原理
 ## 论文思想
 根据官方 README 和 OpenReview 页面，Diffusion Planner 的核心目标是：用一个 transformer-based diffusion planner 来做闭环自动驾驶规划，在不强依赖规则式 refinement 的前提下，建模多模态驾驶行为，并把规划和关键参与者的未来建模统一起来。
 
@@ -176,7 +176,7 @@ Diffusion Planner 的一个关键设计，是把邻车未来也放进同一个�
 
 直觉上，这更像是在同时生成一段多主体未来片段，而不是把自车当作完全孤立的规划者。对于会车、让行、并线这种强交互场景，这种联合建模是有吸引力的。
 
-# 从扩散模型到 Diffusion Planner 的训练
+## 从扩散模型到 Diffusion Planner 的训练
 ## 第一步：把未来轨迹整理成训练目标
 在官方 `loss.py` 里，训练从 `ego_future` 和 `neighbors_future` 出发，先把它们拼接成统一的未来状态张量，再把当前状态也拼进去。
 
@@ -262,7 +262,7 @@ $$\mathcal{L}_{x_0} = \left\| \hat{\textbf{x}}_0 - \textbf{x}_0 \right\|^2$$
 
 这很符合它的建模目标。因为它本来就是在一个架构里联合处理规划和关键参与者未来建模。这样做的好处是，自车规划质量不会被邻车数量简单稀释，邻车未来建模也能单独受到约束。
 
-# 推理
+## 推理
 ## 初始化：当前状态固定，未来全是噪声
 在 `decoder.py` 的推理分支里，官方代码会先构造一个初值 `xT`：
 ```python
@@ -293,7 +293,7 @@ def initial_state_constraint(xt, t, step):
 
 如果只看代码，这个约束很容易被忽略。下面这张图把它单独画出来了。每一步采样时，模型只对未来时域做去噪修正，当前状态点始终被强制钉在真实值上，所以扩散生成的不是整段可以随意漂移的轨迹，而是从真实当前状态出发的未来轨迹。
 
-<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135336.png" alt="Pasted image 20260416135336" />
+<img src="/note-assets/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E9%99%84%E4%BB%B6/Pasted%20image%2020260416135336.png" alt="Pasted image 20260416135336" width="1477" height="830" loading="lazy" decoding="async" />
 
 ## 用 DPM-Solver 做快速采样
 官方代码推理时通过 `dpm_sampler(...)` 进行反向采样。README 里提到 fast inference around 20Hz，本质上依赖的就是比最朴素逐步采样更高效的数值解法。你可以把 DPM-Solver 理解成一种更快的扩散 ODE / SDE 求解器，它减少了达到可用结果所需的采样步数。
@@ -341,7 +341,7 @@ def sample_plan(context, current_state):
 
 这段代码并不是官方源码，而是把 Diffusion Planner 推理阶段最核心的逻辑压缩成了一个便于理解的骨架。
 
-# 官方实现到底是怎么组织的？
+## 官方实现到底是怎么组织的？
 ## 顶层结构：一个编码器加一个解码器
 从官方仓库 `diffusion_planner/model/diffusion_planner.py` 看，顶层结构很清楚：
 ```python
@@ -487,7 +487,7 @@ x = self.mlp2(self.norm4(x))
 
 从自动驾驶角度看，这正是扩散规划能真正落到条件规划任务上的关键。
 
-# 参考资料
+## 参考资料
 - [Diffusion Planner 官方 OpenReview 页面](https://openreview.net/forum?id=wM2sfVgMDH)
 - [Diffusion Planner 官方代码仓库](https://github.com/ZhengYinan-AIR/Diffusion-Planner)
 - [Diffusion Planner 项目页](https://zhengyinan-air.github.io/Diffusion-Planner/)

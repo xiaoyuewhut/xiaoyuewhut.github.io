@@ -1,5 +1,7 @@
 ---
 title: APO 功能规范
+updated: 2026-05-21
+published: 2026-05-21
 tags:
   - 智驾
   - 泊车

@@ -1,5 +1,7 @@
 ---
 title: HARA 危害分析和风险评估
+updated: 2026-05-02
+published: 2026-05-02
 tags:
   - 功能安全
   - ISO-26262

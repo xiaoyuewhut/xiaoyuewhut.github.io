@@ -1,5 +1,7 @@
 ---
 title: ODD与ODC
+updated: 2026-05-05
+published: 2026-05-05
 tags:
   - 智驾
   - 设计运行域

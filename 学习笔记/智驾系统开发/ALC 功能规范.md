@@ -1,5 +1,7 @@
 ---
 title: ALC 功能规范
+updated: 2026-05-20
+published: 2026-05-20
 tags:
   - 功能规范
   - ALC

@@ -1,5 +1,7 @@
 ---
 title: UDS 诊断协议
+updated: 2026-05-15
+published: 2026-05-15
 tags:
   - 整车诊断
   - UDS

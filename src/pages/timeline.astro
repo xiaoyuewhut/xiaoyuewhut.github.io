@@ -7,5 +7,6 @@ const sortedPostsList = await getSortedPostsList();
 ---
 
 <MainGridLayout title="时间线" description="按发布时间自动更新的笔记时间线。">
-    <ArchivePanel sortedPosts={sortedPostsList} client:only="svelte"></ArchivePanel>
+	<h1 class="sr-only">时间线</h1>
+	<ArchivePanel sortedPosts={sortedPostsList} client:only="svelte"></ArchivePanel>
 </MainGridLayout>

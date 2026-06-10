@@ -5,8 +5,8 @@ import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { getPostUrlBySlug } from "../utils/url-utils";
 
-export let tags: string[];
-export let categories: string[];
+export let tags: string[] = [];
+export let categories: string[] = [];
 export let sortedPosts: Post[] = [];
 
 interface Post {
@@ -14,7 +14,7 @@ interface Post {
 	data: {
 		title: string;
 		tags: string[];
-		category?: string;
+		category?: string | null;
 		published: Date;
 	};
 }
@@ -137,7 +137,10 @@ function buildArchiveGroups(posts: Post[]) {
 			months: Object.keys(grouped[Number.parseInt(yearStr, 10)])
 				.map((monthStr) => ({
 					month: Number.parseInt(monthStr, 10),
-					posts: grouped[Number.parseInt(yearStr, 10)][Number.parseInt(monthStr, 10)],
+					posts:
+						grouped[Number.parseInt(yearStr, 10)][
+							Number.parseInt(monthStr, 10)
+						],
 				}))
 				.sort((a, b) => b.month - a.month),
 		}))
@@ -158,7 +161,12 @@ function buildCalendarYears(posts: Post[]) {
 	);
 
 	return Object.keys(postsByYear)
-		.map((yearStr) => buildCalendarYear(Number.parseInt(yearStr, 10), postsByYear[Number.parseInt(yearStr, 10)]))
+		.map((yearStr) =>
+			buildCalendarYear(
+				Number.parseInt(yearStr, 10),
+				postsByYear[Number.parseInt(yearStr, 10)],
+			),
+		)
 		.sort((a, b) => b.year - a.year);
 }
 
@@ -172,8 +180,13 @@ function buildCalendarYear(year: number, posts: Post[]): CalendarYear {
 		postsByDate.set(key, dayPosts);
 	}
 
-	const maxCount = Math.max(0, ...Array.from(postsByDate.values(), (dayPosts) => dayPosts.length));
-	const activeDays = Array.from(postsByDate.values()).filter((dayPosts) => dayPosts.length > 0).length;
+	const maxCount = Math.max(
+		0,
+		...Array.from(postsByDate.values(), (dayPosts) => dayPosts.length),
+	);
+	const activeDays = Array.from(postsByDate.values()).filter(
+		(dayPosts) => dayPosts.length > 0,
+	).length;
 	const monthLabels: CalendarMonthLabel[] = [];
 	const usedMonths = new Set<number>();
 	const weeks: CalendarCell[][] = [];
@@ -190,7 +203,11 @@ function buildCalendarYear(year: number, posts: Post[]): CalendarYear {
 			const current = new Date(cursor);
 			const inYear = current.getFullYear() === year;
 
-			if (inYear && current.getDate() === 1 && !usedMonths.has(current.getMonth())) {
+			if (
+				inYear &&
+				current.getDate() === 1 &&
+				!usedMonths.has(current.getMonth())
+			) {
 				monthLabels.push({
 					label: `${current.getMonth() + 1} 月`,
 					weekIndex,
@@ -257,7 +274,8 @@ function filterPosts(posts: Post[], filters: Filters) {
 
 	if (filters.categories.length > 0) {
 		filteredPosts = filteredPosts.filter(
-			(post) => post.data.category && filters.categories.includes(post.data.category),
+			(post) =>
+				post.data.category && filters.categories.includes(post.data.category),
 		);
 	}
 

@@ -1,5 +1,7 @@
 ---
 title: 故障码 DTC 详解
+updated: 2026-05-08
+published: 2026-05-08
 tags:
   - 整车诊断
   - DTC

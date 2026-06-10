@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
-import HomePrelude from "../components/home/HomePrelude.astro";
 import Pagination from "../components/control/Pagination.astro";
+import HomePrelude from "../components/home/HomePrelude.astro";
 import PostPage from "../components/PostPage.astro";
 import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
@@ -20,9 +20,10 @@ const isHomeFirstPage = page.currentPage === 1;
 ---
 
 <MainGridLayout showHero={isHomeFirstPage} showSidebar={isHomeFirstPage}>
-    {isHomeFirstPage && <HomePrelude slot="hero" />}
-    <div id="home-posts">
-        <PostPage page={page}></PostPage>
-    </div>
+	{isHomeFirstPage && <HomePrelude slot="hero" />}
+	<div id="home-posts">
+		{!isHomeFirstPage && <h1 class="sr-only">文章列表第 {page.currentPage} 页</h1>}
+		<PostPage page={page}></PostPage>
+	</div>
     <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
 </MainGridLayout>

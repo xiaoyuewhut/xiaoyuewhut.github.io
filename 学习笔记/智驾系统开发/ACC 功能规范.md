@@ -1,5 +1,7 @@
 ---
 title: ACC功能规范
+updated: 2026-05-19
+published: 2026-05-19
 tags:
   - 功能规范
   - 自适应巡航控制

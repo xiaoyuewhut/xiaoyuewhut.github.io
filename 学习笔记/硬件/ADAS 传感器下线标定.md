@@ -1,5 +1,7 @@
 ---
 title: ADAS 传感器下线标定
+updated: 2026-05-04
+published: 2026-05-04
 tags:
   - ADAS
   - 传感器

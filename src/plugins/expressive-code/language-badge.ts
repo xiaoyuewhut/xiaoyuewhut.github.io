@@ -1,4 +1,4 @@
-import { definePlugin } from "@expressive-code/core";
+import { definePlugin, type ExpressiveCodePlugin } from "@expressive-code/core";
 import type { Element } from "hast";
 
 function getClassNames(node: Element) {
@@ -8,7 +8,8 @@ function getClassNames(node: Element) {
 
 function findChild(node: Element, tagName: string) {
 	return node.children?.find(
-		(child): child is Element => child.type === "element" && child.tagName === tagName
+		(child): child is Element =>
+			child.type === "element" && child.tagName === tagName,
 	);
 }
 
@@ -17,7 +18,7 @@ function getOrCreateHeaderActions(header: Element) {
 		(child): child is Element =>
 			child.type === "element" &&
 			child.tagName === "div" &&
-			getClassNames(child).includes("header-actions")
+			getClassNames(child).includes("header-actions"),
 	);
 
 	if (existing) {
@@ -44,7 +45,7 @@ function nodeChildren(node: Element) {
 	return node.children;
 }
 
-export function pluginLanguageBadge() {
+export function pluginLanguageBadge(): ExpressiveCodePlugin {
 	return definePlugin({
 		name: "Language Badge",
 		hooks: {
@@ -52,7 +53,11 @@ export function pluginLanguageBadge() {
 				const language = codeBlock.language;
 				const frame = renderData.blockAst;
 
-				if (!language || frame.type !== "element" || frame.tagName !== "figure") {
+				if (
+					!language ||
+					frame.type !== "element" ||
+					frame.tagName !== "figure"
+				) {
 					return;
 				}
 

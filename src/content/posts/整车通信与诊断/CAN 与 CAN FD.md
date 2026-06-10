@@ -2,7 +2,7 @@
 title: "CAN 与 CAN FD"
 slug: "整车通信与诊断/can-与-can-fd"
 published: 2026-05-10
-updated: 2026-04-26
+updated: 2026-05-10
 description: "学习 CAN 和 CAN FD 时，经常会遇到两个断点。一个断点在物理层和协议层之间：端接、差分线、位时序看起来像硬件问题，仲裁、ACK、CRC 又像协议问题，但实际通信时它们连在同一条链上。另一个断点在帧结构内部：资料里会列出一串字段名，却没有把字段组和具体位域的关系说清楚。"
 tags: ["整车网络", "CAN", "CAN-FD", "车载通信"]
 category: "整车通信与诊断"
@@ -14,7 +14,7 @@ CAN 是车载电子系统里最常见的总线协议之一。它把物理层、�
 
 下面按一帧报文的传输过程整理：报文怎样从节点里发出来，怎样在总线上完成仲裁、传输和确认；这个过程怎样对应到帧结构；CAN FD 改了哪些位置；CAN FD 之后的 CAN XL 又处在什么位置。
 
-# Classical CAN 的通信过程
+## Classical CAN 的通信过程
 ## 节点组成
 一个 CAN 节点通常可以拆成三个层次来看：
 
@@ -26,7 +26,7 @@ CAN 是车载电子系统里最常见的总线协议之一。它把物理层、�
 
 这三个对象的边界会影响后面的故障判断。仲裁、CRC、ACK 和 Bus-Off 属于控制器层面的协议行为；波形质量、显隐性判决、总线保护更多取决于收发器、端接和线束；软件决定节点发送哪些报文、发送周期怎样配置、接收内容怎样交给上层模块。
 
-<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260426140646.png" alt="Pasted image 20260426140646" />
+<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260426140646.png" alt="Pasted image 20260426140646" width="1400" height="653" loading="lazy" decoding="async" />
 
 ## 物理层前提
 CAN 物理层通常使用 `CAN_H` 和 `CAN_L` 两根差分线。控制器最终关心的是总线当前呈现出的逻辑状态，而单根线对地电压只是形成这个状态的电气表现。这个状态可以分成两种：
@@ -95,7 +95,7 @@ ACK 检查的是`这帧报文有没有真正到达其他节点`。发送节点�
 
 如果节点之间的时钟误差和传播延时没有被这些参数吸收掉，不同节点看到的位边界就会慢慢错开。错开的结果不会停留在抽象层面，最终会体现在仲裁异常、CRC 异常、ACK 异常甚至 Bus-Off 上。
 
-# 再把这个过程对回帧结构
+## 再把这个过程对回帧结构
 ## 整帧骨架和具体位域
 帧结构先看字段组，再看字段组内部的位域。Classical CAN 数据帧可以整理成下面这组骨架：
 
@@ -170,7 +170,7 @@ Classical CAN 的基本规则很直接：从 `SOF` 开始，到 `CRC Sequence` �
 
 位填充会影响两个现象。<font color="#00b0f0">第一，示波器上看到的连续位数，不会完全等于表格里列出的原始位宽。第二，同样是 8 字节报文，不同位模式下插入的填充位数量可能不同，总线占用时间也会有细微变化。CRC 校验时也要注意这一点：发送端计算 CRC 用的是逻辑内容，接收端会先去掉填充位，再按还原后的逻辑内容做 CRC 检查。</font>
 
-# CAN FD 的扩展位置
+## CAN FD 的扩展位置
 ## CAN FD 保留的 CAN 思路
 CAN FD 保留了 CAN 的基本通信思路，同时对若干关键位置做了增强。它保留的部分主要有三条：
 1. 仍然是多主总线。
@@ -218,7 +218,7 @@ CAN FD 还有两点经常在工程里带来误解。
 
 第二，CAN FD 对物理层更敏感。高速数据阶段会压缩采样裕量，终端偏差、支路过长、线束反射、收发器延时、节点时钟误差都会更容易暴露成实际故障。一套 Classical CAN 网络能够稳定运行，并不自动意味着切到 CAN FD 高速数据阶段以后仍然稳定。
 
-# CAN FD 之后的 CAN XL
+## CAN FD 之后的 CAN XL
 ## CAN XL 的位置
 CAN FD 之后，CAN 体系里还有 CAN XL。它属于第三代 CAN 数据链路层协议。按照 CAN in Automation 的说法，CAN XL 支持 Classical CAN、CAN FD 和 CAN XL 三类协议形态；Bosch 也把 CAN XL 描述为 CAN 演进里的下一步，用来填补 CAN FD 和 `100BASE-T1` 车载以太网之间的带宽空档。
 
@@ -246,7 +246,7 @@ CAN XL 的定位经常会和车载以太网一起讨论。它主要填补 CAN FD
 
 CAN SIC 和 CAN FD-SIC 则更适合归入物理层增强。它们主要改善高速 CAN / CAN FD 网络上的信号完整性和物理层表现。协议代际上，Classical CAN 之后是 CAN FD，CAN FD 之后看 CAN XL；物理层增强上，可以再单独看 CAN SIC、CAN FD-SIC 和 CAN SIC XL。
 
-# 参考资料
+## 参考资料
 - Bosch Semiconductors, [CAN FD Protocol](https://www.bosch-semiconductors.com/products/ip-modules/can-protocols/can-fd/)
 - Bosch Semiconductors, [CAN XL Protocol](https://www.bosch-semiconductors.com/products/ip-modules/can-protocols/can-xl/)
 - CAN in Automation, [CAN XL](https://www.can-cia.org/can-knowledge/can-xl)

@@ -1,7 +1,7 @@
-import { definePlugin } from "@expressive-code/core";
+import { definePlugin, type ExpressiveCodePlugin } from "@expressive-code/core";
 import type { Element } from "hast";
 
-export function pluginCustomCopyButton() {
+export function pluginCustomCopyButton(): ExpressiveCodePlugin {
 	return definePlugin({
 		name: "Custom Copy Button",
 		hooks: {
@@ -23,7 +23,7 @@ export function pluginCustomCopyButton() {
 						(child): child is Element =>
 							child.type === "element" &&
 							child.tagName === "div" &&
-							getClassNames(child).includes("header-actions")
+							getClassNames(child).includes("header-actions"),
 					);
 
 					if (existing) {
@@ -57,7 +57,8 @@ export function pluginCustomCopyButton() {
 
 				function processFrame(node: Element) {
 					const header = nodeChildren(node).find(
-						(child): child is Element => child.type === "element" && child.tagName === "figcaption"
+						(child): child is Element =>
+							child.type === "element" && child.tagName === "figcaption",
 					);
 					if (!header) {
 						return;

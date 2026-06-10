@@ -1,5 +1,7 @@
 ---
 title: "TSMixer 时序预测详解"
+updated: 2026-05-03
+published: 2026-05-03
 tags:
   - 深度学习
   - 时序预测

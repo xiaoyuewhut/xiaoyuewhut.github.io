@@ -13,6 +13,7 @@ import { url } from "../../utils/url-utils";
     <div class="home-prelude__grain"></div>
 
     <div class="relative z-10 w-full max-w-[72rem] mx-auto px-4 md:px-8 text-center -translate-y-[1vh] md:-translate-y-[2vh]">
+        <h1 class="sr-only">技术手记</h1>
         <div
             class="home-prelude__verse font-display relative isolate text-[1.72rem] leading-[1.5] md:text-[2.45rem] md:leading-[1.42] lg:text-[2.9rem] lg:leading-[1.36] text-black/82 dark:text-white/80"
             data-typewriter-verse
@@ -605,11 +606,11 @@ import { url } from "../../utils/url-utils";
 </style>
 
 <script>
-function wait(ms) {
+function wait(ms: number): Promise<void> {
     return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
-async function runPreludeTypewriter(prelude) {
+async function runPreludeTypewriter(prelude: Element | null): Promise<void> {
     if (!(prelude instanceof HTMLElement) || prelude.dataset.typingState === "running") {
         return;
     }
@@ -644,7 +645,7 @@ async function runPreludeTypewriter(prelude) {
     cursor.className = "home-prelude__cursor";
     cursor.setAttribute("aria-hidden", "true");
 
-    const getTypeDelay = (char) => {
+    const getTypeDelay = (char: string): number => {
         if ("。！？".includes(char)) return 170;
         if ("，、；".includes(char)) return 92;
         return 54;

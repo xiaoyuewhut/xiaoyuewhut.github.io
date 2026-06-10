@@ -1,5 +1,7 @@
 ---
 title: AUTOSAR 网络管理详解
+updated: 2026-05-09
+published: 2026-05-09
 tags:
   - AUTOSAR
   - 网络管理

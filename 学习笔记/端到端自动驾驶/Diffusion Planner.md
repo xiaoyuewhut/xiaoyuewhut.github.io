@@ -1,5 +1,7 @@
 ---
 title: Diffusion Planner
+updated: 2026-04-30
+published: 2026-04-30
 tags:
   - 端到端自动驾驶
   - Diffusion

@@ -2,7 +2,7 @@
 title: "TSMixer 时序预测详解"
 slug: "深度学习/tsmixer-时序预测"
 published: 2026-05-03
-updated: 2026-04-21
+updated: 2026-05-03
 description: "本文只讨论 TSMixer 最典型的使用语境，也就是固定窗口、多变量、直接多步预测。文中 MLP 指若干层全连接网络，batch 输入记作 $\\mathbf{X} \\in \\mathbb{R}^{B \\times L \\times C}$，预测目标记作 $\\mathbf{Y} \\"
 tags: ["深度学习", "时序预测", "TSMixer", "LSTM", "MLP-Mixer"]
 category: "深度学习"
@@ -12,7 +12,7 @@ draft: false
 
 本文只讨论 `TSMixer` 最典型的使用语境，也就是固定窗口、多变量、直接多步预测。文中 `MLP` 指若干层全连接网络，batch 输入记作 $\mathbf{X} \in \mathbb{R}^{B \times L \times C}$，预测目标记作 $\mathbf{Y} \in \mathbb{R}^{B \times H \times C}$，其中 $H$ 是预测长度。
 
-# 递推式建模与窗口混合
+## 递推式建模与窗口混合
 ## LSTM 的递推式建模
 `LSTM` 的基本思路是沿时间轴递推。模型在第 $t$ 个时间步接收当前输入 $\mathbf{x}_t$，同时读取上一步保留下来的隐藏状态和记忆状态，再通过门控机制决定哪些历史信息继续保留、哪些新信息写入内部状态。到序列末端后，隐藏状态会被送入预测头，输出分类结果、回归结果或未来序列。
 
@@ -66,7 +66,7 @@ $$
 
 如果任务天然要求在线滚动更新，`LSTM` 往往更顺手；如果任务已经被整理成固定窗口监督学习问题，`TSMixer` 这样的窗口混合结构就会更直接。
 
-# TSMixer 的结构
+## TSMixer 的结构
 ## 输入表示
 在最常见的设定里，一个 batch 的输入张量写成：
 $$
@@ -176,7 +176,7 @@ $$
 
 在大量窗口样本上重复这个过程后，模型会逐步学到哪些历史模式对应趋势延续，哪些片段对应周期重复，哪些变量组合具有稳定的相关结构。`TSMixer` 的关键不在于训练目标特殊，而在于它如何组织窗口内部的信息流。
 
-# 适用边界与选型
+## 适用边界与选型
 ## 优势来源
 `TSMixer` 常被当作强基线，原因主要来自任务形态和模型结构的匹配。对于固定窗口预测，整窗处理本身就是自然设定；对于多变量数据，feature mixing 又提供了明确的跨变量建模路径；对于训练和部署，all-MLP 结构通常比递推模型更容易并行，也更容易和现有张量算子栈对齐。
 
@@ -197,7 +197,7 @@ $$
 ## 结论
 `TSMixer` 可以看作固定窗口多变量预测场景中的一种结构化 `MLP`。它把时间关系和变量关系拆成两个独立但交替执行的 mixing 过程，再用预测头一次性输出未来窗口。与 `LSTM` 相比，它放弃了递推式状态更新，换来了更直接的窗口建模方式和更强的并行性；与简单线性模型相比，它又通过非线性 mixing 保留了更强的表示能力。这也是它在近年的时序预测讨论中持续出现的原因。
 
-# 参考资料
+## 参考资料
 - [TSMixer: An All-MLP Architecture for Time Series Forecasting, OpenReview](https://openreview.net/forum?id=wbpxTuXgm0)
 - [TSMixer: An all-MLP Architecture for Time Series Forecasting, Google Research 页面](https://research.google/pubs/tsmixer-an-all-mlp-architecture-for-time-series-forecasting/)
 - [Google Research 官方实现](https://github.com/google-research/google-research/tree/master/tsmixer)

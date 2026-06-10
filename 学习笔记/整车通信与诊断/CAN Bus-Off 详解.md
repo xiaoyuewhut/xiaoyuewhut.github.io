@@ -1,5 +1,7 @@
 ---
 title: "CAN Bus-Off 详解"
+updated: 2026-05-11
+published: 2026-05-11
 tags:
   - CAN
   - Bus-Off

@@ -1,5 +1,7 @@
 ---
 title: "ASIL 分解"
+updated: 2026-05-01
+published: 2026-05-01
 tags:
   - 功能安全
   - ISO-26262

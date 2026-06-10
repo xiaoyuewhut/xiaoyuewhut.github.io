@@ -1,7 +1,17 @@
 import { execFileSync } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import sharp from "sharp";
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "..");
@@ -56,7 +66,7 @@ function collectAssetFiles(dirPath) {
     }
   }
 
-  return results;
+  return results.sort((a, b) => a.localeCompare(b, "zh-CN"));
 }
 
 function parseFrontmatter(rawText) {
@@ -147,6 +157,26 @@ function removeLeadingTitleHeading(markdown, title) {
   return markdown.replace(new RegExp(`^\\s*#\\s+${escapedTitle}\\s*\\n+`, "u"), "");
 }
 
+function demoteTopLevelHeadings(markdown) {
+  let inFence = false;
+
+  return markdown
+    .split("\n")
+    .map((line) => {
+      if (/^\s*```/.test(line)) {
+        inFence = !inFence;
+        return line;
+      }
+
+      if (!inFence && /^#(?!#)\s+/.test(line)) {
+        return `#${line}`;
+      }
+
+      return line;
+    })
+    .join("\n");
+}
+
 function encodePathSegments(...segments) {
   return segments.map((segment) => encodeURIComponent(segment)).join("/");
 }
@@ -192,6 +222,20 @@ function buildPublicAssetUrl(assetPath) {
   return `/${encodePathSegments("note-assets", ...relPath.split(path.sep))}`;
 }
 
+function scaledImageDimensions(dimensions, widthOption) {
+  if (!dimensions?.width || !dimensions?.height) {
+    return "";
+  }
+
+  if (!widthOption) {
+    return ` width="${dimensions.width}" height="${dimensions.height}"`;
+  }
+
+  const width = Number.parseInt(widthOption, 10);
+  const height = Math.round((dimensions.height / dimensions.width) * width);
+  return ` width="${width}" height="${height}"`;
+}
+
 function replaceObsidianEmbeds(markdown, context) {
   return markdown.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, target, option = "") => {
     const assetPath = resolveAssetTarget(target, context.noteDir, context.attachmentIndex);
@@ -201,9 +245,13 @@ function replaceObsidianEmbeds(markdown, context) {
     }
 
     const src = buildPublicAssetUrl(assetPath);
-    const width = /^\d+$/.test(option.trim()) ? ` width="${option.trim()}"` : "";
+    const widthOption = /^\d+$/.test(option.trim()) ? option.trim() : "";
+    const dimensions = scaledImageDimensions(
+      context.assetDimensions.get(assetPath),
+      widthOption,
+    );
     const alt = path.basename(target).replace(/\.[^.]+$/, "");
-    return `<img src="${src}" alt="${alt}"${width} />`;
+    return `<img src="${src}" alt="${alt}"${dimensions} loading="lazy" decoding="async" />`;
   });
 }
 
@@ -211,6 +259,35 @@ function replaceObsidianLinks(markdown, noteLookup) {
   return markdown.replace(/(?<!!)\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|([^\]]+))?\]\]/g, (_, target, alias = "") => {
     const label = (alias || target).trim();
     const match = noteLookup.get(target.trim());
+
+    if (!match) {
+      return label;
+    }
+
+    return `[${label}](${match.route})`;
+  });
+}
+
+function replaceMarkdownNoteLinks(markdown, context) {
+  return markdown.replace(/(?<!!)\[([^\]]+)]\((<[^>]+>|[^)\s]+)(?:\s+"[^"]*")?\)/g, (raw, label, rawTarget) => {
+    const target = rawTarget.startsWith("<") && rawTarget.endsWith(">")
+      ? rawTarget.slice(1, -1)
+      : rawTarget;
+    const cleanTarget = decodeURI(target.split("#")[0].trim());
+
+    if (!cleanTarget.endsWith(".md")) {
+      return raw;
+    }
+
+    const directPath = path.resolve(context.noteDir, cleanTarget);
+    const targetRelPath = existsSync(directPath)
+      ? path.relative(SOURCE_DIR, directPath)
+      : cleanTarget;
+    const basename = path.basename(cleanTarget, ".md");
+    const match =
+      context.noteLookup.get(targetRelPath) ||
+      context.noteLookup.get(path.normalize(targetRelPath)) ||
+      context.noteLookup.get(basename);
 
     if (!match) {
       return label;
@@ -284,7 +361,7 @@ function inferPublishedDateFromGit(filePath) {
   }
 }
 
-function inferPublishedDateInfo(filePath, relPath, data) {
+function inferPublishedDateInfo(filePath, relPath, data, existingPublishedDate = "") {
   if (typeof data.published === "string" && data.published.trim()) {
     return {
       published: data.published.trim(),
@@ -297,6 +374,13 @@ function inferPublishedDateInfo(filePath, relPath, data) {
     return {
       published: basename,
       fixed: true,
+    };
+  }
+
+  if (existingPublishedDate) {
+    return {
+      published: existingPublishedDate,
+      fixed: false,
     };
   }
 
@@ -314,9 +398,33 @@ function inferPublishedDateInfo(filePath, relPath, data) {
   };
 }
 
-function normalizeSequentialPublishedDates(notes) {
-  const flexibleNotes = notes
-    .filter((note) => !note.publishedFixed)
+function inferUpdatedDate(filePath, data, existingUpdatedDate = "") {
+  if (typeof data.updated === "string" && data.updated.trim()) {
+    return data.updated.trim();
+  }
+
+  if (existingUpdatedDate) {
+    return existingUpdatedDate;
+  }
+
+  return formatDate(statSync(filePath).mtime);
+}
+
+function compareDateString(a, b) {
+  const dateA = parseDateString(a);
+  const dateB = parseDateString(b);
+
+  if (!dateA || !dateB) {
+    return 0;
+  }
+
+  return dateA.getTime() - dateB.getTime();
+}
+
+function normalizePublishedDates(notes) {
+  const today = formatDate(new Date());
+  const futureFlexibleNotes = notes
+    .filter((note) => !note.publishedFixed && compareDateString(note.published, today) > 0)
     .sort((a, b) => {
       if (a.published === b.published) {
         return a.relPath.localeCompare(b.relPath, "zh-CN");
@@ -325,17 +433,16 @@ function normalizeSequentialPublishedDates(notes) {
       return a.published.localeCompare(b.published);
     });
 
-  if (flexibleNotes.length === 0) {
-    return;
-  }
-
-  // Anchor the newest generated note to "today", then lay out older notes
-  // one per day backwards so the timeline never spills into the future.
-  const baseDate = new Date();
-  const startDate = addDays(baseDate, -(flexibleNotes.length - 1));
-  flexibleNotes.forEach((note, index) => {
+  const startDate = addDays(new Date(), -(futureFlexibleNotes.length - 1));
+  futureFlexibleNotes.forEach((note, index) => {
     note.published = formatDate(addDays(startDate, index));
   });
+
+  for (const note of notes) {
+    if (compareDateString(note.updated, note.published) < 0) {
+      note.updated = note.published;
+    }
+  }
 }
 
 function deriveTags(relPath, data) {
@@ -381,10 +488,38 @@ function toFrontmatter(note) {
   return lines.join("\n");
 }
 
-function main() {
+function collectExistingPostDates() {
+  const dates = new Map();
+
+  if (!existsSync(POSTS_DIR)) {
+    return dates;
+  }
+
+  for (const filePath of collectMarkdownFiles(POSTS_DIR)) {
+    const relPath = path.relative(POSTS_DIR, filePath);
+    const rawText = readFileSync(filePath, "utf8");
+    const { data } = parseFrontmatter(rawText);
+
+    const postDates = {
+      published: typeof data.published === "string" ? data.published.trim() : "",
+      updated: typeof data.updated === "string" ? data.updated.trim() : "",
+    };
+    dates.set(relPath, postDates);
+
+    if (typeof data.slug === "string" && data.slug.trim()) {
+      dates.set(data.slug.trim(), postDates);
+    }
+  }
+
+  return dates;
+}
+
+async function main() {
   if (!existsSync(SOURCE_DIR)) {
     throw new Error(`缺少学习笔记目录：${SOURCE_DIR}`);
   }
+
+  const existingPostDates = collectExistingPostDates();
 
   rmSync(POSTS_DIR, { recursive: true, force: true });
   ensureDir(POSTS_DIR);
@@ -392,17 +527,27 @@ function main() {
   ensureDir(PUBLIC_NOTE_ASSETS_DIR);
 
   const attachmentIndex = new Map();
+  const assetDimensions = new Map();
   for (const assetPath of collectAssetFiles(SOURCE_DIR)) {
     const fileName = path.basename(assetPath);
     const current = attachmentIndex.get(fileName) || [];
     current.push(assetPath);
     attachmentIndex.set(fileName, current);
 
-    const outputPath = path.join(POSTS_DIR, path.relative(SOURCE_DIR, assetPath));
+    try {
+      const metadata = await sharp(assetPath).metadata();
+      if (metadata.width && metadata.height) {
+        assetDimensions.set(assetPath, {
+          width: metadata.width,
+          height: metadata.height,
+        });
+      }
+    } catch {
+      // Non-image attachments are still copied, but do not get dimensions.
+    }
+
     const publicAssetPath = path.join(PUBLIC_NOTE_ASSETS_DIR, path.relative(SOURCE_DIR, assetPath));
-    ensureDir(path.dirname(outputPath));
     ensureDir(path.dirname(publicAssetPath));
-    copyFileSync(assetPath, outputPath);
     copyFileSync(assetPath, publicAssetPath);
   }
 
@@ -416,7 +561,8 @@ function main() {
     const category = data.category || (relPath.includes(path.sep) ? relPath.split(path.sep)[0] : "随记");
     const slug = buildSlug(relPath);
     const route = buildPostRoute(slug);
-    const publishedInfo = inferPublishedDateInfo(filePath, relPath, data);
+    const existingDates = existingPostDates.get(slug) || existingPostDates.get(relPath) || {};
+    const publishedInfo = inferPublishedDateInfo(filePath, relPath, data, existingDates.published || "");
 
     const note = {
       sourcePath: filePath,
@@ -433,33 +579,41 @@ function main() {
       published: publishedInfo.published,
       publishedFixed: publishedInfo.fixed,
       draft: inferDraft(data),
-      updated: formatDate(statSync(filePath).mtime),
+      updated: inferUpdatedDate(filePath, data, existingDates.updated || ""),
     };
 
     noteLookup.set(path.basename(filePath, ".md"), note);
+    noteLookup.set(relPath, note);
     noteLookup.set(title, note);
     return note;
   });
 
-  normalizeSequentialPublishedDates(notes);
+  normalizePublishedDates(notes);
 
   for (const note of notes) {
     ensureDir(path.dirname(note.outputPath));
 
-    const preprocessed = replaceObsidianLinks(
-      replaceObsidianEmbeds(note.body, {
+    const preprocessed = replaceMarkdownNoteLinks(
+      replaceObsidianLinks(
+        replaceObsidianEmbeds(note.body, {
+          noteDir: note.noteDir,
+          attachmentIndex,
+          assetDimensions,
+        }),
+        noteLookup,
+      ),
+      {
         noteDir: note.noteDir,
-        attachmentIndex,
-      }),
-      noteLookup,
+        noteLookup,
+      },
     );
 
     const frontmatter = toFrontmatter(note);
-    const content = `${frontmatter}${normalizeFenceInfo(removeLeadingTitleHeading(preprocessed, note.title)).trim()}\n`;
+    const content = `${frontmatter}${normalizeFenceInfo(demoteTopLevelHeadings(removeLeadingTitleHeading(preprocessed, note.title))).trim()}\n`;
     writeFileSync(note.outputPath, content, "utf8");
   }
 
   console.log(`Synced ${notes.length} notes into ${POSTS_DIR}`);
 }
 
-main();
+await main();

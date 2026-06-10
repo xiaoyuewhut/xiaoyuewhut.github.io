@@ -2,7 +2,7 @@
 title: "DoIP 诊断协议"
 slug: "整车通信与诊断/doip"
 published: 2026-05-12
-updated: 2026-05-05
+updated: 2026-05-12
 description: "IANA 还登记了 doip data 和 doip disc ，二者都映射到 13400 端口，前者走 TCP ，后者走 UDP 。这也是 DoIP 在工程里最直观的入口形态。"
 tags: ["整车网络", "整车诊断", "DoIP", "UDS", "车载以太网", "ISO-13400"]
 category: "整车通信与诊断"
@@ -10,7 +10,7 @@ draft: false
 ---
 DoIP 全称 `Diagnostic Communication over Internet Protocol`。它处理的是诊断报文如何通过 `IP` 网络进入整车、完成发现、连接、路由和传输；诊断语义本身仍由 `UDS` 定义。放在车载以太网场景里看，`UDS` 和 `DoIP` 是一条完整诊断链路里的两层。
 
-# DoIP 解决什么问题
+## DoIP 解决什么问题
 ## 标准位置
 `ISO 13400` 系列把 DoIP 的工程边界划得很清楚。
 - `ISO 13400-2` 规定 `TCP`、`UDP`、车辆发现、连接建立与维护、路由、错误处理，以及可选的实体状态监控、`TLS` 和防火墙能力。
@@ -29,9 +29,9 @@ DoIP 全称 `Diagnostic Communication over Internet Protocol`。它处理的是�
 - 产线下线和售后服务时，诊断设备需要稳定、快速地完成读码、刷写和标定。
 - 集中式架构里，网关需要把诊断请求路由到车内多个子系统，而不是让外部设备逐个碰每个节点。
 
-# 分层结构
+## 分层结构
 DoIP 不是一个独立的底层帧格式，它是在标准以太网上承载的诊断应用。阅读这一层时，统一按插图里的顺序理解：`Ethernet Header`、`IP Header`、`TCP / UDP Header`、`DoIP Header`、`DoIP Payload`。
-<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260504193409.png" alt="Pasted image 20260504193409" />
+<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260504193409.png" alt="Pasted image 20260504193409" width="1688" height="495" loading="lazy" decoding="async" />
 
 ```text
 未带 802.1Q VLAN Tag 时:
@@ -130,7 +130,7 @@ DoIP 的车辆发现阶段常常会用到广播或定向探测，所以这一字
 
 很多网卡和抓包工具不会直接展示 `Preamble`、`SFD` 和 `FCS`，所以软件里看到的链路层信息，往往比线上原始帧更短一些。
 
-# 概念基础
+## 概念基础
 DoIP 里更容易混淆的是对象和标识，而不是报文字段。先把几个名词分开，后面的发现、激活和路由才容易读顺。
 
 ## DoIP Entity
@@ -162,7 +162,7 @@ DoIP 里更容易混淆的是对象和标识，而不是报文字段。先把几
 
 把这几件事分开后，再看车辆发现、路由激活和诊断承载，层次会顺很多。
 
-# DoIP 报文结构
+## DoIP 报文结构
 ## 通用头
 DoIP 消息先看通用头，再看 payload。通用头固定 8 字节，用来判断这是不是一条有效的 DoIP 消息，以及后面的 payload 应该按什么方式解析。
 
@@ -195,7 +195,7 @@ Byte 8+: Payload
 
 这一类报文停在通用头检查阶段，还没有进入业务处理。
 
-<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111436.png" alt="Pasted image 20260505111436" />
+<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111436.png" alt="Pasted image 20260505111436" width="1688" height="480" loading="lazy" decoding="async" />
 
 ### 0x0001 Vehicle Identification Request
 这三类识别请求是互斥的，不是一次性连续发送的三个报文。测试仪会根据自己掌握的目标信息，选择其中一种来做发现。
@@ -216,7 +216,7 @@ Byte 8+: Payload
 ### 0x0004 Vehicle Announcement / Vehicle Identification Response
 这是识别阶段的响应报文，通常通过 `UDP` 发出。payload 一般按这个顺序组织：`VIN` 17 字节，`Logical Address` 2 字节，`EID` 6 字节，`GID` 6 字节，`Further action` 1 字节，后面还可能带 `VIN/GID Status` 1 字节。
 
-<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111527.png" alt="Pasted image 20260505111527" />
+<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505111527.png" alt="Pasted image 20260505111527" width="1809" height="797" loading="lazy" decoding="async" />
 
 这条报文不承载诊断业务，主要提供实体身份、逻辑地址和当前状态。
 
@@ -287,11 +287,11 @@ UDS payload
 
 按用途看，常见 payload 可以分成 `发现`、`路由与保活`、`状态查询`、`诊断承载` 四组。抓包时先判断它属于哪一组，再继续看里面的字段。
 
-<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505101100.png" alt="Pasted image 20260505101100" width="642" />
+<img src="/note-assets/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E9%99%84%E4%BB%B6/Pasted%20image%2020260505101100.png" alt="Pasted image 20260505101100" width="642" height="726" loading="lazy" decoding="async" />
 
 这一节更重要的是把阶段分开：<font color="#00b050">发现阶段</font>、<font color="#00b050">激活阶段</font>、<font color="#00b050">诊断阶段</font>。大部分报文都落在这三段里。
 
-# DoIP 典型流程
+## DoIP 典型流程
 ## 发现与激活
 DoIP 的工程流程通常是先发现、再激活、最后进入正式诊断。
 
@@ -349,7 +349,7 @@ DoIP 和 `UDS` 都有“保活”，但它们不是同一个东西。
 
 连接活着，不代表诊断会话还在；会话还在，也不代表路由没有超时。抓包时这几个层次要分开看。
 
-# 常见面试问题
+## 常见面试问题
 ## 面试题 1：DoIP 和 UDS 是什么关系？
 答：`UDS` 定义的是诊断服务本身，比如 `0x10`、`0x22`、`0x19` 这些服务号的语义；`DoIP` 定义的是这些诊断服务怎么跑在 `IP` 网络上。两者是上下层关系。`DoIP` 换的是承载方式，不是 `UDS` 服务本身。以前更多是 `CAN + ISO-TP`，现在变成了 `Ethernet + IP + DoIP`。进入 `0x8001` 之后，里面的 `UDS` 语义并没有变。
 
@@ -368,11 +368,11 @@ DoIP 和 `UDS` 都有“保活”，但它们不是同一个东西。
 ## 面试题 6：Alive Check 和 TesterPresent 有什么区别？
 答：这两个概念很容易混。`Alive Check` 是 DoIP 层的东西，用来维持 `TCP` 连接和路由关系；`TesterPresent` 是 `UDS` 层的东西，用来维持诊断会话。一个保的是网络连接，一个保的是诊断状态，所以它们解决的不是同一个问题。同样地，`0x8003` 和 `7F` 也不能混看，前者是 DoIP 层负确认，后者是 `UDS` 负响应。
 
-# 关联笔记
-- [UDS 诊断协议](<UDS 诊断协议.md>)
-- [车载以太网基础](<车载以太网基础.md>)
+## 关联笔记
+- [UDS 诊断协议](/posts/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/uds-%E8%AF%8A%E6%96%AD%E5%8D%8F%E8%AE%AE/)
+- [车载以太网基础](/posts/%E6%95%B4%E8%BD%A6%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%AF%8A%E6%96%AD/%E8%BD%A6%E8%BD%BD%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%9F%BA%E7%A1%80/)
 
-# 参考
+## 参考
 - [ISO 13400-2:2025](https://www.iso.org/standard/87961.html)
 - [ISO 13400-3:2016](https://www.iso.org/standard/68424.html)
 - [ISO 13400-4:2016](https://www.iso.org/standard/57317.html)

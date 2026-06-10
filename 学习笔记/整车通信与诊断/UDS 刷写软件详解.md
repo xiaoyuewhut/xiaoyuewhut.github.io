@@ -2,6 +2,8 @@
 theme: default
 themeName: "默认主题"
 title: "UDS 刷写软件详解"
+updated: 2026-05-14
+published: 2026-05-14
 tags:
   - 整车诊断
   - UDS

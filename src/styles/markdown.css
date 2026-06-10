@@ -134,6 +134,11 @@
         }
     }
 
+    strong {
+        color: color-mix(in oklab, var(--deep-text) 82%, black 18%);
+        font-weight: 800;
+    }
+
     span[style*="background-color: rgba(255, 246, 122"],
     span[style*="background-color:rgba(255,246,122"] {
         background: color-mix(in oklab, #facc15 44%, transparent) !important;
